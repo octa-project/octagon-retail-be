@@ -1,26 +1,26 @@
 package octagon.retail.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "item_prices")
-public class ItemPrices extends BaseEntity {
+@Table(name = "sale_items")
+public class SaleItems extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "sale_id")
+    private Long saleId;
 
     @Column(name = "item_id")
     private Long itemId;
@@ -28,14 +28,14 @@ public class ItemPrices extends BaseEntity {
     @Column(name = "item_code_id")
     private Long itemCodeId;
 
-    @Column(name = "sale_price")
-    private BigDecimal salePrice;
+    @Column(name = "qty")
+    private BigDecimal Qty;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "unit_sale_price")
+    private BigDecimal unitSalePrice;
+
+    @Column(name = "total_sale_price")
+    private BigDecimal totalSalePrice;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;

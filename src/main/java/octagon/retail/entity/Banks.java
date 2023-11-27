@@ -1,5 +1,4 @@
 package octagon.retail.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,28 +8,28 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "settings")
-public class Settings extends BaseEntity {
+@Table(name = "banks")
+public class Banks extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "name")
     private String name;
 
-    @Column(name = "tax_number")
-    private String taxNumber;
+    @Column(name = "active")
+    private Boolean active;
 
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "bank_type")
+    private Enum bankType;
 
     @Column(name = "is_deleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     @Column(name = "branch_id")
     private Long branchId;

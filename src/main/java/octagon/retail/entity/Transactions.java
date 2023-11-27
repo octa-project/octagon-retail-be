@@ -5,34 +5,40 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "settings")
-public class Settings extends BaseEntity {
+@Table(name = "transactions")
+public class Transactions extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    private Long saleId;
+
     @Column(name = "name")
     private String name;
 
-    @Column(name = "tax_number")
-    private String taxNumber;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "transaction_type")
+    private Enum transactionType;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "bank_id")
+    private BigDecimal bankId;
+
+    @Column(name = "bank_transaction_id")
+    private Long bankTransactionId;
 
     @Column(name = "is_deleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     @Column(name = "branch_id")
     private Long branchId;
-
 }
