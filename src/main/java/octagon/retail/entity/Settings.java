@@ -27,10 +27,10 @@ public class Settings extends BaseEntity {
     private String address;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private Boolean isActive;
 
     @Column(name = "is_deleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     @Column(name = "branch_id")
     private Long branchId;

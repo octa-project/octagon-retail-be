@@ -1,35 +1,32 @@
 package octagon.retail.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.PrimitiveIterator;
 
 @Data
 public class ItemPriceModel {
+
     private Long id;
     private Long itemId;
     private Long itemCodeId;
-    private BigDecimal sellPrice;
-    private Date dateTime;
+    private BigDecimal salePrice;
+    private Date date;
     private Boolean isDeleted;
     private Long branchId;
 
-    public ItemPriceModel(
-            Long id,
-            Long itemId,
-            Long itemCodeId,
-            BigDecimal sellPrice,
-            Date dateTime,
-            Boolean isDeleted,
-            Long branchId
-    ){
+    public ItemPriceModel(Long id, Long itemId, Long itemCodeId, BigDecimal salePrice, Date date, Boolean isDeleted, Long branchId) {
         this.id = id;
         this.itemId = itemId;
         this.itemCodeId = itemCodeId;
-        this.sellPrice = sellPrice;
-        this.dateTime = dateTime;
+        this.salePrice = salePrice;
+        this.date = date;
         this.isDeleted = isDeleted;
         this.branchId = branchId;
     }

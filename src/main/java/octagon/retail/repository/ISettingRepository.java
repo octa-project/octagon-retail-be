@@ -18,6 +18,6 @@ public interface ISettingRepository extends MainRepository<Settings, Long> {
             String taxNumber,
             String address,
             Long branchId,
-            boolean isDeleted
+            Boolean isDeleted
     );
 }

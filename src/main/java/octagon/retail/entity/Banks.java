@@ -22,11 +22,11 @@ public class Banks extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "active")
-    private Boolean active;
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @Column(name = "bank_type")
-    private Enum bankType;
+    private Integer bankType;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;

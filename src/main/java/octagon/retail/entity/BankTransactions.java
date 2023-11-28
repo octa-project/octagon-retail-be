@@ -68,7 +68,7 @@ public class BankTransactions extends BaseEntity {
     private String data;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private Boolean  isDeleted;
 
     @Column(name = "branch_id")
     private Long branchId;

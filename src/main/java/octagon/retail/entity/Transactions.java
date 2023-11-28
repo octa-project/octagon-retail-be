@@ -28,7 +28,7 @@ public class Transactions extends BaseEntity {
     private BigDecimal amount;
 
     @Column(name = "transaction_type")
-    private Enum transactionType;
+    private Integer transactionType;
 
     @Column(name = "bank_id")
     private BigDecimal bankId;

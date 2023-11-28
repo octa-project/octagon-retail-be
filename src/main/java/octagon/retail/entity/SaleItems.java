@@ -29,7 +29,7 @@ public class SaleItems extends BaseEntity {
     private Long itemCodeId;
 
     @Column(name = "qty")
-    private BigDecimal Qty;
+    private BigDecimal qty;
 
     @Column(name = "unit_sale_price")
     private BigDecimal unitSalePrice;
