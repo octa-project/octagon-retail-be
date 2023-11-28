@@ -22,10 +22,10 @@ public class SettingController {
         return settingService.saveSetting(setting);
     }
 
-    @PostMapping("update-setting")
-    public ResponseEntity<ResponseModel<Settings>> updateSetting(@RequestBody Settings setting) {
-        return settingService.updateSetting(setting);
-    }
+//    @PostMapping("update-setting")
+//    public ResponseEntity<ResponseModel<Settings>> updateSetting(@RequestBody Settings setting) {
+//        return settingService.updateSetting(setting);
+//    }
 
     @GetMapping("get-setting-by-id")
     public ResponseEntity<ResponseModel<Settings>> getSettingById(@RequestParam("id") Long id){

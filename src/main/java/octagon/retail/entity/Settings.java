@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,14 +20,14 @@ public class Settings extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "tax_number")
     private String taxNumber;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "created_user_id")
+    private Long createdUserId;
 
     @Column(name = "is_active")
     private boolean isActive;
@@ -35,5 +37,11 @@ public class Settings extends BaseEntity {
 
     @Column(name = "branch_id")
     private Long branchId;
+
+    @Column(name = "created_date")
+    private LocalDateTime createdDate ;
+
+    @Column(name = "modified_date")
+    private LocalDateTime modifiedDate ;
 
 }
