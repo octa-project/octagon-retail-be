@@ -10,9 +10,7 @@ public class ResponseModel<T> implements IResponseModel<T> {
     private T data;
 
     @Override
-    public String getCode() {
-        return code;
-    }
+    public String getCode() { return code; }
 
     @Override
     public String getMessage() {
@@ -20,12 +18,10 @@ public class ResponseModel<T> implements IResponseModel<T> {
     }
 
     @Override
-    public T getData() {
-        return data;
-    }
+    public Boolean getIsSuccess() { return isSuccess; }
 
     @Override
-    public Boolean getIsSuccess() {
-        return isSuccess;
+    public T getData() {
+        return data;
     }
 }
