@@ -21,7 +21,7 @@ public class ItemCodeService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, itemCodes));
     }
 
-    public ResponseEntity<ResponseModel<ItemCodes>> updateItemCodes(ItemCodes updateItemCodes) {
+    public ResponseEntity<ResponseModel<ItemCodes>> updateItemCode(ItemCodes updateItemCodes) {
         ItemCodes existingItemCodes = itemCodeRepository.findById(updateItemCodes.getId()).orElse(null);
         if (existingItemCodes != null) {
             existingItemCodes.setItemId(updateItemCodes.getItemId());
@@ -31,8 +31,8 @@ public class ItemCodeService {
             existingItemCodes.setBranchId(updateItemCodes.getBranchId());
             existingItemCodes.setMeasureId(updateItemCodes.getMeasureId());
             existingItemCodes.setSellPrice(updateItemCodes.getSellPrice());
-            existingItemCodes.setId(updateItemCodes.getId());
             existingItemCodes.setIsDeleted(updateItemCodes.getIsDeleted());
+            itemCodeRepository.save(existingItemCodes);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, existingItemCodes));
         }
@@ -66,9 +66,9 @@ public class ItemCodeService {
     }
     public ResponseEntity<ResponseModel<ItemCodes>> deleteItemCodeById(Long itemCodeId){
         itemCodeRepository.deleteById(itemCodeId);
-        ItemCodes itemCodes = itemCodeRepository.findById(itemCodeId).orElse(null);
-        if (itemCodeId == null)
+        ItemCodes itemCode = itemCodeRepository.findById(itemCodeId).orElse(null);
+        if (itemCode == null)
             return ResponseEntity.ok(new ResponseModel<>("200","Амжилттай",true,null));
-        return ResponseEntity.ok(new ResponseModel<>("500","Амжилтгүй - алдаа гарлаа ахин оролдно уу",false,itemCodes));
+        return ResponseEntity.ok(new ResponseModel<>("500","Амжилтгүй - алдаа гарлаа ахин оролдно уу",false,itemCode));
     }
 }

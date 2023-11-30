@@ -21,20 +21,24 @@ public class ItemGroupService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemGroups));
     }
 
-    public ResponseEntity<ResponseModel<ItemGroups>> updateItemGroups(ItemGroups itemGroups) {
-        ItemGroups existingItemGroups = itemGroupRepository.findById(itemGroups.getId()).orElse(null);
-        if (existingItemGroups != null) {
-            existingItemGroups.setName(itemGroups.getName());
-            existingItemGroups.setIsDeleted(itemGroups.getIsDeleted());
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingItemGroups));
+    public ResponseEntity<ResponseModel<ItemGroups>> updateItemGroup(ItemGroups itemGroup) {
+        ItemGroups existingItemGroup = itemGroupRepository.findById(itemGroup.getId()).orElse(null);
+        if (existingItemGroup != null){
+            existingItemGroup.setName(itemGroup.getName());
+            existingItemGroup.setCode(itemGroup.getCode());
+            existingItemGroup.setColor(itemGroup.getColor());
+            existingItemGroup.setBranchId(itemGroup.getBranchId());
+            existingItemGroup.setIsDeleted(itemGroup.getIsDeleted());
+            itemGroupRepository.save(existingItemGroup);
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingItemGroup));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Not Found", false, null));
     }
 
-    public ResponseEntity<ResponseModel<ItemGroups>> getItemGroupById(Long itemGroupsId) {
-        ItemGroups itemGroups = itemGroupRepository.findById(itemGroupsId).orElse(null);
-        if (itemGroups != null)
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemGroups));
+    public ResponseEntity<ResponseModel<ItemGroups>> getItemGroupsById(Long itemGroupsId) {
+        ItemGroups itemGroup = itemGroupRepository.findById(itemGroupsId).orElse(null);
+        if (itemGroup != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemGroup));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
 

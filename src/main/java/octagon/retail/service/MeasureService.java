@@ -25,11 +25,11 @@ public class MeasureService {
     public ResponseEntity<ResponseModel<Measures>> updateMeasure(Measures measure) {
         Measures existingMeasure = measureRepository.findById(measure.getId()).orElse(null);
         if (existingMeasure != null) {
-            existingMeasure.setId(measure.getId());
             existingMeasure.setName(measure.getName());
             existingMeasure.setCode(measure.getCode());
             existingMeasure.setIsDeleted(measure.getIsDeleted());
             existingMeasure.setBranchId(measure.getBranchId());
+            measureRepository.save(existingMeasure);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingMeasure));
         }
