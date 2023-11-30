@@ -7,5 +7,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface IItemGroupRepository extends MainRepository<ItemGroups, Long>{
     @Query("select a from ItemGroups a where a.name = :name")
-    ItemGroups getItemGroupsByName(@Param("name")String name);
+    Measures getItemGroupsByName(@Param("name")String name);
 }

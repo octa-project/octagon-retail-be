@@ -33,11 +33,11 @@ public class MeasureController {
         return measureService.getMeasureById(id);
     }
 
-    @GetMapping("get-all-measures")
+    @GetMapping("get-measures")
     public ResponseEntity<ResponseModel<List<Measures>>> getMeasures() {
         return measureService.getMeasures();
     }
-    @DeleteMapping("delete-measure-by-id")
+    @DeleteMapping("delete-measures-by-id")
     public ResponseEntity<ResponseModel<Measures>> deleteMeasureById(@RequestParam("id") Long id){
         return measureService.deleteMeasureById(id);
     }

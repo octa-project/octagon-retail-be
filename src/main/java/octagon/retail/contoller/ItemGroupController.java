@@ -23,19 +23,19 @@ public class ItemGroupController {
         return itemGroupService.saveItemGroup(itemGroup);
     }
     @PostMapping("update-itemGroup")
-    public ResponseEntity<ResponseModel<ItemGroups>> updateItemGroup(@RequestBody ItemGroups itemGroup){
-        return itemGroupService.updateItemGroup(itemGroup);
+    public ResponseEntity<ResponseModel<ItemGroups>> getAllItemGroup(@RequestBody ItemGroups itemGroup){
+        return itemGroupService.updateItemGroups(itemGroup);
     }
     @GetMapping("get-itemGroup-by-id")
-    public ResponseEntity<ResponseModel<ItemGroups>> getItemGroupsById(@RequestParam("id") Long itemGroupId){
-        return itemGroupService.getItemGroupsById(itemGroupId);
+    public ResponseEntity<ResponseModel<ItemGroups>> getItemGroupById(@RequestParam("id") Long itemGroupId){
+        return itemGroupService.getItemGroupById(itemGroupId);
     }
     @GetMapping("get-all-itemGroups")
     public ResponseEntity<ResponseModel<List<ItemGroups>>> getAllByItemGroups(){
         return itemGroupService.getAllGroups();
     }
     @DeleteMapping("delete-itemGroup-by-id")
-    public ResponseEntity<ResponseModel<ItemGroups>> deleteItemGroupById(@RequestParam("id") Long itemGroupId){
+    public ResponseEntity<ResponseModel<ItemGroups>> deleteAllByItemGroup(@RequestParam("id") Long itemGroupId){
         return itemGroupService.deleteItemGroupById(itemGroupId);
     }
 }
