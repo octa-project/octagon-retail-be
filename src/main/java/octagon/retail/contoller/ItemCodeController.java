@@ -23,8 +23,8 @@ public class ItemCodeController {
     }
 
     @PostMapping("update-itemCode")
-    public ResponseEntity<ResponseModel<ItemCodes>> getAllItemCode(@RequestBody ItemCodes itemCode) {
-        return itemCodeService.updateItemCodes(itemCode);
+    public ResponseEntity<ResponseModel<ItemCodes>> updateItemCode(@RequestBody ItemCodes itemCode) {
+        return itemCodeService.updateItemCode(itemCode);
     }
 
     @GetMapping("get-itemCode-by-id")
@@ -48,7 +48,7 @@ public class ItemCodeController {
     }
 
     @DeleteMapping("delete-itemCode-by-id")
-    public ResponseEntity<ResponseModel<ItemCodes>> DeleteAllByItemCodeId(@RequestParam("id") Long itemCodeId) {
+    public ResponseEntity<ResponseModel<ItemCodes>> deleteItemCodeById(@RequestParam("id") Long itemCodeId) {
         return itemCodeService.deleteItemCodeById(itemCodeId);
     }
 }

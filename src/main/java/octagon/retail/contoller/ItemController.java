@@ -26,12 +26,11 @@ public class ItemController {
     }
     @GetMapping("get-all-items")
     public ResponseEntity<ResponseModel<List<Items>>> getAllByItemId() {
-
         return itemService.getAllItems();
     }
 
     @GetMapping("get-item-by-id")
-    public ResponseEntity<ResponseModel<Items>> getByItemPriceId(@RequestParam("id") Long itemId){
+    public ResponseEntity<ResponseModel<Items>> getItemById(@RequestParam("id") Long itemId){
     return itemService.getItemById(itemId);
     }
 
