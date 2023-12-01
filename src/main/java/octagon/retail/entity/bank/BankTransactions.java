@@ -1,10 +1,11 @@
-package octagon.retail.entity;
+package octagon.retail.entity.bank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import octagon.retail.entity.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;

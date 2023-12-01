@@ -1,13 +1,14 @@
-package octagon.retail.entity;
+package octagon.retail.entity.sale;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import octagon.retail.entity.BaseEntity;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -16,31 +17,28 @@ public class SaleItems extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "sale_id")
+    @NotNull
     private Long saleId;
 
-    @Column(name = "item_id")
+    @NotNull
     private Long itemId;
 
-    @Column(name = "item_code_id")
+    @NotNull
     private Long itemCodeId;
 
-    @Column(name = "qty")
+    @NotNull
     private BigDecimal qty;
 
-    @Column(name = "unit_sale_price")
+    @NotNull
     private BigDecimal unitSalePrice;
 
-    @Column(name = "total_sale_price")
+    @NotNull
     private BigDecimal totalSalePrice;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
-    @Column(name = "branch_id")
     private Long branchId;
 
 }

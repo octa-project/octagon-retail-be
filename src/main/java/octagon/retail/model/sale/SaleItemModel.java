@@ -1,4 +1,4 @@
-package octagon.retail.model;
+package octagon.retail.model.sale;
 
 import lombok.Data;
 

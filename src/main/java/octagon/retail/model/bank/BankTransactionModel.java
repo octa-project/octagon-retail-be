@@ -1,4 +1,4 @@
-package octagon.retail.model;
+package octagon.retail.model.bank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;

@@ -1,77 +1,64 @@
-package octagon.retail.service;
+package octagon.retail.service.sale;
 
-import octagon.retail.entity.Items;
-import octagon.retail.entity.SaleItems;
-import octagon.retail.entity.Sales;
+import octagon.retail.entity.sale.SaleItems;
+import octagon.retail.entity.sale.Sales;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemRepository;
-import octagon.retail.repository.ISaleItemRepository;
-import octagon.retail.repository.ISaleRepository;
+import octagon.retail.repository.sale.SaleItemRepository;
+import octagon.retail.repository.sale.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SaleItemService {
 
     @Autowired
-    private ISaleItemRepository saleItemRepository;
+    private SaleItemRepository saleItemRepository;
 
     @Autowired
-    private ISaleRepository saleRepository;
+    private SaleRepository saleRepository;
 
     @Autowired
     private IItemRepository itemRepository;
 
-    public ResponseEntity<ResponseModel<SaleItems>> saveSaleItem(SaleItems saleItem) {
+    public ResponseEntity<ResponseModel<SaleItems>> saveItem(SaleItems saleItem) {
         saleItemRepository.save(saleItem);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, saleItem));
     }
 
-    public ResponseEntity<ResponseModel<SaleItems>> updateSaleItem(SaleItems updateSaleItem) {
-        SaleItems existingSaleItem = saleItemRepository.findById(updateSaleItem.getId()).orElse(null);
-
-        if (existingSaleItem != null) {
-            existingSaleItem.setItemCodeId(updateSaleItem.getItemCodeId());
-            existingSaleItem.setQty(updateSaleItem.getQty());
-            existingSaleItem.setUnitSalePrice(updateSaleItem.getUnitSalePrice());
-            saleItemRepository.save(existingSaleItem);
-
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSaleItem));
+    public ResponseEntity<ResponseModel<SaleItems>> updateItem(Long id, SaleItems update) {
+        SaleItems items = saleItemRepository.findById(id).orElse(null);
+        if (items != null) {
+            items.setQty(update.getQty());
+            items.setUnitSalePrice(update.getUnitSalePrice());
+            items.setTotalSalePrice(update.getTotalSalePrice());
+            saleItemRepository.save(items);
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, items));
         }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй олдсонгүй", false, null));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
 
-    public ResponseEntity<ResponseModel<SaleItems>> deleteSaleItemById(Long saleItemId) {
-        saleItemRepository.deleteById(saleItemId);
-        SaleItems saleItem = saleItemRepository.findById(saleItemId).orElse(null);
-        if (saleItem == null) {
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        } else {
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, saleItem));
-        }
-    }
 
-    public ResponseEntity<ResponseModel<List<SaleItems>>> getSaleItemsBySaleId(Long saleId) {
-        List<SaleItems> saleItems = saleItemRepository.getSaleItemsBySaleId(saleId);
-        if (saleItems == null) {
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
-        }
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, saleItems));
-    }
-
-    public ResponseEntity<ResponseModel<List<SaleItems>>> getSaleItems() {
-        List<SaleItems> saleItems = saleItemRepository.findAll();
-        if (saleItems != null) {
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, saleItems));
-        } else {
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
-        }
-    }
+//
+//    public ResponseEntity<ResponseModel<List<SaleItems>>> getSaleItemsBySaleId(Long saleId) {
+//        List<SaleItems> saleItems = saleItemRepository.getSaleItemsBySaleId(saleId);
+//        if (saleItems == null) {
+//            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+//        }
+//        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, saleItems));
+//    }
+//
+//    public ResponseEntity<ResponseModel<List<SaleItems>>> getSaleItems() {
+//        List<SaleItems> saleItems = saleItemRepository.findAll();
+//        if (saleItems != null) {
+//            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, saleItems));
+//        } else {
+//            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+//        }
+//    }
 
 //    public ResponseEntity<ResponseModel<SaleItems>> addSaleItemToSale(String barcode, Long saleId) {
 //        Sales localSale = saleRepository.findById(saleId).orElse(null);
@@ -159,25 +146,7 @@ public class SaleItemService {
 //        }
 //    }
 //
-//    public ResponseEntity<ResponseModel<Sales>> deleteAllBySaleId(Long saleId) {
-//        Sales sale = saleRepository.findById(saleId).orElse(null);
-//
-//        if (sale == null) {
-//            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй %s-id тай борлуулалт олдсонгүй".formatted(saleId), false, null));
-//        } else {
-//            List<SaleItems> saleItems = sale.getSaleItems();
-//            saleItems.forEach(saleItem -> {
-//                saleItem.setSaleId(null);
-//                saleItem.setDeleted(true);
-//            });
-//            saleItemRepository.saveAll(saleItems);
-//            saleItems.removeIf(SaleItems::isDeleted);
-//            sale.setSaleItems(saleItems);
-//            saleRepository.save(sale);
-//
-//            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
-//        }
-//    }
+
 //
 //
 //    public ResponseEntity<ResponseModel<Sales>> updateSaleItemQtyFromSale(String barcode, BigDecimal qty, Long saleId) {
@@ -205,4 +174,31 @@ public class SaleItemService {
 //            }
 //        }
 //    }
+    public ResponseEntity<ResponseModel<Sales>> deleteAllBySaleId(Long saleId) {
+        Sales sale = saleRepository.findById(saleId).orElse(null);
+
+        if (sale == null) {
+            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй %s-id тай борлуулалт олдсонгүй".formatted(saleId), false, null));
+        } else {
+            List<SaleItems> saleItems = sale.getSaleItems();
+            saleItems.forEach(saleItem -> {
+                saleItem.setIsDeleted(true);
+            });
+            saleItemRepository.saveAll(saleItems);
+            saleItems.removeIf(SaleItems::isDeleted);
+            sale.setSaleItems(saleItems);
+            saleRepository.save(sale);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
+        }
+    }
+    public ResponseEntity<ResponseModel<SaleItems>> deleteItem(Long itemId) {
+        saleItemRepository.deleteById(itemId);
+        SaleItems saleItem = saleItemRepository.findById(itemId).orElse(null);
+        if (saleItem == null) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
+        } else {
+            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, saleItem));
+        }
+    }
 }
