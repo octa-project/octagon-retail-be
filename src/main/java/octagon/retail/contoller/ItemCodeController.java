@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/itemcode")
+@CrossOrigin(origins = "*")
 public class ItemCodeController {
 
     @Autowired
@@ -46,6 +47,7 @@ public class ItemCodeController {
     public ResponseEntity<ResponseModel<List<ItemCodes>>> GetItemCodeByBarcodeLike(@RequestParam("barcode") String barcode) {
         return itemCodeService.getItemCodeByBarcodeLike(barcode);
     }
+
 
     @DeleteMapping("delete-itemCode-by-id")
     public ResponseEntity<ResponseModel<ItemCodes>> deleteItemCodeById(@RequestParam("id") Long itemCodeId) {

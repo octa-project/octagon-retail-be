@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/itemgroup")
+@CrossOrigin(origins = "*")
 public class ItemGroupController {
 
     @Autowired
