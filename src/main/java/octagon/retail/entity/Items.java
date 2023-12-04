@@ -5,42 +5,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "settings")
-public class Settings extends BaseEntity {
-
+@Table(name = "items")
+public class Items extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "tax_number")
-    private String taxNumber;
+    @Column(name = "code")
+    private String code;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "created_user_id")
-    private Long createdUserId;
+    @Column(name = "measure_id")
+    private Long measureId;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private Boolean isActive;
 
     @Column(name = "is_deleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     @Column(name = "branch_id")
     private Long branchId;
-
-    @Column(name = "created_date")
-    private LocalDateTime createdDate ;
-
-    @Column(name = "modified_date")
-    private LocalDateTime modifiedDate ;
 
 }
