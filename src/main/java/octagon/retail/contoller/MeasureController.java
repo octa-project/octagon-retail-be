@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/measure")
+@CrossOrigin(origins = "*")
 public class MeasureController {
 
     @Autowired
