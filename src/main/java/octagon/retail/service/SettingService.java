@@ -1,19 +1,30 @@
 package octagon.retail.service;
 
+import octagon.retail.entity.DeviceSetting;
+import octagon.retail.entity.PaymentSetting;
 import octagon.retail.entity.Settings;
 import octagon.retail.reponse.ResponseModel;
+import octagon.retail.repository.IDeviceSettingRepository;
+import octagon.retail.repository.IPaymentSettingRepository;
 import octagon.retail.repository.ISettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SettingService {
 
     @Autowired
     private ISettingRepository settingRepository;
+
+    @Autowired
+    private IDeviceSettingRepository deviceSettingRepository;
+
+    @Autowired
+    private IPaymentSettingRepository paymentSettingRepository;
 
     public ResponseEntity<ResponseModel<Settings>> saveSetting(Settings setting) {
         settingRepository.save(setting);
@@ -57,4 +68,46 @@ public class SettingService {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
     }
+
+    public void insertDeviceSetting(DeviceSetting entity) {
+        deviceSettingRepository.save(entity);
+    }
+
+    public Optional<DeviceSetting> getDeviceSettingById(Long id) {
+        return deviceSettingRepository.findById(id);
+    }
+
+    public List<DeviceSetting> listOfDeviceId() {
+       return deviceSettingRepository.findAll();
+    }
+
+    public void deleteDevice(DeviceSetting entity){
+        deviceSettingRepository.delete(entity);
+    }
+
+    public DeviceSetting updateDevice(DeviceSetting entity){
+        return deviceSettingRepository.save(entity);
+    }
+
+    public void insertPaymentSetting(PaymentSetting entity) {
+        paymentSettingRepository.save(entity);
+    }
+
+    public Optional<PaymentSetting> getPaymenSettingById(Long id) {
+        return paymentSettingRepository.findById(id);
+    }
+
+    public List<PaymentSetting> listOfPaymentMethod() {
+        return paymentSettingRepository.findAll();
+    }
+
+    public void deletePaymentMethod(PaymentSetting entity){
+        paymentSettingRepository.delete(entity);
+    }
+
+    public PaymentSetting updatePaymentMethod(PaymentSetting entity){
+        return paymentSettingRepository.save(entity);
+    }
+
+
 }

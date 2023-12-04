@@ -1,29 +1,33 @@
 package octagon.retail.model;
 
+import jakarta.persistence.Column;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class SettingModel {
-    private Long id;
-    private String name;
-    private String taxNumber;
-    private String address;
-    private Long branchId;
-    private boolean isDeleted;
 
-    public SettingModel(
-            Long id,
-            String name,
-            String taxNumber,
-            String address,
-            Long branchId,
-            boolean isDeleted
-    ) {
+    private Long id;
+    private String taxNumber;
+    private String name;
+    private Long createdUserId;
+    private boolean isActive;
+    private boolean isDeleted;
+    private Long branchId;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+
+    public SettingModel(Long id, String taxNumber, String name, Long createdUserId, boolean isActive, boolean isDeleted,
+                        Long branchId, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
-        this.name = name;
         this.taxNumber = taxNumber;
-        this.address = address;
-        this.branchId = branchId;
+        this.name = name;
+        this.createdUserId = createdUserId;
+        this.isActive = isActive;
         this.isDeleted = isDeleted;
+        this.branchId = branchId;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
     }
 }
