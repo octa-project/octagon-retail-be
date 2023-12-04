@@ -34,7 +34,6 @@ public class SaleItems extends BaseEntity {
     @NotNull
     private BigDecimal unitSalePrice;
 
-    @NotNull
     private BigDecimal totalSalePrice;
 
     private Boolean isDeleted = false;

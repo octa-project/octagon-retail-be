@@ -25,7 +25,7 @@ public class SaleController {
         return saleService.saveSale(sale);
     }
 
-    @PostMapping("update")
+    @PutMapping("update")
     public ResponseEntity<ResponseModel<Sales>> update(@RequestParam("id") Long id , @Valid @RequestBody Sales sale) {
         return saleService.updateSale(id,sale);
     }

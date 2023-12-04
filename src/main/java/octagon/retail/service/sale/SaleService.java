@@ -15,6 +15,9 @@ public class SaleService {
 
     @Autowired
     private SaleRepository saleRepository;
+
+    @Autowired
+    private SaleItemService saleItemService;
     public ResponseEntity<ResponseModel<Sales>> saveSale(Sales sale) {
         saleRepository.save(sale);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
@@ -31,7 +34,7 @@ public class SaleService {
     }
     public ResponseEntity<ResponseModel<List<Sales>>> getMany(Date startDate,Date endDate) {
         List<Sales> sales = saleRepository.getMany(startDate,endDate);
-        if (sales != null) {
+        if (!sales.isEmpty()) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
         } else {
             return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
@@ -57,9 +60,15 @@ public class SaleService {
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
     public ResponseEntity<ResponseModel<Sales>> deleteSale(Long saleId) {
+
         Sales deleteSale = saleRepository.findById(saleId).orElse(null);
 
         if (deleteSale != null) {
+
+            var result = saleItemService.deleteAllBySaleId(saleId);
+            if (result == null) {
+                return ResponseEntity.ok(new ResponseModel<>("500", "Устгахад алдаа гарлаа ахин оролдоно уу", false, null));
+            }
             deleteSale.setIsDeleted(true);
             saleRepository.save(deleteSale);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deleteSale));
