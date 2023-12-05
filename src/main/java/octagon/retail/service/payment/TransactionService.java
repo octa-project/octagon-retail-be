@@ -1,6 +1,7 @@
 package octagon.retail.service.payment;
 
 import octagon.retail.entity.payment.Banks;
+import octagon.retail.entity.payment.TransactionType;
 import octagon.retail.entity.payment.Transactions;
 import octagon.retail.entity.sale.Sales;
 import octagon.retail.reponse.ResponseModel;
@@ -40,6 +41,30 @@ public class TransactionService {
 
     public ResponseEntity<ResponseModel<List<Transactions>>> getMany(Date startDate, Date endDate) {
         List<Transactions> transactions = transactionRepository.getMany(startDate,endDate);
+        if (!transactions.isEmpty()) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, transactions));
+        } else {
+            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+        }
+    }
+
+    public ResponseEntity<ResponseModel<Transactions>> updateTransaction(Transactions update, Long id) {
+        Transactions transaction = transactionRepository.findById(id).orElse(null);
+        if (transaction != null) {
+            transaction.setSaleId(update.getSaleId());
+            transaction.setTransactionName(update.getTransactionName());
+            transaction.setAmount(update.getAmount());
+            transaction.setBankTransactionId(update.getBankTransactionId());
+            transaction.setBankId(update.getBankId());
+            transaction.setBankTransactionId(update.getBankTransactionId());
+            transactionRepository.save(transaction);
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, transaction));
+        }
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+    }
+
+    public ResponseEntity<ResponseModel<List<Transactions>>> getBySaleId(Long id) {
+        List<Transactions> transactions = transactionRepository.getBySaleId(id);
         if (!transactions.isEmpty()) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, transactions));
         } else {

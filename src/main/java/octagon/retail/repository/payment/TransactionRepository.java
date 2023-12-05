@@ -13,6 +13,8 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends MainRepository<Transactions, Long> {
 
-    @Query("select T from Transactions T where T.isDeleted=false and T.createdDate between :startDate and :endDate")
+    @Query("select T from Transactions T where T.isDeleted=false and T.date between :startDate and :endDate")
     List<Transactions> getMany(Date startDate, Date endDate);
+    @Query("select T from Transactions T where T.saleId=:id")
+    List<Transactions> getBySaleId(Long id);
 }

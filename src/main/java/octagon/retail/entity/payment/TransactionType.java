@@ -29,7 +29,7 @@ public class TransactionType {
     private String name;
 
     @NotNull
-    private Integer parentId;
+    private Long parentId;
 
     private Boolean isActive = true;
 

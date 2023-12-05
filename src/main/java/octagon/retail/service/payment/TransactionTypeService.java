@@ -39,7 +39,6 @@ public class TransactionTypeService {
         List<TransactionType> types = transactionTypeRepository.get();
         return ResponseEntity.ok(new ResponseModel<>("200","Амжилттай", true, types));
     }
-
     public ResponseEntity<ResponseModel<TransactionType>> delete(Long id) {
         transactionTypeRepository.deleteById(id);
         TransactionType type = transactionTypeRepository.findById(id).orElse(null);
@@ -48,6 +47,4 @@ public class TransactionTypeService {
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа ахин оролдон уу", false, type));
     }
-
-
 }
