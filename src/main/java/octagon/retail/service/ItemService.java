@@ -1,7 +1,9 @@
 package octagon.retail.service;
 
+import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.Items;
 import octagon.retail.reponse.ResponseModel;
+import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.IItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,9 @@ public class ItemService {
 
     @Autowired
     private IItemRepository itemRepository;
+
+    @Autowired
+    private IItemCodeRepository itemCodeRepository;
 
     public ResponseEntity<ResponseModel<Items>> saveItem(Items item) {
         Items localItem = itemRepository.getItemByCode(item.getCode());
@@ -43,6 +48,9 @@ public class ItemService {
     public ResponseEntity<ResponseModel<Items>> getItemById(Long itemId) {
         Items item = itemRepository.findById(itemId).orElse(null);
         if (item != null) {
+            List<ItemCodes> localItemcodes = itemCodeRepository.getItemCodesByItemId(itemId);
+            item.setItemCodes(localItemcodes);
+
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилтгүй", true, item));
         } else {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилтгүй", false, null));
