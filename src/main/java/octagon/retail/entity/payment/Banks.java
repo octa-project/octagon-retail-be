@@ -1,4 +1,4 @@
-package octagon.retail.entity.bank;
+package octagon.retail.entity.payment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

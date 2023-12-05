@@ -35,12 +35,12 @@ public class SaleController {
         return saleService.isPaid(id,sale);
     }
 
-    @GetMapping("getMany")
+    @GetMapping("get-many")
     public ResponseEntity<ResponseModel<List<Sales>>> getMany(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate, @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
         return saleService.getMany(startDate,endDate);
     }
 
-    @GetMapping("getOne")
+    @GetMapping("get-one")
     public ResponseEntity<ResponseModel<Sales>> getOne(@RequestParam("id") Long id) {
         return saleService.getOne(id);
     }

@@ -30,7 +30,7 @@ public class SaleItemController {
     public ResponseEntity<ResponseModel<SaleItems>> getSaleItemById(@RequestParam("id") Long id) {
         return saleItemService.deleteItem(id);
     }
-    @GetMapping("get_many_sale_id")
+    @GetMapping("get-many-sale-id")
     public ResponseEntity<ResponseModel<List<SaleItems>>> getManySaleId(@RequestParam("id") Long saleId){
         return saleItemService.manySaleId(saleId);
     }

@@ -1,6 +1,6 @@
-package octagon.retail.repository.bank;
+package octagon.retail.repository.payment;
 
-import octagon.retail.entity.bank.Banks;
+import octagon.retail.entity.payment.Banks;
 import octagon.retail.repository.MainRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

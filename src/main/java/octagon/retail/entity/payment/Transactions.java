@@ -1,14 +1,14 @@
-package octagon.retail.entity.bank;
+package octagon.retail.entity.payment;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import octagon.retail.entity.BaseEntity;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,19 +19,23 @@ public class Transactions extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private Long saleId;
 
-    private String name;
+    @NotNull
+    private String transactionName;
 
+    @NotNull
     private BigDecimal amount;
 
-    private Integer transactionType;
+    @NotNull
+    private int transactionTypeId;
 
     private BigDecimal bankId;
 
     private Long bankTransactionId;
 
-    private Boolean isDeleted = true;
+    private Boolean isDeleted = false;
 
     private Long branchId;
 }

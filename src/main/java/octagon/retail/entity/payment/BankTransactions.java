@@ -1,4 +1,4 @@
-package octagon.retail.entity.bank;
+package octagon.retail.entity.payment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
