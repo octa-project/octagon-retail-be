@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>octagon</groupId>
-	<artifactId>retail</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>octagon-retail</artifactId>
+	<version>0.0.2</version>
 	<name>retail</name>
 	<description>Retail Project of Octagon</description>
 	<properties>
