@@ -1,10 +1,13 @@
-package octagon.retail.entity;
+package octagon.retail.entity.payment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import octagon.retail.entity.BaseEntity;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -19,58 +22,34 @@ public class BankTransactions extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
-
-    @Column(name = "sale_id")
-    private Long saleId;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "pan")
-    private String pan;
-
-    @Column(name = "operation_code")
-    private String operationCode;
-
-    @Column(name = "entry_mode")
-    private String entryMode;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "date")
     private Date date;
-
-    @Column(name = "rrn")
+    @NotNull
+    private Long saleId;
+    @NotNull
+    private String name;
+    @NotNull
+    private String pan;
+    @NotNull
+    private String operationCode;
+    @NotNull
+    private String entryMode;
+    @NotNull
     private String rrn;
-
-    @Column(name = "bank_id")
+    @NotNull
     private String bankId;
-
-    @Column(name = "db_ref_no")
+    @NotNull
     private String dbRefNo;
-
-    @Column(name = "terminal_id")
+    @NotNull
     private String terminalId;
-
-    @Column(name = "approval_code")
     private String approvalCode;
-
-    @Column(name = "amount")
+    @NotNull
     private BigDecimal amount;
-
-    @Column(name = "trace_no")
+    @NotNull
     private String traceNo;
-
-    @Column(name = "data")
     private String data;
-
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
-
-    @Column(name = "branch_id")
+    private Boolean  isDeleted = false;
     private Long branchId;
-
 }

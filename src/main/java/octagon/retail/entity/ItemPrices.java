@@ -2,45 +2,50 @@ package octagon.retail.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Table(name = "item_prices")
 public class ItemPrices extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "item_id")
+    @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime date;
+
+    @NotNull
     private Long itemId;
 
-    @Column(name = "item_code_id")
+    @NotNull
     private Long itemCodeId;
 
-    @Column(name = "sale_price")
-    private BigDecimal salePrice;
+    @NotNull
+    private String itemName;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "date")
-    private Date date;
+    @NotNull
+    private String itemBarCode;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    @NotNull
+    private String sellPrice;
 
-    @Column(name = "branch_id")
+    @NotNull
+    private String costPrice;
+
+    private Boolean isDeleted=false;
+
     private Long branchId;
 
 }

@@ -9,7 +9,7 @@ public class SettingModel {
     private String taxNumber;
     private String address;
     private Long branchId;
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     public SettingModel(
             Long id,
@@ -17,7 +17,7 @@ public class SettingModel {
             String taxNumber,
             String address,
             Long branchId,
-            boolean isDeleted
+            Boolean isDeleted
     ) {
         this.id = id;
         this.name = name;
