@@ -1,14 +1,16 @@
 package octagon.retail.repository;
 
-import octagon.retail.entity.ItemPrice;
+import octagon.retail.entity.ItemPrices;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface ItemPriceRepository extends MainRepository<ItemPrice, Long> {
-    @Query("select ip from ItemPrice ip where ip.itemCodeId = :getItemCodeId")
-    ItemPrice exist(Long getItemCodeId);
-//    @Query("select a from Sales a where a.isDeleted=false and a.date between :startDate and :endDate")
-//    List<Sales> getMany(Date startDate,Date endDate);
+public interface ItemPriceRepository extends MainRepository<ItemPrices, Long> {
+    @Query("select ip from ItemPrices ip where ip.itemCodeId = :getItemCodeId")
+    ItemPrices exist(Long getItemCodeId);
+    @Query("select ip from ItemPrices ip where ip.isDeleted=false and ip.itemId=:id")
+    List<ItemPrices> getByItemId(Long id);
 
 }

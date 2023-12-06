@@ -15,24 +15,34 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "item_price")
-public class ItemPrice extends BaseEntity {
+@Table(name = "item_prices")
+public class ItemPrices extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdDate;
+    private LocalDateTime date;
+
+    @NotNull
+    private Long itemId;
 
     @NotNull
     private Long itemCodeId;
 
     @NotNull
-    private BigDecimal SellPrice;
+    private String itemName;
 
     @NotNull
-    private BigDecimal CostPrice;
+    private String itemBarCode;
+
+    @NotNull
+    private String sellPrice;
+
+    @NotNull
+    private String costPrice;
 
     private Boolean isDeleted=false;
 
