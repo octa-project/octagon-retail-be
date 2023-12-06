@@ -22,11 +22,11 @@ public class BankController {
         return bankService.saveBank(bank);
     }
     @PutMapping("update")
-    public ResponseEntity<ResponseModel<Banks>> save(@Valid @RequestBody Banks bank, @RequestParam("id") Long id) {
+    public ResponseEntity<ResponseModel<Banks>> save(@Valid @RequestBody Banks bank, Long id) {
         return bankService.updateBank(bank,id);
     }
     @GetMapping("get-one")
-    public ResponseEntity<ResponseModel<Banks>> getOne(@RequestParam("id") Long id){
+    public ResponseEntity<ResponseModel<Banks>> getOne(Long id){
         return bankService.getOne(id);
     }
     @GetMapping("get-many")
@@ -34,7 +34,7 @@ public class BankController {
         return bankService.getMany();
     }
     @DeleteMapping("delete")
-    public ResponseEntity<ResponseModel<Banks>> delete(@RequestParam("id") Long id){
+    public ResponseEntity<ResponseModel<Banks>> delete(Long id){
         return bankService.delete(id);
     }
 }

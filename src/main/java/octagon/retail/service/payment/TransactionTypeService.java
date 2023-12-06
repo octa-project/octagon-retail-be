@@ -1,9 +1,6 @@
 package octagon.retail.service.payment;
 
-import octagon.retail.entity.payment.Banks;
 import octagon.retail.entity.payment.TransactionType;
-import octagon.retail.entity.sale.SaleItems;
-import octagon.retail.entity.sale.Sales;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.payment.TransactionTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +26,14 @@ public class TransactionTypeService {
         TransactionType type = transactionTypeRepository.findById(id).orElse(null);
         if (type != null) {
             type.setName(update.getName());
-            type.setParentId(update.getParentId());
+            type.setParent(update.getParent());
             transactionTypeRepository.save(type);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, type));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
     public ResponseEntity<ResponseModel<List<TransactionType>>> getMany() {
-        List<TransactionType> types = transactionTypeRepository.get();
+        List<TransactionType> types = transactionTypeRepository.getZero();
         return ResponseEntity.ok(new ResponseModel<>("200","Амжилттай", true, types));
     }
     public ResponseEntity<ResponseModel<TransactionType>> delete(Long id) {

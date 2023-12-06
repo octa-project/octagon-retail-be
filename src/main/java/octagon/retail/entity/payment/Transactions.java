@@ -21,28 +21,18 @@ public class Transactions extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
-
     @NotNull
     private Long saleId;
-
     @NotNull
     private String transactionName;
-
     @NotNull
     private BigDecimal amount;
-
     @NotNull
     private Integer transactionTypeId;
-
-    private BigDecimal bankId;
-
+    private Long bankId;
     private Long bankTransactionId;
-
     private Boolean isDeleted = false;
-
-    private Long branchId;
-}
+    private Long branchId;}
