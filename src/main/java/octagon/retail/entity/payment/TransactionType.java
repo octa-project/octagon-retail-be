@@ -2,11 +2,8 @@ package octagon.retail.entity.payment;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import octagon.retail.entity.sale.SaleItems;
+import lombok.*;
+import octagon.retail.entity.BaseEntity;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -19,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "transaction_types")
-public class TransactionType {
+public class TransactionType extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,16 +25,16 @@ public class TransactionType {
     @NotNull
     private String name;
 
-    @NotNull
-    private Long parentId;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private TransactionType parent;
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    private List<TransactionType> children = new ArrayList<>();
 
     private Boolean isActive = true;
 
     private Boolean isDeleted = false;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "parentId", referencedColumnName = "id",  insertable = false, updatable = false)
-    private List<TransactionType> children;
 
 }

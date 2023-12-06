@@ -16,31 +16,24 @@ public class Settings extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "tax_number")
     private String taxNumber;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "created_user_id")
+    private String address;
+
     private Long createdUserId;
 
-    @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    @Column(name = "branch_id")
     private Long branchId;
 
-    @Column(name = "created_date")
     private LocalDateTime createdDate ;
 
-    @Column(name = "modified_date")
     private LocalDateTime modifiedDate ;
 
 }
