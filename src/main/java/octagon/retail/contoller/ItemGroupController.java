@@ -35,7 +35,7 @@ public class ItemGroupController {
     public ResponseEntity<ResponseModel<List<ItemGroups>>> getAllByItemGroups(){
         return itemGroupService.getAllGroups();
     }
-    @DeleteMapping("delete-itemGroup-by-id")
+    @PostMapping("delete-itemGroup-by-id")
     public ResponseEntity<ResponseModel<ItemGroups>> deleteItemGroupById(@RequestParam("id") Long itemGroupId){
         return itemGroupService.deleteItemGroupById(itemGroupId);
     }
