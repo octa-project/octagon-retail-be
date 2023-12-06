@@ -1,6 +1,7 @@
 package octagon.retail.contoller;
 
 import octagon.retail.entity.Settings;
+import octagon.retail.model.PrinterList;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,11 @@ public class SettingController {
     @DeleteMapping("delete-settings-by-id")
     public ResponseEntity<ResponseModel<Settings>> deleteSettingById(@RequestParam("id") Long id){
         return settingService.deleteSettingById(id);
+    }
+
+    @GetMapping("get-printer-list")
+    public ResponseEntity<ResponseModel<PrinterList>> getPrinterList(){
+        return settingService.getPrinterList();
     }
 
 }

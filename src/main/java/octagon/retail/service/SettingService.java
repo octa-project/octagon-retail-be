@@ -1,16 +1,25 @@
 package octagon.retail.service;
 
+import com.google.gson.JsonElement;
 import octagon.retail.entity.DeviceSetting;
 import octagon.retail.entity.PaymentSetting;
 import octagon.retail.entity.Settings;
+import octagon.retail.model.PrinterList;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IDeviceSettingRepository;
 import octagon.retail.repository.IPaymentSettingRepository;
 import octagon.retail.repository.ISettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +77,55 @@ public class SettingService {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
     }
+
+    public ResponseEntity<ResponseModel<PrinterList>> getPrinterList(){
+
+
+        WebClient webClient = WebClient.create();
+
+        String apiUrl = "http://localhost:7000/printerConfig";
+
+        // Create request headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        try {
+
+            String responseBody = webClient.get()
+                    .uri(apiUrl)
+                    .headers(httpHeaders -> httpHeaders.addAll(headers))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block(); // Blocking for simplicity, use subscribe() in a real application
+
+
+
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+
+            JsonElement jsonElement = jsonObject.get("data");
+            List<String> printerNames = new ArrayList<>();
+
+            if (!jsonElement.isJsonNull()){
+                for (JsonElement element : jsonElement.getAsJsonArray().asList()) {
+                    printerNames.add(element.getAsString());
+                }
+            }
+
+            PrinterList printerList = new PrinterList(printerNames);
+
+            // Print the response body
+            System.out.println("Response: " + responseBody);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, printerList));
+
+        }catch (Exception e){
+            return ResponseEntity.ok(new ResponseModel<>("500", "Error", true, null));
+
+        }
+    }
+
+
 
     public void insertDeviceSetting(DeviceSetting entity) {
         deviceSettingRepository.save(entity);
