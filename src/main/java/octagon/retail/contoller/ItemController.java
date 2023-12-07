@@ -2,6 +2,7 @@ package octagon.retail.contoller;
 
 import jakarta.validation.*;
 import octagon.retail.entity.Items;
+import octagon.retail.model.ItemModel;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,17 @@ public class ItemController {
         return itemService.updateItem(item);
     }
     @GetMapping("get-all-items")
-    public ResponseEntity<ResponseModel<List<Items>>> getAllByItemId() {
+    public ResponseEntity<ResponseModel<List<ItemModel>>> getAllByItemId() {
         return itemService.getAllItems();
     }
 
     @GetMapping("get-item-by-id")
-    public ResponseEntity<ResponseModel<Items>> getItemById(@RequestParam("id") Long itemId){
+    public ResponseEntity<ResponseModel<ItemModel>> getItemById(@RequestParam("id") Long itemId){
     return itemService.getItemById(itemId);
     }
 
     @GetMapping("get-item-by-code")
-    public ResponseEntity<ResponseModel<Items>> getItemByCode(@RequestParam("code") String code){
+    public ResponseEntity<ResponseModel<ItemModel>> getItemByCode(@RequestParam("code") String code){
         return itemService.getItemByCode(code);
     }
     @PostMapping("delete-item-by-id")

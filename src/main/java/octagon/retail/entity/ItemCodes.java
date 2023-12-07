@@ -18,18 +18,23 @@ public class ItemCodes extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @NotNull
     @Column(name = "item_id")
     private Long itemId;
+
     @NotNull
     @Column(name = "barcode")
     private String barcode;
+
     @NotNull
     @Column(name = "name")
     private String name;
+
     @NotNull
     @Column(name = "sell_price")
     private BigDecimal sellPrice;
+
     @NotNull
     @Column(name = "measure_id")
     private Long measureId;
@@ -39,6 +44,7 @@ public class ItemCodes extends BaseEntity {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
+
     @NotNull
     @Column(name = "branch_id")
     private Long branchId;
