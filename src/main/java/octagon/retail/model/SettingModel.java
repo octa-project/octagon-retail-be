@@ -19,7 +19,7 @@ public class SettingModel {
     private LocalDateTime modifiedDate;
 
     public SettingModel(Long id, String taxNumber, String name, Long createdUserId, boolean isActive, boolean isDeleted,
-                        Long branchId, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+            Long branchId, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.taxNumber = taxNumber;
         this.name = name;

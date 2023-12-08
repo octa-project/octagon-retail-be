@@ -57,13 +57,11 @@ public class SaleItemService {
         if (items.isEmpty()) {
             return ResponseEntity.ok(new ResponseModel<>("500",
                     "Амжилтгүй %s-id тай борлуулалт олдсонгүй".formatted(saleId), false, null));
+
         }
 
-        items.forEach(saleItem -> {
-            saleItem.setIsDeleted(true);
-        });
-
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, items));
+
     }
 
     public ResponseEntity<ResponseModel<SaleItems>> deleteItem(Long itemId) {

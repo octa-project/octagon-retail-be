@@ -1,6 +1,5 @@
 package octagon.retail.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -23,21 +22,15 @@ public abstract class BaseEntity {
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-<<<<<<< Updated upstream
     private LocalDateTime createdDate;
+
     @LastModifiedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
-=======
-    private LocalDate createdDate;
 
-    @LastModifiedDate
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDate lastModifiedDate;
-
->>>>>>> Stashed changes
     @CreatedBy
     private String createdBy;
+
     @LastModifiedBy
     private String lastModifiedBy;
 
