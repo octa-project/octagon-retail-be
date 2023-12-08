@@ -1,5 +1,6 @@
 package octagon.retail.contoller;
 
+import octagon.retail.entity.DeviceSetting;
 import octagon.retail.entity.Settings;
 import octagon.retail.model.PrinterList;
 import octagon.retail.reponse.ResponseModel;
@@ -48,4 +49,18 @@ public class SettingController {
         return settingService.getPrinterList();
     }
 
+    @PostMapping("device-settings")
+    public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettings(@RequestBody DeviceSetting deviceSetting){
+        return settingService.insertDeviceSettings(deviceSetting);
+    }
+
+    @PutMapping("device-settings")
+    public ResponseEntity<ResponseModel<DeviceSetting>> updateDeviceSettings(@RequestBody DeviceSetting deviceSetting){
+        return settingService.updateDeviceSettings(deviceSetting);
+    }
+
+    @DeleteMapping("device-settings")
+    public ResponseEntity<ResponseModel<Boolean>> updateDeviceSettings(@RequestParam("id") Long id){
+        return settingService.deleteDeviceSettings(id);
+    }
 }

@@ -10,6 +10,7 @@ import octagon.retail.repository.IDeviceSettingRepository;
 import octagon.retail.repository.IPaymentSettingRepository;
 import octagon.retail.repository.ISettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +80,7 @@ public class SettingService {
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
     }
 
-    public ResponseEntity<ResponseModel<PrinterList>> getPrinterList(){
+    public ResponseEntity<ResponseModel<PrinterList>> getPrinterList() {
 
 
         WebClient webClient = WebClient.create();
@@ -100,13 +102,12 @@ public class SettingService {
                     .block(); // Blocking for simplicity, use subscribe() in a real application
 
 
-
             JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
 
             JsonElement jsonElement = jsonObject.get("data");
             List<String> printerNames = new ArrayList<>();
 
-            if (!jsonElement.isJsonNull()){
+            if (!jsonElement.isJsonNull()) {
                 for (JsonElement element : jsonElement.getAsJsonArray().asList()) {
                     printerNames.add(element.getAsString());
                 }
@@ -119,15 +120,33 @@ public class SettingService {
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, printerList));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.ok(new ResponseModel<>("500", "Error", true, null));
 
         }
     }
 
+    public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettings(DeviceSetting deviceSetting) {
+        insertDeviceSetting(deviceSetting);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
+    }
+
+    public ResponseEntity<ResponseModel<DeviceSetting>> updateDeviceSettings(DeviceSetting deviceSetting) {
+        updateDevice(deviceSetting);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
+    }
+
+    public ResponseEntity<ResponseModel<Boolean>> deleteDeviceSettings(Long id) {
+        Boolean result = deleteDevice(id);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", result, null));
+    }
 
 
     public void insertDeviceSetting(DeviceSetting entity) {
+        entity.setCreatedDate(LocalDateTime.now());
         deviceSettingRepository.save(entity);
     }
 
@@ -136,14 +155,25 @@ public class SettingService {
     }
 
     public List<DeviceSetting> listOfDeviceId() {
-       return deviceSettingRepository.findAll();
+        return deviceSettingRepository.findAll();
     }
 
-    public void deleteDevice(DeviceSetting entity){
-        deviceSettingRepository.delete(entity);
+    public boolean deleteDevice(Long id) {
+        Optional<DeviceSetting> optionalEntity = deviceSettingRepository.findById(id);
+
+        if (optionalEntity.isPresent()) {
+            DeviceSetting entity = optionalEntity.get();
+
+            entity.setDeleted(true);
+            entity.setModifiedDate(LocalDateTime.now());
+
+            deviceSettingRepository.save(entity);
+            return true;
+        } else return false;
     }
 
-    public DeviceSetting updateDevice(DeviceSetting entity){
+    public DeviceSetting updateDevice(DeviceSetting entity) {
+        entity.setModifiedDate(LocalDateTime.now());
         return deviceSettingRepository.save(entity);
     }
 
@@ -151,7 +181,7 @@ public class SettingService {
         paymentSettingRepository.save(entity);
     }
 
-    public Optional<PaymentSetting> getPaymenSettingById(Long id) {
+    public Optional<PaymentSetting> getPaymentSettingById(Long id) {
         return paymentSettingRepository.findById(id);
     }
 
@@ -159,11 +189,11 @@ public class SettingService {
         return paymentSettingRepository.findAll();
     }
 
-    public void deletePaymentMethod(PaymentSetting entity){
+    public void deletePaymentMethod(PaymentSetting entity) {
         paymentSettingRepository.delete(entity);
     }
 
-    public PaymentSetting updatePaymentMethod(PaymentSetting entity){
+    public PaymentSetting updatePaymentMethod(PaymentSetting entity) {
         return paymentSettingRepository.save(entity);
     }
 
