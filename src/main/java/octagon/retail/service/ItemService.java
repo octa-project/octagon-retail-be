@@ -6,6 +6,7 @@ import octagon.retail.model.ItemCodeModel;
 import octagon.retail.model.ItemModel;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemCodeRepository;
+import octagon.retail.repository.IItemGroupRepository;
 import octagon.retail.repository.IItemRepository;
 import octagon.retail.repository.IMeasureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class ItemService {
     private IItemCodeRepository itemCodeRepository;
     @Autowired
     private IMeasureRepository measureRepository;
+    @Autowired
+    private IItemGroupRepository itemGroupRepository;
 
     public ResponseEntity<ResponseModel<Items>> saveItem(Items item) {
         Items localItem = itemRepository.getItemByCode(item.getCode());
@@ -33,7 +36,7 @@ public class ItemService {
             itemRepository.save(item);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, item));
         }
-        return ResponseEntity.ok(new ResponseModel<>("404", "Амжилтгүй - Өмнө нь бүртгэгдсэн бараа байна!", false, null));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Өмнө нь бүртгэгдсэн бараа байна!", false, null));
     }
 
     public ResponseEntity<ResponseModel<Items>> updateItem(Items item) {
@@ -42,18 +45,19 @@ public class ItemService {
             existingItem.setName(item.getName());
             existingItem.setCode(item.getCode());
             existingItem.setIsActive(item.getIsActive());
-          existingItem.setMeasureId(item.getMeasureId());
+            existingItem.setMeasureId(item.getMeasureId());
             existingItem.setIsActive(item.getIsActive());
             existingItem.setIsDeleted(item.getIsDeleted());
             existingItem.setBranchId(item.getBranchId());
             itemRepository.save(existingItem);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingItem));
         }
-        return ResponseEntity.ok(new ResponseModel<>("404", "Амжилтгүй", false, null));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
 
     private ItemModel convertItemToModel(Items item) {
         var model = new ItemModel();
+        model.setId(item.getId());
         model.setName(item.getName());
         model.setCode(item.getCode());
         model.setIsDeleted(item.getIsDeleted());
@@ -64,6 +68,13 @@ public class ItemService {
             model.setMeasureId(measure.getId());
             model.setMeasureName(measure.getName());
         }
+        var itemgroup = itemGroupRepository.findById(item.getItemgroupId()).orElse(null);
+        if (itemgroup != null) {
+            model.setItemgroupId(itemgroup.getId());
+            model.setItemgroupName(itemgroup.getName());
+        }
+        model.setCreatedDate(item.getCreatedDate());
+
         var convertedItemCodes = item.getItemCodes().stream().map(this::convertItemCodeToModel).toList();
         model.setItemcodes(convertedItemCodes);
         return model;

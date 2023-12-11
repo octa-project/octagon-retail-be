@@ -30,6 +30,9 @@ public class Items extends BaseEntity {
     @Column(name = "measure_id")
     private Long measureId;
 
+    @Column(name = "itemgroup_id")
+    private Long itemgroupId;
+
     @Column(name = "is_active")
     private Boolean isActive;
 
