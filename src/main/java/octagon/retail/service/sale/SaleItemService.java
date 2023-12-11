@@ -1,8 +1,12 @@
 package octagon.retail.service.sale;
 
 import octagon.retail.entity.sale.SaleItems;
+import octagon.retail.model.sale.SaleItemModel;
 import octagon.retail.reponse.ResponseModel;
+import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.sale.SaleItemRepository;
+import octagon.retail.repository.sale.SaleRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,21 +20,45 @@ public class SaleItemService {
     @Autowired
     private SaleItemRepository saleItemRepository;
 
-    public ResponseEntity<ResponseModel<SaleItems>> saveItem(SaleItems saleItem) {
-        SaleItems item = saleItemRepository.getSaleItemsBySaleAndItemCode(saleItem.getSale(), saleItem.getItem_code());
-        if (item == null) {
-            saleItemRepository.save(saleItem);
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай мөр нэмлээ", true, saleItem));
+    @Autowired
+    SaleRepository saleRepository;
+    @Autowired
+    IItemCodeRepository itemCodeRepository;
+
+    public ResponseEntity<ResponseModel<SaleItems>> addItem(SaleItemModel req) {
+        var sale = saleRepository.findById(req.getSaleId()).orElse(null);
+        if (sale == null) {
+            return ResponseEntity.ok(new ResponseModel<>("500",
+                    "Амжилтгүй борлуулалт олдсонгүй", false, null));
         }
-        BigDecimal qty = item.getQty().add(saleItem.getQty());
+        var saleItem = sale.getStocks().stream().filter(i -> i.getId() == req.getId()).findFirst().orElse(null);
+
+        if (saleItem == null) {
+            var item = itemCodeRepository.findById(req.getItemCodeId()).orElse(null);
+            var newSaleItem = new SaleItems();
+            newSaleItem.setBranchId(req.getBranchId());
+            newSaleItem.setItemCode(item);
+            newSaleItem.setQty(req.getQty());
+            newSaleItem.setSale(sale);
+            newSaleItem.setTotalSalePrice(req.getTotalSalePrice());
+            newSaleItem.setUnitSalePrice(req.getUnitSalePrice());
+            sale.getStocks().add(newSaleItem);
+            saleRepository.save(sale);
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай мөр нэмлээ",
+                    true, saleItem));
+        }
+        var item = itemCodeRepository.findById(req.getItemCodeId()).orElse(null);
+        saleItem.setItemCode(item);
+        sale.getStocks().add(saleItem);
+        BigDecimal qty = saleItem.getQty().add(saleItem.getQty());
         BigDecimal amount = saleItem.getUnitSalePrice();
         BigDecimal totalAmount = qty.multiply(amount);
 
-        item.setQty(qty);
-        item.setUnitSalePrice(amount);
-        item.setTotalSalePrice(totalAmount);
-        saleItemRepository.save(item);
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгалагдлаа", true, item));
+        saleItem.setQty(qty);
+        saleItem.setUnitSalePrice(amount);
+        saleItem.setTotalSalePrice(totalAmount);
+        saleRepository.save(sale);
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгалагдлаа", true, saleItem));
     }
 
     public ResponseEntity<ResponseModel<SaleItems>> updateItem(Long id, SaleItems updateItem) {

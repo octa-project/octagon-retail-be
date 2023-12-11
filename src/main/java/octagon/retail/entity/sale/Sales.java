@@ -31,13 +31,13 @@ public class Sales extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
-    @NotNull(message = "Total quality should not be null")
-    private BigDecimal totalQty;
+    // @NotNull(message = "Total quality should not be null")
+    private BigDecimal totalQty = BigDecimal.ZERO;
 
-    @NotNull(message = "Total amount not be null")
-    private BigDecimal totalAmount;
+    // @NotNull(message = "Total amount not be null")
+    private BigDecimal totalAmount = BigDecimal.ZERO;
 
-    private BigDecimal paidTotalAmount;
+    private BigDecimal paidTotalAmount = BigDecimal.ZERO;
 
     private Boolean isPaid = false;
 

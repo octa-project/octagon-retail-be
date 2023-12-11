@@ -14,5 +14,5 @@ import java.util.List;
 public interface SaleItemRepository extends MainRepository<SaleItems, Long> {
     List<SaleItems> getSaleById(Long sid);
 
-    SaleItems getSaleItemsBySaleAndItemCode(Sales sale, ItemCodes itemCode);
+    SaleItems findBySale(Sales sale);
 }

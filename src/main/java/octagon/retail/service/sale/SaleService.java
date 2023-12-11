@@ -28,7 +28,13 @@ public class SaleService {
     @Autowired
     IItemRepository itemRepository;
 
-    public ResponseEntity<ResponseModel<Sales>> saveSale(List<SaleItems> saleItems) {
+    public ResponseEntity<ResponseModel<Sales>> instatiateSale() {
+        var sale = new Sales();
+        saleRepository.save(sale);
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
+    }
+
+    public ResponseEntity<ResponseModel<Sales>> saveSale(Sales sale) {
         saleRepository.save(sale);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
     }
@@ -73,9 +79,9 @@ public class SaleService {
         for (var sale : sales) {
             for (var item : sale.getStocks()) {
                 var model = new OutcomeInvoiceModel();
-                model.setBarcode(item.getItem_code().getBarcode());
+                model.setBarcode(item.getItemCode().getBarcode());
                 model.setQty(item.getQty());
-                model.setName(item.getItem_code().getName());
+                model.setName(item.getItemCode().getName());
                 list.add(model);
             }
         }

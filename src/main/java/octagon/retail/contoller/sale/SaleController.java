@@ -25,6 +25,11 @@ public class SaleController {
         return saleService.saveSale(sale);
     }
 
+    @PostMapping("instatiate")
+    public ResponseEntity<ResponseModel<Sales>> instatiaSale() {
+        return saleService.instatiateSale();
+    }
+
     @PutMapping("update")
     public ResponseEntity<ResponseModel<Sales>> update(@RequestParam("id") Long id, @Valid @RequestBody Sales sale) {
         return saleService.updateSale(id, sale);

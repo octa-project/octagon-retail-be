@@ -5,12 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import octagon.retail.entity.BaseEntity;
 import octagon.retail.entity.ItemCodes;
-import octagon.retail.entity.Items;
-
 import java.math.BigDecimal;
-
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
@@ -30,12 +25,9 @@ public class SaleItems extends BaseEntity {
     @JoinColumn(name = "saleId")
     private Sales sale;
 
-    @JoinColumn(name = "item_id")
-    private Long itemId;
-
     @OneToOne
     @JoinColumn(name = "item_codes_id")
-    private ItemCodes item_code;
+    private ItemCodes itemCode;
 
     @NotNull
     private BigDecimal qty;
