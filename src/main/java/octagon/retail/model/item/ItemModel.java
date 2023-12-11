@@ -1,10 +1,8 @@
-package octagon.retail.model;
+package octagon.retail.model.item;
 
 import lombok.Data;
-import octagon.retail.service.ItemCodeService;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Data

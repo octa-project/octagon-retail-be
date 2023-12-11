@@ -2,8 +2,9 @@ package octagon.retail.service;
 
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.Items;
-import octagon.retail.model.ItemCodeModel;
-import octagon.retail.model.ItemModel;
+import octagon.retail.model.item.ItemCodeModel;
+import octagon.retail.model.item.ItemModel;
+import octagon.retail.model.item.ItemSaveModel;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.IItemGroupRepository;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
@@ -30,27 +29,37 @@ public class ItemService {
     @Autowired
     private IItemGroupRepository itemGroupRepository;
 
-    public ResponseEntity<ResponseModel<Items>> saveItem(Items item) {
+    public ResponseEntity<ResponseModel<ItemSaveModel>> saveItem(ItemSaveModel item) {
         Items localItem = itemRepository.getItemByCode(item.getCode());
         if (localItem == null) {
-            itemRepository.save(item);
+            localItem = new Items();
+            localItem.setCode(item.getCode());
+            localItem.setName(item.getName());
+            localItem.setItemgroupId(item.getItemgroupId());
+            localItem.setMeasureId(item.getMeasureId());
+            localItem.setBranchId(item.getBranchId());
+            localItem.setIsActive(true);
+            localItem.setIsDeleted(false);
+
+            itemRepository.save(localItem);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, item));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Өмнө нь бүртгэгдсэн бараа байна!", false, null));
     }
 
-    public ResponseEntity<ResponseModel<Items>> updateItem(Items item) {
+    public ResponseEntity<ResponseModel<ItemSaveModel>> updateItem(ItemSaveModel item) {
         Items existingItem = itemRepository.findById(item.getId()).orElse(null);
         if (existingItem != null) {
             existingItem.setName(item.getName());
             existingItem.setCode(item.getCode());
-            existingItem.setIsActive(item.getIsActive());
             existingItem.setMeasureId(item.getMeasureId());
+            existingItem.setItemgroupId(item.getItemgroupId());
             existingItem.setIsActive(item.getIsActive());
             existingItem.setIsDeleted(item.getIsDeleted());
             existingItem.setBranchId(item.getBranchId());
+            
             itemRepository.save(existingItem);
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingItem));
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, item));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
