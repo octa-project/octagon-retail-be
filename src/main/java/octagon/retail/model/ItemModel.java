@@ -15,6 +15,7 @@ public class ItemModel {
     private Boolean isActive;
     private Boolean isDeleted;
     private Long branchId;
+    private String barcode;
 
     private List<ItemCodeModel> itemcodes;
  }

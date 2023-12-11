@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public class ItemCodeModel {
     private Long id;
     private Long itemId;
+    private String barcode;
     private String name;
     private BigDecimal sellPrice;
     private Long measureId;
