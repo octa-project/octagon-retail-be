@@ -30,6 +30,12 @@ public class ItemService {
     private IItemGroupRepository itemGroupRepository;
 
     public ResponseEntity<ResponseModel<ItemSaveModel>> saveItem(ItemSaveModel item) {
+        if (item.getItemgroupId() == null)
+            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Барааны бүлэг байхгүй байна!", false, null));
+
+        if (item.getMeasureId() == null)
+            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Хэмжих нэгж байхгүй байна!", false, null));
+
         Items localItem = itemRepository.getItemByCode(item.getCode());
         if (localItem == null) {
             localItem = new Items();
@@ -48,6 +54,12 @@ public class ItemService {
     }
 
     public ResponseEntity<ResponseModel<ItemSaveModel>> updateItem(ItemSaveModel item) {
+        if (item.getItemgroupId() == null)
+            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Барааны бүлэг байхгүй байна!", false, null));
+
+        if (item.getMeasureId() == null)
+            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Хэмжих нэгж байхгүй байна!", false, null));
+        
         Items existingItem = itemRepository.findById(item.getId()).orElse(null);
         if (existingItem != null) {
             existingItem.setName(item.getName());
@@ -57,7 +69,7 @@ public class ItemService {
             existingItem.setIsActive(item.getIsActive());
             existingItem.setIsDeleted(item.getIsDeleted());
             existingItem.setBranchId(item.getBranchId());
-            
+
             itemRepository.save(existingItem);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, item));
         }
@@ -119,7 +131,6 @@ public class ItemService {
             return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
 
         var convertedItems = items.stream().map(this::convertItemToModel).toList();
-
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, convertedItems));
     }
 

@@ -1,6 +1,7 @@
 package octagon.retail.model.item;
 
 import lombok.Data;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
