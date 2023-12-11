@@ -25,15 +25,13 @@ public class SaleItems extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "saleId")
     private Sales sale;
 
-    @OneToOne
-    @JoinColumn(name = "items_id")
-    private Items item;
+    @JoinColumn(name = "item_id")
+    private Long itemId;
 
     @OneToOne
     @JoinColumn(name = "item_codes_id")

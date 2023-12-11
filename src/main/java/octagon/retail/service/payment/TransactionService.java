@@ -30,65 +30,58 @@ public class TransactionService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ", true, transactions));
     }
 
-    // @Async
-    // public ResponseEntity<ResponseModel<TransactionModel>>
-    // sendTransactionByDate(Date startDate, Date endDate) {
-    // var transactions = transactionRepository.getMany(startDate, endDate);
-    // if (transactions == null || transactions.isEmpty())
-    // return ResponseEntity.ok(new ResponseModel<>("500",
-    // "Амжилтгүй. мэдээлэл олдсонгүй.", false, null));
+    @Async
+    public ResponseEntity<ResponseModel<TransactionModel>> sendTransactionByDate(Date startDate, Date endDate) {
+        var transactions = transactionRepository.getMany(startDate, endDate);
+        if (transactions == null || transactions.isEmpty())
+            return ResponseEntity.ok(new ResponseModel<>("500",
+                    "Амжилтгүй. мэдээлэл олдсонгүй.", false, null));
 
-    // var resp = new TransactionModel();
+        var resp = new TransactionModel();
 
-    // ///
-    // resp.setTotalAmount(transactions.stream().mapToDouble(t ->
-    // t.getAmount()).sum());
-    // resp.setTotalAccountAmount(transactions.stream()
-    // .filter(transaction -> transaction.getTransactionType() ==
-    // TransactionType.account)
-    // .mapToDouble(Transactions::getAmount)
-    // .sum());
-    // resp.setTotalCardAmount((transactions.stream()
-    // .filter(transaction -> transaction.getTransactionType() ==
-    // TransactionType.card)
-    // .mapToDouble(Transactions::getAmount)
-    // .sum()));
-    // resp.setTotalCashAmount((transactions.stream()
-    // .filter(transaction -> transaction.getTransactionType() ==
-    // TransactionType.cash)
-    // .mapToDouble(Transactions::getAmount)
-    // .sum()));
-    // resp.setTotalNonCashAmount((transactions.stream()
-    // .filter(transaction -> transaction.getTransactionType() ==
-    // TransactionType.nonCash)
-    // .mapToDouble(Transactions::getAmount)
-    // .sum()));
-    // ///
+        ///
+        resp.setTotalAmount(transactions.stream().mapToDouble(t -> t.getAmount()).sum());
+        resp.setTotalAccountAmount(transactions.stream()
+                .filter(transaction -> transaction.getTransactionType() == TransactionType.account)
+                .mapToDouble(Transactions::getAmount)
+                .sum());
+        resp.setTotalCardAmount((transactions.stream()
+                .filter(transaction -> transaction.getTransactionType() == TransactionType.card)
+                .mapToDouble(Transactions::getAmount)
+                .sum()));
+        resp.setTotalCashAmount((transactions.stream()
+                .filter(transaction -> transaction.getTransactionType() == TransactionType.cash)
+                .mapToDouble(Transactions::getAmount)
+                .sum()));
+        resp.setTotalNonCashAmount((transactions.stream()
+                .filter(transaction -> transaction.getTransactionType() == TransactionType.nonCash)
+                .mapToDouble(Transactions::getAmount)
+                .sum()));
+        ///
 
-    // Map<Date, Map<TransactionType, Long>> countByDateAndType =
-    // transactions.stream()
-    // .collect(Collectors.groupingBy(
-    // i -> i.getDate(),
-    // Collectors.groupingBy(
-    // Transactions::getTransactionType,
-    // Collectors.counting())));
+        Map<Date, Map<TransactionType, Long>> countByDateAndType = transactions.stream()
+                .collect(Collectors.groupingBy(
+                        Transactions::getDate,
+                        Collectors.groupingBy(
+                                Transactions::getTransactionType,
+                                Collectors.counting())));
 
-    // List<TransactionInvoiceModel> datas = countByDateAndType.entrySet().stream()
-    // .flatMap(dateCountEntry -> dateCountEntry.getValue().entrySet().stream()
-    // .map(typeCountEntry -> {
-    // TransactionInvoiceModel model = new TransactionInvoiceModel();
-    // model.setDate(dateCountEntry.getKey());
-    // model.setTransactionType(typeCountEntry.getKey());
-    // model.setAmount(typeCountEntry.getValue().doubleValue());
-    // model.setName("TransactionName");
+        List<TransactionInvoiceModel> datas = countByDateAndType.entrySet().stream()
+                .flatMap(dateCountEntry -> dateCountEntry.getValue().entrySet().stream()
+                        .map(typeCountEntry -> {
 
-    // return model;
-    // }))
-    // .collect(Collectors.toList());
-    // resp.setData(datas);
-    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
-    // resp));
-    // }
+                            TransactionInvoiceModel model = new TransactionInvoiceModel();
+                            model.setDate((java.sql.Date) dateCountEntry.getKey());
+                            model.setTransactionType(typeCountEntry.getKey());
+                            model.setAmount(typeCountEntry.getValue().doubleValue());
+
+                            return model;
+                        }))
+                .collect(Collectors.toList());
+        resp.setData(datas);
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                resp));
+    }
 
     public ResponseEntity<ResponseModel<Transactions>> getOne(Long id) {
         Transactions transactions = transactionRepository.findById(id).orElse(null);

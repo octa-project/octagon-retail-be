@@ -37,8 +37,4 @@ public class Items extends BaseEntity {
     @Column(name = "branch_id")
     private Long branchId;
 
-    @JsonIgnore
-    @OneToOne
-    private SaleItems saleItem;
-
 }

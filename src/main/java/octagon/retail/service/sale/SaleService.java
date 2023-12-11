@@ -28,7 +28,7 @@ public class SaleService {
     @Autowired
     IItemRepository itemRepository;
 
-    public ResponseEntity<ResponseModel<Sales>> saveSale(Sales sale) {
+    public ResponseEntity<ResponseModel<Sales>> saveSale(List<SaleItems> saleItems) {
         saleRepository.save(sale);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
     }

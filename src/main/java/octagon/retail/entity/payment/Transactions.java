@@ -47,8 +47,7 @@ public class Transactions extends BaseEntity {
     @NotNull
     private Double amount;
 
-    @OneToOne
-    @JoinColumn(name = "transaction_types_id")
+    @Enumerated(EnumType.ORDINAL)
     private TransactionType transactionType;
 
     private Boolean isDeleted = false;
