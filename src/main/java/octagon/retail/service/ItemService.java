@@ -83,6 +83,7 @@ public class ItemService {
     private ItemCodeModel convertItemCodeToModel(ItemCodes itemCodes) {
         var model = new ItemCodeModel();
         model.setItemId(itemCodes.getItemId());
+        model.setBarcode(itemCodes.getBarcode());
         model.setId(itemCodes.getId());
         model.setBranchid(itemCodes.getBranchId());
         model.setName(itemCodes.getName());

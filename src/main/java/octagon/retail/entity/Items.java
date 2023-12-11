@@ -39,6 +39,9 @@ public class Items extends BaseEntity {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
+    @Column(name = "barcode")
+    private String barcode;
+
     @Column(name = "branch_id")
     private Long branchId;
 
