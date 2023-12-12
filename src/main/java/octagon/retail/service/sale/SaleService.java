@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SaleService {
@@ -75,4 +74,21 @@ public class SaleService {
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
     }
+
+    public ResponseEntity<ResponseModel<Object>> getDashboardData (Date date) {
+
+        Map <String, Object> data = new HashMap<String, Object>();
+
+        data.put("income" , saleRepository.getTotalAmountByDate(date));
+        data.put("profit" , saleRepository.getTotalAmountByDate(date));
+        data.put("quantity" , saleRepository.getTotalAmountByDate(date));
+
+        if(data != null) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
+        }
+       return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
+    }
+
+
+
 }

@@ -49,4 +49,9 @@ public class SaleController {
     public ResponseEntity<ResponseModel<Sales>> getSaleItemById(@RequestParam("id") Long id) {
         return saleService.deleteSale(id);
     }
+
+    @GetMapping("get-dashboard-data")
+    public ResponseEntity<ResponseModel<Object>> getDashboardData(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return saleService.getDashboardData(date);
+    }
 }
