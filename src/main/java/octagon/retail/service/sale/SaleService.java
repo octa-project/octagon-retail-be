@@ -80,8 +80,8 @@ public class SaleService {
         Map <String, Object> data = new HashMap<String, Object>();
 
         data.put("income" , saleRepository.getTotalAmountByDate(date));
-        data.put("profit" , saleRepository.getTotalAmountByDate(date));
-        data.put("quantity" , saleRepository.getTotalAmountByDate(date));
+        data.put("profit" , saleRepository.getProfitByDate(date));
+        data.put("quantity" , saleRepository.getTotalQuantityByDate(date));
 
         if(data != null) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
