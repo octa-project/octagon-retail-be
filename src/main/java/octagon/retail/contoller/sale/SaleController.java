@@ -54,4 +54,8 @@ public class SaleController {
     public ResponseEntity<ResponseModel<Object>> getDashboardData(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return saleService.getDashboardData(date);
     }
+    @GetMapping("get-all-sales")
+    public ResponseEntity<ResponseModel<Object>> getAllSales() {
+        return saleService.getAllSales();
+    }
 }

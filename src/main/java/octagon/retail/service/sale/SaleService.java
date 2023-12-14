@@ -89,6 +89,16 @@ public class SaleService {
        return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
     }
 
+    public ResponseEntity<ResponseModel<Object>> getAllSales () {
+
+         List<Sales> data = saleRepository.findAll();
+
+        if(data != null) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
+        }
+        return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
+    }
+
 
 
 }
