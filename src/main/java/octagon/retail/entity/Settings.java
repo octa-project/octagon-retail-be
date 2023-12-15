@@ -43,4 +43,5 @@ public class Settings extends BaseEntity {
     @Column(name = "modified_date")
     private LocalDateTime modifiedDate ;
 
+
 }
