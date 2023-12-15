@@ -31,6 +31,7 @@ public class ItemCodeService {
             existingItemCodes.setBranchId(updateItemCodes.getBranchId());
             existingItemCodes.setMeasureId(updateItemCodes.getMeasureId());
             existingItemCodes.setSellPrice(updateItemCodes.getSellPrice());
+            existingItemCodes.setPurchasePrice(updateItemCodes.getPurchasePrice());
             existingItemCodes.setIsDeleted(updateItemCodes.getIsDeleted());
             itemCodeRepository.save(existingItemCodes);
 
@@ -42,33 +43,36 @@ public class ItemCodeService {
     public ResponseEntity<ResponseModel<ItemCodes>> getItemCodeById(Long itemCodeId) {
         ItemCodes itemCodes = itemCodeRepository.findById(itemCodeId).orElse(null);
         if (itemCodes != null)
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemCodes));
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemCodes));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
 
-    public ResponseEntity<ResponseModel<List<ItemCodes>>> getAllItemCodes(){
-        List<ItemCodes>itemCodes = itemCodeRepository.findAll();
+    public ResponseEntity<ResponseModel<List<ItemCodes>>> getAllItemCodes() {
+        List<ItemCodes> itemCodes = itemCodeRepository.findAll();
         if (itemCodes != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemCodes));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
+
     public ResponseEntity<ResponseModel<ItemCodes>> getItemCodeByBarcode(String barcode) {
         ItemCodes itemCodes = itemCodeRepository.getItemByBarcode(barcode);
         if (itemCodes != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemCodes));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
+
     public ResponseEntity<ResponseModel<List<ItemCodes>>> getItemCodeByBarcodeLike(String barcode) {
         List<ItemCodes> itemCodes = itemCodeRepository.getItemCodesByBarcodeIsLike(barcode);
         if (itemCodes != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemCodes));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
-    public ResponseEntity<ResponseModel<ItemCodes>> deleteItemCodeById(Long itemCodeId){
+
+    public ResponseEntity<ResponseModel<ItemCodes>> deleteItemCodeById(Long itemCodeId) {
         itemCodeRepository.deleteById(itemCodeId);
         ItemCodes itemCode = itemCodeRepository.findById(itemCodeId).orElse(null);
         if (itemCode == null)
-            return ResponseEntity.ok(new ResponseModel<>("200","Амжилттай",true,null));
-        return ResponseEntity.ok(new ResponseModel<>("500","Амжилтгүй - алдаа гарлаа ахин оролдно уу",false,itemCode));
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдно уу", false, itemCode));
     }
 }

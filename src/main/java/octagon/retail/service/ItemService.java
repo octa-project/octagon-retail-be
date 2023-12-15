@@ -59,7 +59,7 @@ public class ItemService {
 
         if (item.getMeasureId() == null)
             return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Хэмжих нэгж байхгүй байна!", false, null));
-        
+
         Items existingItem = itemRepository.findById(item.getId()).orElse(null);
         if (existingItem != null) {
             existingItem.setName(item.getName());
@@ -108,8 +108,16 @@ public class ItemService {
         model.setId(itemCodes.getId());
         model.setBranchid(itemCodes.getBranchId());
         model.setName(itemCodes.getName());
+
+        var measure = measureRepository.findById(itemCodes.getMeasureId()).orElse(null);
+        if (measure != null) {
+            model.setMeasureId(measure.getId());
+            model.setMeasureName(measure.getName());
+        }
+
         model.setQty(itemCodes.getQty());
         model.setSellPrice(itemCodes.getSellPrice());
+        model.setPurchasePrice(itemCodes.getPurchasePrice());
         return model;
     }
 

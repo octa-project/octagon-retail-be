@@ -11,9 +11,10 @@ public class ItemCodeModel {
     private String barcode;
     private String name;
     private BigDecimal sellPrice;
+    private BigDecimal purchasePrice;
     private Long measureId;
+    private String measureName;
     private BigDecimal qty;
     private Boolean isDeleted;
     private Long branchid;
-
 }
