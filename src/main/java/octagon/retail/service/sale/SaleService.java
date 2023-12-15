@@ -31,6 +31,16 @@ public class SaleService {
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
+    public ResponseEntity<ResponseModel<Sales>> updateQtyAmountSale(Long id, Sales update) {
+        Sales sales = saleRepository.findById(id).orElse(null);
+        if (sales != null) {
+            sales.setTotalQty(sales.getTotalQty().add(update.getTotalQty()));
+            sales.setTotalAmount(sales.getTotalAmount().add(update.getTotalAmount()));
+            saleRepository.save(sales);
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
+        }
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+    }
     public ResponseEntity<ResponseModel<List<Sales>>> getMany(Date startDate,Date endDate) {
         List<Sales> sales = saleRepository.getMany(startDate,endDate);
         if (!sales.isEmpty()) {
@@ -47,8 +57,8 @@ public class SaleService {
             return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, null));
         }
     }
-    public ResponseEntity<ResponseModel<Sales>> isPaid(Long saleId, Sales sales) {
-        Sales isPaid = saleRepository.findById(saleId).orElse(null);
+    public ResponseEntity<ResponseModel<Sales>> isPaid(Long id, Sales sales) {
+        Sales isPaid = saleRepository.findById(id).orElse(null);
 
         if (isPaid != null) {
             isPaid.setIsPaid(true);
@@ -98,7 +108,4 @@ public class SaleService {
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
     }
-
-
-
 }

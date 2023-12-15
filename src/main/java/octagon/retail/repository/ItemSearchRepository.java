@@ -16,7 +16,7 @@ public interface ItemSearchRepository extends MainRepository<ItemPrices, Long> {
     @Query("select a from ItemPrices a where a.itemName like %:name%")
     List<ItemPrices> getLikeName(String name);
 
-    @Query("select a from ItemPrices a where a.sellPrice like :price%")
+    @Query("select a from ItemPrices a where cast(a.unitSalePrice as string) like :price%")
     List<ItemPrices> getLikePrice(String price);
 
 }

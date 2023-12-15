@@ -29,6 +29,12 @@ public class SaleItems extends BaseEntity {
     private Long itemCodeId;
 
     @NotNull
+    private String itemName;
+
+    @NotNull
+    private String itemBarCode;
+
+    @NotNull
     private BigDecimal qty;
 
     @NotNull

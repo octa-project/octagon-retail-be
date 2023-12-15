@@ -1,7 +1,9 @@
 package octagon.retail.service.sale;
 
+import octagon.retail.entity.ItemPrices;
 import octagon.retail.entity.sale.SaleItems;
 import octagon.retail.reponse.ResponseModel;
+import octagon.retail.repository.ItemPriceRepository;
 import octagon.retail.repository.sale.SaleItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,19 @@ public class SaleItemService {
 
     @Autowired
     private SaleItemRepository saleItemRepository;
-
     public ResponseEntity<ResponseModel<SaleItems>> saveItem(SaleItems saleItem) {
+
         SaleItems item = saleItemRepository.getSaleIdItemId(saleItem.getSaleId(), saleItem.getItemCodeId());
         if(item == null) {
+
+            BigDecimal amount = saleItem.getUnitSalePrice();
+            BigDecimal totalAmount = saleItem.getQty().multiply(amount);
+
+            saleItem.setTotalSalePrice(totalAmount);
             saleItemRepository.save(saleItem);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай мөр нэмлээ", true, saleItem));
         }
+
         BigDecimal qty = item.getQty().add(saleItem.getQty());
         BigDecimal amount = saleItem.getUnitSalePrice();
         BigDecimal totalAmount = qty.multiply(amount);
@@ -30,6 +38,7 @@ public class SaleItemService {
         item.setUnitSalePrice(amount);
         item.setTotalSalePrice(totalAmount);
         saleItemRepository.save(item);
+
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгалагдлаа", true, item));
     }
     public ResponseEntity<ResponseModel<SaleItems>> updateItem(Long id, SaleItems updateItem) {
