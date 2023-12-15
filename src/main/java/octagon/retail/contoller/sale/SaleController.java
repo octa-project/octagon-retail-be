@@ -26,27 +26,32 @@ public class SaleController {
     }
 
     @PutMapping("update")
-    public ResponseEntity<ResponseModel<Sales>> update(@RequestParam("id") Long id , @Valid @RequestBody Sales sale) {
+    public ResponseEntity<ResponseModel<Sales>> update(@Valid @RequestBody Sales sale, Long id) {
         return saleService.updateSale(id,sale);
     }
 
-    @PostMapping("isPaid")
-    public ResponseEntity<ResponseModel<Sales>> isPaid(@RequestParam("id") Long id, @RequestBody Sales sale) {
+    @PutMapping("updateQtyAmount")
+    public ResponseEntity<ResponseModel<Sales>> updateQtyAmount(@RequestBody Sales sale, Long id) {
+        return saleService.updateQtyAmountSale(id,sale);
+    }
+
+    @PutMapping("isPaid")
+    public ResponseEntity<ResponseModel<Sales>> isPaid(@RequestBody Sales sale, Long id) {
         return saleService.isPaid(id,sale);
     }
 
     @GetMapping("get-many")
-    public ResponseEntity<ResponseModel<List<Sales>>> getMany(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate, @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
+    public ResponseEntity<ResponseModel<List<Sales>>> getMany(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
         return saleService.getMany(startDate,endDate);
     }
 
     @GetMapping("get-one")
-    public ResponseEntity<ResponseModel<Sales>> getOne(@RequestParam("id") Long id) {
+    public ResponseEntity<ResponseModel<Sales>> getOne(Long id) {
         return saleService.getOne(id);
     }
 
     @DeleteMapping("delete")
-    public ResponseEntity<ResponseModel<Sales>> getSaleItemById(@RequestParam("id") Long id) {
+    public ResponseEntity<ResponseModel<Sales>> getSaleItemById(Long id) {
         return saleService.deleteSale(id);
     }
 }

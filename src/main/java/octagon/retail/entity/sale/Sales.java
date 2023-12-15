@@ -44,10 +44,6 @@ public class Sales extends BaseEntity {
 
     private Long createdUserId;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "saleId", referencedColumnName = "id",  insertable = false, updatable = false)
-    private List<SaleItems> stocks;
     //
     //    @OneToMany(fetch = FetchType.LAZY)
     //    @Fetch(FetchMode.JOIN)

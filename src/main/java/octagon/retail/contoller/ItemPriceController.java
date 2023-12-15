@@ -2,6 +2,7 @@ package octagon.retail.contoller;
 
 import jakarta.validation.Valid;
 import octagon.retail.entity.ItemPrices;
+import octagon.retail.entity.sale.SaleItems;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.service.ItemPriceService;
 import org.springframework.beans.factory.annotation.Autowired;

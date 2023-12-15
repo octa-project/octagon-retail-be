@@ -39,10 +39,13 @@ public class ItemPrices extends BaseEntity {
     private String itemBarCode;
 
     @NotNull
-    private String sellPrice;
+    private BigDecimal qty;
 
     @NotNull
-    private String costPrice;
+    private BigDecimal unitSalePrice;
+
+    @NotNull
+    private BigDecimal unitCostPrice;
 
     private Boolean isDeleted=false;
 
