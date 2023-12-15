@@ -42,21 +42,20 @@ public class SettingService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
     }
 
-//    public ResponseEntity<ResponseModel<Settings>> updateSetting(Settings updatedSetting) {
-//        Settings existingSetting = settingRepository.findById(updatedSetting.getId()).orElse(null);
-//
-//        if (existingSetting != null) {
-//            existingSetting.setName(updatedSetting.getName());
-//            existingSetting.setTaxNumber(updatedSetting.getTaxNumber());
-//            existingSetting.setAddress(updatedSetting.getAddress());
-//            existingSetting.setBranchId(updatedSetting.getBranchId());
-//            existingSetting.setDeleted(updatedSetting.isDeleted());
-//            settingRepository.save(existingSetting);
-//
-//            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSetting));
-//        }
-//        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
-//    }
+    public ResponseEntity<ResponseModel<Settings>> updateSetting(Settings updatedSetting) {
+        Settings existingSetting = settingRepository.findById(updatedSetting.getId()).orElse(null);
+
+        if (existingSetting != null) {
+            existingSetting.setName(updatedSetting.getName());
+            existingSetting.setTaxNumber(updatedSetting.getTaxNumber());
+            existingSetting.setBranchId(updatedSetting.getBranchId());
+            existingSetting.setDeleted(updatedSetting.isDeleted());
+            settingRepository.save(existingSetting);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSetting));
+        }
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+    }
 
     public ResponseEntity<ResponseModel<Settings>> getSettingById(Long settingId) {
         Settings setting = settingRepository.findById(settingId).orElse(null);
@@ -150,8 +149,12 @@ public class SettingService {
         deviceSettingRepository.save(entity);
     }
 
-    public Optional<DeviceSetting> getDeviceSettingById(Long id) {
-        return deviceSettingRepository.findById(id);
+    public ResponseEntity<ResponseModel<DeviceSetting>> getDeviceSettingById(Long id) {
+        DeviceSetting setting = deviceSettingRepository.findById(id).orElse(null);
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
     }
 
     public List<DeviceSetting> listOfDeviceId() {
