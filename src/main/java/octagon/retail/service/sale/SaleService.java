@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -42,13 +44,22 @@ public class SaleService {
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
-    public ResponseEntity<ResponseModel<List<Sales>>> getMany(Date startDate,Date endDate) {
-        List<Sales> sales = saleRepository.getMany(startDate,endDate);
-        if (!sales.isEmpty()) {
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
-        } else {
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+    public ResponseEntity<ResponseModel<List<Sales>>> getMany(String startDate,String endDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date formatStartDate = dateFormat.parse(startDate);
+            Date formatEndDate = dateFormat.parse(endDate);
+            List<Sales> sales = saleRepository.getMany(formatStartDate,formatEndDate);
+            if (!sales.isEmpty()) {
+                return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
+            } else {
+                return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+            }
+        } catch (ParseException e) {
+           return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false, null));
         }
+
+
     }
     public ResponseEntity<ResponseModel<Sales>> getOne(Long Id) {
         Sales sale = saleRepository.findById(Id).orElse(null);

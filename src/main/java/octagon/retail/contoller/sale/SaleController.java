@@ -41,7 +41,7 @@ public class SaleController {
     }
 
     @GetMapping("get-many")
-    public ResponseEntity<ResponseModel<List<Sales>>> getMany(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
+    public ResponseEntity<ResponseModel<List<Sales>>> getMany(String startDate, String endDate) {
         return saleService.getMany(startDate,endDate);
     }
 
