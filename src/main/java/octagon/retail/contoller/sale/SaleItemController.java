@@ -34,4 +34,9 @@ public class SaleItemController {
     public ResponseEntity<ResponseModel<List<SaleItems>>> getManySaleId(Long saleId) {
         return saleItemService.manySaleId(saleId);
     }
+
+    @GetMapping("/get-top-ten-item")
+    public  ResponseEntity<ResponseModel<Object>> getTopTenItems(){
+        return saleItemService.getTopTenItems();
+    }
 }
