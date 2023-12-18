@@ -2,8 +2,10 @@ package octagon.retail.service;
 
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemGroups;
+import octagon.retail.entity.ItemPrices;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemCodeRepository;
+import octagon.retail.repository.ItemPriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,36 @@ public class ItemCodeService {
     @Autowired
     private IItemCodeRepository itemCodeRepository;
 
+    @Autowired
+    private ItemPriceRepository itemPriceRepository;
+
     public ResponseEntity<ResponseModel<ItemCodes>> saveItemCode(ItemCodes itemCodes) {
-        itemCodeRepository.save(itemCodes);
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, itemCodes));
+        try {
+            itemCodeRepository.save(itemCodes);
+
+            ItemCodes savedItemcodes = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode());
+            if (savedItemcodes != null) {
+                ItemPrices itemPrices = createItemPricesFromItemCodes(savedItemcodes);
+                itemPriceRepository.save(itemPrices);
+            }
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, itemCodes));
+        } catch (Exception e) {
+            // Handle exceptions, e.g., database-related errors
+            return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
+        }
+    }
+
+    private ItemPrices createItemPricesFromItemCodes(ItemCodes itemCodes) {
+        ItemPrices itemPrices = new ItemPrices();
+        itemPrices.setItemCodeId(itemCodes.getId());
+        itemPrices.setItemId(itemCodes.getItemId());
+        itemPrices.setItemName(itemCodes.getName());
+        itemPrices.setItemBarCode(itemCodes.getBarcode());
+        itemPrices.setQty(itemCodes.getQty());
+        itemPrices.setUnitSalePrice(itemCodes.getSellPrice());
+        itemPrices.setUnitCostPrice(itemCodes.getPurchasePrice());
+        itemPrices.setBranchId(itemCodes.getBranchId());
+        return itemPrices;
     }
 
     public ResponseEntity<ResponseModel<ItemCodes>> updateItemCode(ItemCodes updateItemCodes) {
