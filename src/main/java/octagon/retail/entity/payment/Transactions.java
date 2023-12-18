@@ -8,6 +8,7 @@ import octagon.retail.entity.BaseEntity;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
