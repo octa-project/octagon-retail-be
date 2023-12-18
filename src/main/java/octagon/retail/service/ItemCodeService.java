@@ -64,6 +64,14 @@ public class ItemCodeService {
             existingItemCodes.setIsDeleted(updateItemCodes.getIsDeleted());
             itemCodeRepository.save(existingItemCodes);
 
+
+            ItemPrices itemPrices = itemPriceRepository.getByItemBarcode(existingItemCodes.getBarcode());
+            if (itemPrices != null) {
+                ItemPrices convertedItemPrices = createItemPricesFromItemCodes(updateItemCodes);
+                convertedItemPrices.setId(itemPrices.getId());
+                itemPriceRepository.save(convertedItemPrices);
+            }
+
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, existingItemCodes));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин орорлдон уу", false, null));
