@@ -41,8 +41,6 @@ public class ItemCodeService {
         ItemPrices itemPrices = new ItemPrices();
         itemPrices.setItemCodeId(itemCodes.getId());
         itemPrices.setItemId(itemCodes.getItemId());
-        itemPrices.setItemName(itemCodes.getName());
-        itemPrices.setItemBarCode(itemCodes.getBarcode());
         itemPrices.setQty(itemCodes.getQty());
         itemPrices.setUnitSalePrice(itemCodes.getSellPrice());
         itemPrices.setUnitCostPrice(itemCodes.getPurchasePrice());
@@ -65,7 +63,7 @@ public class ItemCodeService {
             itemCodeRepository.save(existingItemCodes);
 
 
-            ItemPrices itemPrices = itemPriceRepository.getByItemBarcode(existingItemCodes.getBarcode());
+            ItemPrices itemPrices = itemPriceRepository.exist(existingItemCodes.getId());
             if (itemPrices != null) {
                 ItemPrices convertedItemPrices = createItemPricesFromItemCodes(updateItemCodes);
                 convertedItemPrices.setId(itemPrices.getId());
