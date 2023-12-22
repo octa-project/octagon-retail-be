@@ -69,11 +69,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.free-now.sauron.plugins</groupId>
-            <artifactId>bcrypt-passwordencoder-checker</artifactId>
-            <version>0.0.4</version>
-        </dependency>
     </dependencies>
 
 	<build>
