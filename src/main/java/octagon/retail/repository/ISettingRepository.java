@@ -11,13 +11,14 @@ public interface ISettingRepository extends MainRepository<Settings, Long> {
 
 //    @Modifying
 //    @Transactional
-//    @Query("update Settings s set s.name = :name, s.taxNumber = :taxNumber, s.address = :address, s.branchId = :branchId, s.isDeleted = :isDeleted where s.id = :id")
+//    @Query("update Settings s set s.name = :name, s.taxNumber = :taxNumber,  s.branchId = :branchId, s.isDeleted = :isDeleted where s.id = :id")
 //    void updateSettingById(
 //            Long id,
 //            String name,
 //            String taxNumber,
 //            String address,
+//            boolean isChangeItemPrice,
 //            Long branchId,
-//            Boolean isDeleted
+//            boolean isDeleted
 //    );
 }

@@ -36,6 +36,10 @@ public class ItemCodes extends BaseEntity {
     private BigDecimal sellPrice;
 
     @NotNull
+    @Column(name = "purchase_price")
+    private BigDecimal purchasePrice;
+
+    @NotNull
     @Column(name = "measure_id")
     private Long measureId;
 

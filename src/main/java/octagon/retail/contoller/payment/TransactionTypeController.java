@@ -22,7 +22,7 @@ public class TransactionTypeController {
         return transactionTypeService.saveType(type);
     }
     @PutMapping("update")
-    public ResponseEntity<ResponseModel<TransactionType>> update(@Valid @RequestBody TransactionType type, @RequestParam("id") Long id){
+    public ResponseEntity<ResponseModel<TransactionType>> update(@Valid @RequestBody TransactionType type, Long id){
         return transactionTypeService.updateType(type,id);
     }
     @GetMapping("get-many")
@@ -30,7 +30,7 @@ public class TransactionTypeController {
         return transactionTypeService.getMany();
     }
     @DeleteMapping("delete")
-    public ResponseEntity<ResponseModel<TransactionType>> delete(@RequestParam("id") Long id){
+    public ResponseEntity<ResponseModel<TransactionType>> delete(Long id){
         return transactionTypeService.delete(id);
     }
 }

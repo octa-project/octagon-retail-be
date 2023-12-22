@@ -10,6 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 @Getter
@@ -44,10 +45,6 @@ public class Sales extends BaseEntity {
 
     private Long createdUserId;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "saleId", referencedColumnName = "id",  insertable = false, updatable = false)
-    private List<SaleItems> stocks;
     //
     //    @OneToMany(fetch = FetchType.LAZY)
     //    @Fetch(FetchMode.JOIN)

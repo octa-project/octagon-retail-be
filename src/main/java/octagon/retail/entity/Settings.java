@@ -36,4 +36,5 @@ public class Settings extends BaseEntity {
 
     private LocalDateTime modifiedDate ;
 
+
 }

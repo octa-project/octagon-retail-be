@@ -23,15 +23,20 @@ public class SaleItemController {
     }
 
     @PutMapping("update")
-    public ResponseEntity<ResponseModel<SaleItems>> update(@RequestParam("id") Long id, @RequestBody SaleItems item) {
+    public ResponseEntity<ResponseModel<SaleItems>> update(@RequestBody SaleItems item, Long id) {
         return saleItemService.updateItem(id,item);
     }
     @DeleteMapping("delete")
-    public ResponseEntity<ResponseModel<SaleItems>> getSaleItemById(@RequestParam("id") Long id) {
+    public ResponseEntity<ResponseModel<SaleItems>> getSaleItemById(Long id) {
         return saleItemService.deleteItem(id);
     }
     @GetMapping("get-many-sale-id")
-    public ResponseEntity<ResponseModel<List<SaleItems>>> getManySaleId(@RequestParam("id") Long saleId){
+    public ResponseEntity<ResponseModel<List<SaleItems>>> getManySaleId(Long saleId) {
         return saleItemService.manySaleId(saleId);
+    }
+
+    @GetMapping("/get-top-ten-item")
+    public  ResponseEntity<ResponseModel<Object>> getTopTenItems(){
+        return saleItemService.getTopTenItems();
     }
 }

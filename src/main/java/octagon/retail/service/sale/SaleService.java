@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -32,13 +35,32 @@ public class SaleService {
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
-    public ResponseEntity<ResponseModel<List<Sales>>> getMany(Date startDate,Date endDate) {
-        List<Sales> sales = saleRepository.getMany(startDate,endDate);
-        if (!sales.isEmpty()) {
+    public ResponseEntity<ResponseModel<Sales>> updateQtyAmountSale(Long id, Sales update) {
+        Sales sales = saleRepository.findById(id).orElse(null);
+        if (sales != null) {
+            sales.setTotalQty(sales.getTotalQty().add(update.getTotalQty()));
+            sales.setTotalAmount(sales.getTotalAmount().add(update.getTotalAmount()));
+            saleRepository.save(sales);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
-        } else {
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
         }
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+    }
+    public ResponseEntity<ResponseModel<List<Sales>>> getMany(String startDate,String endDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date formatStartDate = dateFormat.parse(startDate);
+            Date formatEndDate = dateFormat.parse(endDate);
+            List<Sales> sales = saleRepository.getMany(formatStartDate,formatEndDate);
+            if (!sales.isEmpty()) {
+                return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
+            } else {
+                return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+            }
+        } catch (ParseException e) {
+           return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false, null));
+        }
+
+
     }
     public ResponseEntity<ResponseModel<Sales>> getOne(Long Id) {
         Sales sale = saleRepository.findById(Id).orElse(null);
@@ -48,8 +70,8 @@ public class SaleService {
             return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, null));
         }
     }
-    public ResponseEntity<ResponseModel<Sales>> isPaid(Long saleId, Sales sales) {
-        Sales isPaid = saleRepository.findById(saleId).orElse(null);
+    public ResponseEntity<ResponseModel<Sales>> isPaid(Long id, Sales sales) {
+        Sales isPaid = saleRepository.findById(id).orElse(null);
 
         if (isPaid != null) {
             isPaid.setIsPaid(true);
@@ -72,6 +94,30 @@ public class SaleService {
             deleteSale.setIsDeleted(true);
             saleRepository.save(deleteSale);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deleteSale));
+        }
+        return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
+    }
+
+    public ResponseEntity<ResponseModel<Object>> getDashboardData (Date date) {
+
+        Map <String, Object> data = new HashMap<String, Object>();
+
+        data.put("income" , saleRepository.getTotalAmountByDate(date));
+        data.put("profit" , saleRepository.getProfitByDate(date));
+        data.put("quantity" , saleRepository.getTotalQuantityByDate(date));
+
+        if(data != null) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
+        }
+       return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
+    }
+
+    public ResponseEntity<ResponseModel<Object>> getAllSales () {
+
+         List<Sales> data = saleRepository.findAll();
+
+        if(data != null) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
     }
