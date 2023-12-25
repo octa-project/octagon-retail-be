@@ -151,6 +151,8 @@ public class SettingService {
 
     public ResponseEntity<ResponseModel<DeviceSetting>> getDeviceSettingById(Long id) {
         DeviceSetting setting = deviceSettingRepository.findById(id).orElse(null);
+        assert setting != null;
+        System.out.println(setting.getId());
         if (setting != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));

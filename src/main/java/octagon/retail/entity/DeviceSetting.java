@@ -23,7 +23,7 @@ public class DeviceSetting {
     @Column(name ="name")
     private String name;
 
-    @Column(name ="=port_name")
+    @Column(name ="port_name")
     private String portName;
 
     @Column(name ="port_type")
