@@ -49,7 +49,7 @@ public class SettingService {
             existingSetting.setName(updatedSetting.getName());
             existingSetting.setTaxNumber(updatedSetting.getTaxNumber());
             existingSetting.setBranchId(updatedSetting.getBranchId());
-            existingSetting.setDeleted(updatedSetting.isDeleted());
+            existingSetting.setIsDeleted(updatedSetting.getIsDeleted());
             settingRepository.save(existingSetting);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSetting));

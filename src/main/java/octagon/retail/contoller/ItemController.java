@@ -1,6 +1,9 @@
 package octagon.retail.contoller;
 
+import jakarta.validation.*;
 import octagon.retail.entity.Items;
+import octagon.retail.model.item.ItemModel;
+import octagon.retail.model.item.ItemSaveModel;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +21,31 @@ public class ItemController {
     private ItemService itemService;
 
     @PostMapping("save-item")
-    public ResponseEntity<ResponseModel<Items>> saveItemPrice(@RequestBody Items item){
+    public ResponseEntity<ResponseModel<ItemSaveModel>> saveItemPrice(@RequestBody @Valid ItemSaveModel item) {
         return itemService.saveItem(item);
     }
+
     @PostMapping("update-item")
-    public ResponseEntity<ResponseModel<Items>> getAllItemPrice(@RequestBody Items item){
+    public ResponseEntity<ResponseModel<ItemSaveModel>> getAllItemPrice(@RequestBody @Valid ItemSaveModel item) {
         return itemService.updateItem(item);
     }
+
     @GetMapping("get-all-items")
-    public ResponseEntity<ResponseModel<List<Items>>> getAllByItemId() {
+    public ResponseEntity<ResponseModel<List<ItemModel>>> getAllByItemId() {
         return itemService.getAllItems();
     }
 
     @GetMapping("get-item-by-id")
-    public ResponseEntity<ResponseModel<Items>> getItemById(@RequestParam("id") Long itemId){
-    return itemService.getItemById(itemId);
+    public ResponseEntity<ResponseModel<ItemModel>> getItemById(@RequestParam("id") Long itemId) {
+        return itemService.getItemById(itemId);
     }
 
     @GetMapping("get-item-by-code")
-    public ResponseEntity<ResponseModel<Items>> getItemByCode(@RequestParam("code") String code){
+    public ResponseEntity<ResponseModel<ItemModel>> getItemByCode(@RequestParam("code") String code) {
         return itemService.getItemByCode(code);
     }
-    @DeleteMapping("delete-item-by-id")
+
+    @PostMapping("delete-item-by-id")
     public ResponseEntity<ResponseModel<Items>> DeleteAllByItemId(@RequestParam("id") Long itemId) {
         return itemService.deleteItemById(itemId);
     }
