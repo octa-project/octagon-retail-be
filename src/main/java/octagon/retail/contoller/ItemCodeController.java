@@ -1,5 +1,6 @@
 package octagon.retail.contoller;
 
+import jakarta.validation.Valid;
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemGroups;
 import octagon.retail.reponse.ResponseModel;
@@ -19,12 +20,12 @@ public class ItemCodeController {
     private ItemCodeService itemCodeService;
 
     @PostMapping("save-itemCode")
-    public ResponseEntity<ResponseModel<ItemCodes>> saveItemCode(@RequestBody ItemCodes itemCode) {
+    public ResponseEntity<ResponseModel<ItemCodes>> saveItemCode(@RequestBody @Valid ItemCodes itemCode) {
         return itemCodeService.saveItemCode(itemCode);
     }
 
     @PostMapping("update-itemCode")
-    public ResponseEntity<ResponseModel<ItemCodes>> updateItemCode(@RequestBody ItemCodes itemCode) {
+    public ResponseEntity<ResponseModel<ItemCodes>> updateItemCode(@RequestBody @Valid ItemCodes itemCode) {
         return itemCodeService.updateItemCode(itemCode);
     }
 
@@ -49,7 +50,7 @@ public class ItemCodeController {
     }
 
 
-    @DeleteMapping("delete-itemCode-by-id")
+    @PostMapping("delete-itemCode-by-id")
     public ResponseEntity<ResponseModel<ItemCodes>> deleteItemCodeById(@RequestParam("id") Long itemCodeId) {
         return itemCodeService.deleteItemCodeById(itemCodeId);
     }

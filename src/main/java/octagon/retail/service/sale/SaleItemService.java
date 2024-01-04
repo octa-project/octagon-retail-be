@@ -1,9 +1,13 @@
 package octagon.retail.service.sale;
 
-import octagon.retail.entity.sale.SaleItems;
+import octagon.retail.entity.ItemPrices;
+import octagon.retail.entity.sale.SaleItems;<<<<<<<HEAD
 import octagon.retail.model.sale.SaleItemModel;
 import octagon.retail.reponse.ResponseModel;
-import octagon.retail.repository.IItemCodeRepository;
+import octagon.retail.repository.IItemCodeRepository;=======
+import octagon.retail.model.sale.TopTenItems;
+import octagon.retail.reponse.ResponseModel;
+import octagon.retail.repository.ItemPriceRepository;>>>>>>>tulga
 import octagon.retail.repository.sale.SaleItemRepository;
 import octagon.retail.repository.sale.SaleRepository;
 
@@ -12,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.security.PublicKey;
 import java.util.List;
 
 @Service
@@ -59,6 +64,30 @@ public class SaleItemService {
         saleItem.setTotalSalePrice(totalAmount);
         saleRepository.save(sale);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгалагдлаа", true, saleItem));
+
+    public ResponseEntity<ResponseModel<SaleItems>> saveItem(SaleItems saleItem) {
+
+        SaleItems item = saleItemRepository.getSaleIdItemId(saleItem.getSaleId(), saleItem.getItemCodeId());
+        if (item == null) {
+
+            BigDecimal amount = saleItem.getUnitSalePrice();
+            BigDecimal totalAmount = saleItem.getQty().multiply(amount);
+
+            saleItem.setTotalSalePrice(totalAmount);
+            saleItemRepository.save(saleItem);
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай мөр нэмлээ", true, saleItem));
+        }
+
+        BigDecimal qty = item.getQty().add(saleItem.getQty());
+        BigDecimal amount = saleItem.getUnitSalePrice();
+        BigDecimal totalAmount = qty.multiply(amount);
+
+        item.setQty(qty);
+        item.setUnitSalePrice(amount);
+        item.setTotalSalePrice(totalAmount);
+        saleItemRepository.save(item);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгалагдлаа", true, item));
     }
 
     public ResponseEntity<ResponseModel<SaleItems>> updateItem(Long id, SaleItems updateItem) {
@@ -111,5 +140,15 @@ public class SaleItemService {
         }
 
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, items));
+    }
+
+    public ResponseEntity<ResponseModel<Object>> getTopTenItems() {
+        List<TopTenItems> data = saleItemRepository.getTopTenItems();
+
+        if (data != null) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
+        }
+        return ResponseEntity.ok(new ResponseModel<>("500", "Data Error", false, null));
+
     }
 }

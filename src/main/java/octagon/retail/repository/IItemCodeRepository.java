@@ -13,4 +13,7 @@ public interface IItemCodeRepository extends MainRepository<ItemCodes, Long>{
 
     @Query("SELECT a FROM ItemCodes a WHERE a.barcode LIKE :barcode%")
     List<ItemCodes> getItemCodesByBarcodeIsLike(@Param("barcode") String barcode);
+
+    @Query("select a from ItemCodes a where a.itemId = :id")
+    List<ItemCodes> getItemCodesByItemId(@Param("id") Long id);
 }

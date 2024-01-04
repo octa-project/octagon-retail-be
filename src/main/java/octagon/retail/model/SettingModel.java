@@ -15,11 +15,9 @@ public class SettingModel {
     private boolean isActive;
     private boolean isDeleted;
     private Long branchId;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
 
     public SettingModel(Long id, String taxNumber, String name, Long createdUserId, boolean isActive, boolean isDeleted,
-            Long branchId, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+            Long branchId) {
         this.id = id;
         this.taxNumber = taxNumber;
         this.name = name;
@@ -27,7 +25,5 @@ public class SettingModel {
         this.isActive = isActive;
         this.isDeleted = isDeleted;
         this.branchId = branchId;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
     }
 }

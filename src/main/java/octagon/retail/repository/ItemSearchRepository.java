@@ -1,6 +1,6 @@
 package octagon.retail.repository;
 
-import octagon.retail.entity.ItemPrices;
+import octagon.retail.entity.ItemCodes;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -8,15 +8,15 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
-public interface ItemSearchRepository extends MainRepository<ItemPrices, Long> {
-    @Query("select a from ItemPrices a where a.isDeleted=false and a.itemBarCode = :barcode")
-    ItemPrices getOne(String barcode);
-    @Query("select a from ItemPrices a where a.itemBarCode like :barcode%")
-    List<ItemPrices> getLikeBarcode(String barcode);
-    @Query("select a from ItemPrices a where a.itemName like %:name%")
-    List<ItemPrices> getLikeName(String name);
+public interface ItemSearchRepository extends MainRepository<ItemCodes, Long> {
+    @Query("select a from ItemCodes a where a.isDeleted=false and a.barcode = :barcode")
+    ItemCodes getOne(String barcode);
+    @Query("select a from ItemCodes a where a.barcode like :barcode%")
+    List<ItemCodes> getLikeBarcode(String barcode);
+    @Query("select a from ItemCodes a where LOWER(a.name) like %:name%")
+    List<ItemCodes> getLikeName(String name);
 
-    @Query("select a from ItemPrices a where a.sellPrice like :price%")
-    List<ItemPrices> getLikePrice(String price);
+    @Query("select a from ItemCodes a where cast(a.sellPrice as string) like :price%")
+    List<ItemCodes> getLikePrice(String price);
 
 }

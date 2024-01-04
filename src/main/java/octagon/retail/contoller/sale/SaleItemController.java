@@ -30,12 +30,17 @@ public class SaleItemController {
     }
 
     @DeleteMapping("delete")
-    public ResponseEntity<ResponseModel<SaleItems>> getSaleItemById(@RequestParam("id") Long id) {
+    public ResponseEntity<ResponseModel<SaleItems>> getSaleItemById(Long id) {
         return saleItemService.deleteItem(id);
     }
 
     @GetMapping("get-many-sale-id")
     public ResponseEntity<ResponseModel<List<SaleItems>>> getManySaleId(@RequestParam("id") Long saleId) {
         return saleItemService.manySaleId(saleId);
+    }
+
+    @GetMapping("/get-top-ten-item")
+    public ResponseEntity<ResponseModel<Object>> getTopTenItems() {
+        return saleItemService.getTopTenItems();
     }
 }

@@ -25,8 +25,8 @@ public class ItemPriceService {
     public ResponseEntity<ResponseModel<ItemPrices>> updatePrice(ItemPrices update, Long id) {
         ItemPrices price = itemPriceRepository.findById(id).orElse(null);
         if (price != null) {
-            price.setSellPrice(update.getSellPrice());
-            price.setCostPrice(update.getCostPrice());
+            price.setUnitSalePrice(update.getUnitSalePrice());
+            price.setUnitCostPrice(update.getUnitCostPrice());
             itemPriceRepository.save(price);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, price));
         }
@@ -53,11 +53,12 @@ public class ItemPriceService {
             itemPriceRepository.save(price);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, price));
         }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа ахин оролдон уу", false, null));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа дахин оролдон уу", false, null));
     }
 
     public ResponseEntity<ResponseModel<List<ItemPrices>>> getByItemId(Long id) {
         List<ItemPrices> prices = itemPriceRepository.getByItemId(id);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ", true, prices));
     }
+
 }

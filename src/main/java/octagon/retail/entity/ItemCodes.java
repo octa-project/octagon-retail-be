@@ -1,6 +1,7 @@
 package octagon.retail.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,18 +25,27 @@ public class ItemCodes extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Column(name = "item_id")
     private Long itemId;
 
+    @NotNull
     @Column(name = "barcode")
     private String barcode;
 
+    @NotNull
     @Column(name = "name")
     private String name;
 
+    @NotNull
     @Column(name = "sell_price")
     private BigDecimal sellPrice;
 
+    @NotNull
+    @Column(name = "purchase_price")
+    private BigDecimal purchasePrice;
+
+    @NotNull
     @Column(name = "measure_id")
     private Long measureId;
 
@@ -45,6 +55,7 @@ public class ItemCodes extends BaseEntity {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
+    @NotNull
     @Column(name = "branch_id")
     private Long branchId;
 

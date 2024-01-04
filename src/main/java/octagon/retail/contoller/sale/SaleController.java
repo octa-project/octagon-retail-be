@@ -55,12 +55,23 @@ public class SaleController {
     }
 
     @GetMapping("get-one")
-    public ResponseEntity<ResponseModel<Sales>> getOne(@RequestParam("id") Long id) {
+    public ResponseEntity<ResponseModel<Sales>> getOne(Long id) {
         return saleService.getOne(id);
     }
 
     @DeleteMapping("delete")
-    public ResponseEntity<ResponseModel<Sales>> getSaleItemById(@RequestParam("id") Long id) {
+    public ResponseEntity<ResponseModel<Sales>> getSaleItemById(Long id) {
         return saleService.deleteSale(id);
+    }
+
+    @GetMapping("get-dashboard-data")
+    public ResponseEntity<ResponseModel<Object>> getDashboardData(
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return saleService.getDashboardData(date);
+    }
+
+    @GetMapping("get-all-sales")
+    public ResponseEntity<ResponseModel<Object>> getAllSales() {
+        return saleService.getAllSales();
     }
 }
