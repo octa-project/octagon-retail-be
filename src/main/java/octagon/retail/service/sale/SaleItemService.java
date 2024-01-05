@@ -1,7 +1,7 @@
 package octagon.retail.service.sale;
 
 import octagon.retail.entity.ItemPrices;
-import octagon.retail.entity.sale.SaleItems;
+import octagon.retail.entity.SaleItems;
 import octagon.retail.model.sale.TopTenItems;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.ItemPriceRepository;
@@ -67,7 +67,8 @@ public class SaleItemService {
         List<SaleItems> items = saleItemRepository.getSaleById(saleId);
 
         if (items.isEmpty()) {
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй %s-id тай борлуулалт олдсонгүй".formatted(saleId), false, null));
+            return ResponseEntity.ok(new ResponseModel<>("500",
+                    "Амжилтгүй %s-id тай борлуулалт олдсонгүй".formatted(saleId), false, null));
         }
 
         items.forEach(saleItem -> {
@@ -83,14 +84,16 @@ public class SaleItemService {
         if (saleItem == null) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
         }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа ахин оролдон уу", false, saleItem));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа ахин оролдон уу", false, saleItem));
     }
 
     public ResponseEntity<ResponseModel<List<SaleItems>>> manySaleId(Long saleId) {
         List<SaleItems> items = saleItemRepository.getSaleById(saleId);
 
         if (items.isEmpty()) {
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй %s-id тай борлуулалт олдсонгүй".formatted(saleId), false, null));
+            return ResponseEntity.ok(new ResponseModel<>("500",
+                    "Амжилтгүй %s-id тай борлуулалт олдсонгүй".formatted(saleId), false, null));
         }
 
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, items));

@@ -1,7 +1,7 @@
 package octagon.retail.contoller.sale;
 
 import jakarta.validation.Valid;
-import octagon.retail.entity.sale.Sales;
+import octagon.retail.entity.Sales;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.service.sale.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +27,22 @@ public class SaleController {
 
     @PutMapping("update")
     public ResponseEntity<ResponseModel<Sales>> update(@Valid @RequestBody Sales sale, Long id) {
-        return saleService.updateSale(id,sale);
+        return saleService.updateSale(id, sale);
     }
 
     @PutMapping("updateQtyAmount")
     public ResponseEntity<ResponseModel<Sales>> updateQtyAmount(@RequestBody Sales sale, Long id) {
-        return saleService.updateQtyAmountSale(id,sale);
+        return saleService.updateQtyAmountSale(id, sale);
     }
 
     @PutMapping("isPaid")
     public ResponseEntity<ResponseModel<Sales>> isPaid(@RequestBody Sales sale, Long id) {
-        return saleService.isPaid(id,sale);
+        return saleService.isPaid(id, sale);
     }
 
     @GetMapping("get-many")
     public ResponseEntity<ResponseModel<List<Sales>>> getMany(String startDate, String endDate) {
-        return saleService.getMany(startDate,endDate);
+        return saleService.getMany(startDate, endDate);
     }
 
     @GetMapping("get-one")
@@ -56,9 +56,11 @@ public class SaleController {
     }
 
     @GetMapping("get-dashboard-data")
-    public ResponseEntity<ResponseModel<Object>> getDashboardData(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    public ResponseEntity<ResponseModel<Object>> getDashboardData(
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return saleService.getDashboardData(date);
     }
+
     @GetMapping("get-all-sales")
     public ResponseEntity<ResponseModel<Object>> getAllSales() {
         return saleService.getAllSales();
