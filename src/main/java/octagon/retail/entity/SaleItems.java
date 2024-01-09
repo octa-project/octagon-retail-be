@@ -1,9 +1,8 @@
-package octagon.retail.entity.sale;
+package octagon.retail.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import octagon.retail.entity.BaseEntity;
 
 import java.math.BigDecimal;
 

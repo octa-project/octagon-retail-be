@@ -25,7 +25,7 @@ public class ItemCodeService {
         try {
             itemCodeRepository.save(itemCodes);
 
-            ItemCodes savedItemcodes = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode());
+            ItemCodes savedItemcodes = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode()).orElse(null);
             if (savedItemcodes != null) {
                 ItemPrices itemPrices = createItemPricesFromItemCodes(savedItemcodes);
                 itemPriceRepository.save(itemPrices);
@@ -41,8 +41,6 @@ public class ItemCodeService {
         ItemPrices itemPrices = new ItemPrices();
         itemPrices.setItemCodeId(itemCodes.getId());
         itemPrices.setItemId(itemCodes.getItemId());
-        itemPrices.setItemName(itemCodes.getName());
-        itemPrices.setItemBarCode(itemCodes.getBarcode());
         itemPrices.setQty(itemCodes.getQty());
         itemPrices.setUnitSalePrice(itemCodes.getSellPrice());
         itemPrices.setUnitCostPrice(itemCodes.getPurchasePrice());
@@ -64,8 +62,7 @@ public class ItemCodeService {
             existingItemCodes.setIsDeleted(updateItemCodes.getIsDeleted());
             itemCodeRepository.save(existingItemCodes);
 
-
-            ItemPrices itemPrices = itemPriceRepository.getByItemBarcode(existingItemCodes.getBarcode());
+            ItemPrices itemPrices = itemPriceRepository.exist(existingItemCodes.getId());
             if (itemPrices != null) {
                 ItemPrices convertedItemPrices = createItemPricesFromItemCodes(updateItemCodes);
                 convertedItemPrices.setId(itemPrices.getId());
@@ -92,7 +89,7 @@ public class ItemCodeService {
     }
 
     public ResponseEntity<ResponseModel<ItemCodes>> getItemCodeByBarcode(String barcode) {
-        ItemCodes itemCodes = itemCodeRepository.getItemByBarcode(barcode);
+        ItemCodes itemCodes = itemCodeRepository.getItemByBarcode(barcode).orElse(null);
         if (itemCodes != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemCodes));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
@@ -110,6 +107,7 @@ public class ItemCodeService {
         ItemCodes itemCode = itemCodeRepository.findById(itemCodeId).orElse(null);
         if (itemCode == null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдно уу", false, itemCode));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдно уу", false, itemCode));
     }
 }

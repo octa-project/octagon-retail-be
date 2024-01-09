@@ -25,6 +25,9 @@ public class TransactionType extends BaseEntity {
     @NotNull
     private String name;
 
+    @NotNull
+    private String icon;
+
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private TransactionType parent;

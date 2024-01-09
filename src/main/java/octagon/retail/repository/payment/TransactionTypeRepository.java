@@ -9,7 +9,7 @@ import java.util.List;
 public interface TransactionTypeRepository extends MainRepository<TransactionType, Long> {
     @Query("select T from TransactionType T where T.name=:name")
     TransactionType exist(String name);
-    @Query("select T from TransactionType T where T.isActive=true and T.parent=null")
+    @Query("select T from TransactionType T where T.isDeleted=false and T.parent=null order by T.id asc")
     List<TransactionType> getZero();
 //    @Query("select T from TransactionType T where T.isActive=true and T.parentId=:parentId")
 //    List<TransactionType> getParent(Long parentId);
