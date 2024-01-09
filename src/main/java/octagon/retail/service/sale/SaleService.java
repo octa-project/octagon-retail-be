@@ -1,8 +1,13 @@
 package octagon.retail.service.sale;
 
+import octagon.retail.entity.SaleItems;
 import octagon.retail.entity.Sales;
+import octagon.retail.model.sale.SaleModel;
 import octagon.retail.reponse.ResponseModel;
+import octagon.retail.repository.sale.SaleItemRepository;
 import octagon.retail.repository.sale.SaleRepository;
+import octagon.retail.utils.SaleType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class SaleService {
@@ -22,9 +25,60 @@ public class SaleService {
     @Autowired
     private SaleItemService saleItemService;
 
+    @Autowired
+    SaleItemRepository saleItemRepository;
+
     public ResponseEntity<ResponseModel<Sales>> saveSale(Sales sale) {
         saleRepository.save(sale);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
+    }
+
+    public ResponseEntity<ResponseModel<SaleModel>> initSale() {
+        SaleModel resp = null;
+        List<SaleItems> respSaleItems = new ArrayList<>();
+        var sales = saleRepository.findByType(SaleType.INIT);
+        if (!sales.isEmpty()) {
+            for (var sale : sales) {
+                respSaleItems = saleItemRepository.getSaleById(sale.getId());
+                if (respSaleItems.isEmpty()) {
+                    // var newSale = new Sales();
+                    // newSale.setType(SaleType.INIT);
+                    // var saved = saleRepository.save(newSale);
+                    resp = new SaleModel();
+                    resp.setBranchId(sale.getBranchId());
+                    resp.setDate(sale.getDate());
+                    resp.setIsPaid(sale.getIsPaid());
+                    resp.setPaidTotalAmount(sale.getPaidTotalAmount());
+                    resp.setTotalAmount(sale.getTotalAmount());
+                    resp.setTotalQty(sale.getTotalQty());
+                    resp.setId(sale.getId());
+                    return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                            resp));
+                } else {
+                    resp = new SaleModel();
+                    resp.setBranchId(sale.getBranchId());
+                    resp.setDate(sale.getDate());
+                    resp.setIsDeleted(sale.getIsDeleted());
+                    resp.setIsPaid(sale.getIsPaid());
+                    resp.setPaidTotalAmount(sale.getPaidTotalAmount());
+                    resp.setStock(respSaleItems);
+                    resp.setTotalAmount(sale.getTotalAmount());
+                    resp.setTotalQty(resp.getTotalQty());
+                    return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                            resp));
+                }
+            }
+        }
+        {
+            var newSale = new Sales();
+            newSale.setType(SaleType.INIT);
+            var saved = saleRepository.save(newSale);
+            resp = new SaleModel();
+            resp.setId(saved.getId());
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                    resp));
+        }
+
     }
 
     public ResponseEntity<ResponseModel<Sales>> updateSale(Long id, Sales update) {

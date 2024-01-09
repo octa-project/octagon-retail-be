@@ -2,15 +2,20 @@ package octagon.retail.repository.sale;
 
 import octagon.retail.entity.Sales;
 import octagon.retail.repository.MainRepository;
+import octagon.retail.utils.SaleType;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface SaleRepository extends MainRepository<Sales, Long> {
+
+        @Query("SELECT s FROM Sales s WHERE s.type = :type")
+        List<Sales> findByType(SaleType type);
+
         @Query("select a from Sales a where a.isDeleted=false and a.date between :startDate and :endDate")
         List<Sales> getMany(Date startDate, Date endDate);
 

@@ -41,7 +41,7 @@ public class ItemPrices extends BaseEntity {
     @NotNull
     private BigDecimal unitCostPrice;
 
-    private Boolean isDeleted=false;
+    private Boolean isDeleted = false;
 
     private Long branchId;
 

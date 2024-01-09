@@ -2,6 +2,7 @@ package octagon.retail.contoller.sale;
 
 import jakarta.validation.Valid;
 import octagon.retail.entity.Sales;
+import octagon.retail.model.sale.SaleModel;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.service.sale.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/sale")
@@ -19,6 +22,11 @@ public class SaleController {
 
     @Autowired
     private SaleService saleService;
+
+    @PostMapping("init-sale")
+    public ResponseEntity<ResponseModel<SaleModel>> initSale() {
+        return saleService.initSale();
+    }
 
     @PostMapping("save")
     public ResponseEntity<ResponseModel<Sales>> save(@Valid @RequestBody Sales sale) {

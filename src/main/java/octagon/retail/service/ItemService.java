@@ -31,7 +31,8 @@ public class ItemService {
 
     public ResponseEntity<ResponseModel<ItemSaveModel>> saveItem(ItemSaveModel item) {
         if (item.getItemgroupId() == null)
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Барааны бүлэг байхгүй байна!", false, null));
+            return ResponseEntity
+                    .ok(new ResponseModel<>("500", "Амжилтгүй - Барааны бүлэг байхгүй байна!", false, null));
 
         if (item.getMeasureId() == null)
             return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Хэмжих нэгж байхгүй байна!", false, null));
@@ -50,12 +51,14 @@ public class ItemService {
             itemRepository.save(localItem);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, item));
         }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Өмнө нь бүртгэгдсэн бараа байна!", false, null));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй - Өмнө нь бүртгэгдсэн бараа байна!", false, null));
     }
 
     public ResponseEntity<ResponseModel<ItemSaveModel>> updateItem(ItemSaveModel item) {
         if (item.getItemgroupId() == null)
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Барааны бүлэг байхгүй байна!", false, null));
+            return ResponseEntity
+                    .ok(new ResponseModel<>("500", "Амжилтгүй - Барааны бүлэг байхгүй байна!", false, null));
 
         if (item.getMeasureId() == null)
             return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - Хэмжих нэгж байхгүй байна!", false, null));
@@ -95,8 +98,8 @@ public class ItemService {
             model.setItemgroupName(itemgroup.getName());
         }
         model.setCreatedDate(item.getCreatedDate());
-
-        var convertedItemCodes = item.getItemCodes().stream().map(this::convertItemCodeToModel).toList();
+        var itemCodes = itemCodeRepository.getItemCodesByItemId(item.getId());
+        var convertedItemCodes = itemCodes.stream().map(this::convertItemCodeToModel).toList();
         model.setItemcodes(convertedItemCodes);
         return model;
     }
@@ -158,7 +161,8 @@ public class ItemService {
         if (item == null) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
         } else {
-            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, item));
+            return ResponseEntity
+                    .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, item));
         }
     }
 }
