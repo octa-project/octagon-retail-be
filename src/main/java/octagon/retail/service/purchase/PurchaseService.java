@@ -73,8 +73,6 @@ public class PurchaseService {
             // false, null));
 
             var purchase = new Purchase();
-            BigDecimal totalAmount = BigDecimal.ZERO;
-            BigDecimal totalCost = BigDecimal.ZERO;
 
             for (var _itemModel : body.getPurchaseItems()) {
                 var item = itemCodeRepository.getItemByBarcode(_itemModel.getBarcode()).orElse(null);
@@ -86,9 +84,12 @@ public class PurchaseService {
                 item.setSellPrice(_itemModel.getSellPrice());
                 item.setPurchasePrice(_itemModel.getCostPrice());
                 itemCodeRepository.save(item);
-                totalAmount.add(_itemModel.getSellPrice());
-                totalCost.add(_itemModel.getCostPrice());
+                // totalAmount.add(_itemModel.getSellPrice());
+                // totalCost.add(_itemModel.getCostPrice());
             }
+            purchase.setTotalDiscount(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getDiscount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
             purchase.setDate(body.getDate());
             purchase.setTotalAmount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getSellPrice)
@@ -124,6 +125,7 @@ public class PurchaseService {
 
     private PurchaseModel convertToModel(Purchase purchase) {
         var model = new PurchaseModel();
+        model.setTotalDiscount(purchase.getTotalDiscount());
         model.setCityTax(purchase.getCityTax());
         model.setDate(purchase.getDate());
         model.setId(purchase.getId());

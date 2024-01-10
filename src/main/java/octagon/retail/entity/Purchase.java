@@ -13,9 +13,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+// @AllArgsConstructor
 @Entity
 @Table(name = "purchase")
 public class Purchase extends BaseEntity {
@@ -35,6 +37,8 @@ public class Purchase extends BaseEntity {
     private BigDecimal vat;
 
     private BigDecimal cityTax;
+
+    private BigDecimal totalDiscount;
 
     private Boolean isPaid;
 

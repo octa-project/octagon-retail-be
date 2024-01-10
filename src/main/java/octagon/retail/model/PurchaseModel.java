@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import octagon.retail.entity.Items;
 import octagon.retail.entity.Purchase;
@@ -14,6 +15,7 @@ import octagon.retail.entity.PurchaseItems;
 import octagon.retail.model.item.ItemCodeModel;
 
 @Data
+@AllArgsConstructor
 public class PurchaseModel {
     private Long id;
 
@@ -28,6 +30,8 @@ public class PurchaseModel {
     private BigDecimal totalCost;
 
     private BigDecimal vat;
+
+    private BigDecimal totalDiscount;
 
     private BigDecimal cityTax;
 
