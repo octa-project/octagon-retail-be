@@ -1,7 +1,10 @@
 package octagon.retail.service.purchase;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +16,7 @@ import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemPrices;
 import octagon.retail.entity.Purchase;
 import octagon.retail.entity.PurchaseItems;
+import octagon.retail.entity.Sales;
 import octagon.retail.model.PurchaseModel;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemCodeRepository;
@@ -31,39 +35,22 @@ public class PurchaseService {
     @Autowired
     IPurchaseItemsRepository purchaseItemsRepository;
 
-    // private Purchase buildPurchase(PurchaseModel model) {
-    // var purchase = new Purchase();
-    // BigDecimal totalAmount = BigDecimal.ZERO;
-    // BigDecimal totalCost = BigDecimal.ZERO;
+    public ResponseEntity<ResponseModel<List<PurchaseModel>>> getAllByDate(String startDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date formatStartDate = dateFormat.parse(startDate);
 
-    // List<Long> itemIdList = new ArrayList<>();
-    // for (var _itemModel : model.getPurchaseItems()) {
-    // var item =
-    // itemCodeRepository.getItemByBarcode(_itemModel.getBarcode()).orElse(null);
+            var purchases = purchaseRepository.getAllByStartDate(formatStartDate);
+            if (purchases.isEmpty())
+                return ResponseEntity.ok(new ResponseModel<>("500", "Service error: No Purchase",
+                        false, null));
+            var converted = purchases.stream().map(i -> convertToModel(i)).collect(Collectors.toList());
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, converted));
+        } catch (ParseException e) {
+            return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false, null));
+        }
 
-    // if (item == null)
-    // return null;
-    // item.setSellPrice(_itemModel.getSellPrice());
-    // item.setPurchasePrice(_itemModel.getCostPrice());
-    // itemCodeRepository.save(item);
-
-    // totalAmount.add(item.getSellPrice());
-    // totalCost.add(item.getPurchasePrice());
-
-    // }
-
-    // purchase.setId(model.getId());
-    // purchase.setDate(model.getDate());
-    // purchase.setTotalAmount(totalAmount);
-    // purchase.setTotalCost(totalCost);
-    // purchase.setTotalQty(itemIdList.size());
-    // purchase.setVat(model.getVat());
-    // purchase.setIsPaid(model.getIsPaid());
-    // purchase.setCityTax(model.getCityTax());
-
-    // purchase.setSupplierId(model.getSupplierId());
-    // return purchase;
-    // }
+    }
 
     public ResponseEntity<ResponseModel<Purchase>> savePurchase(PurchaseModel body) {
         try {

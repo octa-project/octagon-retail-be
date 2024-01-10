@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.annotations.Type;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
@@ -13,7 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
@@ -26,7 +26,7 @@ public class Purchase extends BaseEntity {
     private Long id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime date;
+    private Date date;
 
     private BigDecimal totalAmount;
 

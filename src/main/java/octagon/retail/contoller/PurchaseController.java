@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import octagon.retail.entity.Purchase;
+import octagon.retail.entity.Sales;
 import octagon.retail.model.PurchaseModel;
 import octagon.retail.reponse.ResponseModel;
 import octagon.retail.service.purchase.PurchaseService;
@@ -31,6 +32,11 @@ public class PurchaseController {
     @GetMapping("/get-by-id")
     public ResponseEntity<ResponseModel<PurchaseModel>> getPurchase(@RequestParam Long id) {
         return purchaseService.getPurchase(id);
+    }
+
+    @GetMapping("get-all-by-date")
+    public ResponseEntity<ResponseModel<List<PurchaseModel>>> getManyByDate(@RequestParam String startDate) {
+        return purchaseService.getAllByDate(startDate);
     }
 
     @GetMapping("/get-all")
