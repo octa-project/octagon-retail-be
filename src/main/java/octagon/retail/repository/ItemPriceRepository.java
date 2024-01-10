@@ -12,6 +12,4 @@ public interface ItemPriceRepository extends MainRepository<ItemPrices, Long> {
     ItemPrices exist(Long getItemCodeId);
     @Query("select ip from ItemPrices ip where ip.isDeleted=false and ip.itemId=:id")
     List<ItemPrices> getByItemId(Long id);
-    @Query("select ip from ItemPrices ip where ip.isDeleted=false and ip.itemBarCode=:barcode")
-    ItemPrices getByItemBarcode(String barcode);
 }
