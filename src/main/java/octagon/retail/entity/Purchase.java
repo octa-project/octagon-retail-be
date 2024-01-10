@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.annotations.Type;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
@@ -16,6 +17,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
+// @AllArgsConstructor
 @Entity
 @Table(name = "purchase")
 public class Purchase extends BaseEntity {
@@ -24,7 +26,7 @@ public class Purchase extends BaseEntity {
     private Long id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime date;
+    private Date date;
 
     private BigDecimal totalAmount;
 
@@ -35,6 +37,8 @@ public class Purchase extends BaseEntity {
     private BigDecimal vat;
 
     private BigDecimal cityTax;
+
+    private BigDecimal totalDiscount;
 
     private Boolean isPaid;
 

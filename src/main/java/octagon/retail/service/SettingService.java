@@ -76,11 +76,11 @@ public class SettingService {
         Settings setting = settingRepository.findById(settingId).orElse(null);
         if (setting == null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
     }
 
     public ResponseEntity<ResponseModel<PrinterList>> getPrinterList() {
-
 
         WebClient webClient = WebClient.create();
 
@@ -90,7 +90,6 @@ public class SettingService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-
         try {
 
             String responseBody = webClient.get()
@@ -99,7 +98,6 @@ public class SettingService {
                     .retrieve()
                     .bodyToMono(String.class)
                     .block(); // Blocking for simplicity, use subscribe() in a real application
-
 
             JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
 
@@ -143,9 +141,8 @@ public class SettingService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", result, null));
     }
 
-
     public void insertDeviceSetting(DeviceSetting entity) {
-        entity.setCreatedDate(LocalDateTime.now());
+
         deviceSettingRepository.save(entity);
     }
 
@@ -168,15 +165,15 @@ public class SettingService {
             DeviceSetting entity = optionalEntity.get();
 
             entity.setDeleted(true);
-            entity.setModifiedDate(LocalDateTime.now());
 
             deviceSettingRepository.save(entity);
             return true;
-        } else return false;
+        } else
+            return false;
     }
 
     public DeviceSetting updateDevice(DeviceSetting entity) {
-        entity.setModifiedDate(LocalDateTime.now());
+
         return deviceSettingRepository.save(entity);
     }
 
@@ -199,6 +196,5 @@ public class SettingService {
     public PaymentSetting updatePaymentMethod(PaymentSetting entity) {
         return paymentSettingRepository.save(entity);
     }
-
 
 }
