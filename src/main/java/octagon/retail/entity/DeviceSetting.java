@@ -20,6 +20,9 @@ public class DeviceSetting {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "retail_device_name")
+    private String retailDeviceName;
+
     @Column(name ="name")
     private String name;
 

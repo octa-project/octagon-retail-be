@@ -202,5 +202,11 @@ public class SettingService {
         return paymentSettingRepository.save(entity);
     }
 
+    public List<DeviceSetting> getAllByBranchId(Long branchId){
+        return deviceSettingRepository.getDeviceSettingByBranch(branchId);
+    }
+
+
+
 
 }
