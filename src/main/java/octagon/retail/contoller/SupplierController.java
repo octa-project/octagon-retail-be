@@ -36,5 +36,4 @@ public class SupplierController {
             @RequestBody @Valid SupplierModel body) {
         return service.updateSupplier(body);
     }
-
 }
