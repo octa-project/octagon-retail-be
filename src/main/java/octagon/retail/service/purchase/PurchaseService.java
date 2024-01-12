@@ -110,6 +110,104 @@ public class PurchaseService {
         }
     }
 
+    public ResponseEntity<ResponseModel<Purchase>> deletePurchase(Long id) {
+        try {
+
+            var purchase = purchaseRepository.findById(id).orElse(null);
+            if (purchase == null)
+                return ResponseEntity
+                        .ok(new ResponseModel<>("500", "Purchase is null", false, null));
+
+            var items = purchaseItemsRepository.findByPurchaseId(purchase.getId());
+
+            purchaseItemsRepository.deleteAll(items);
+            purchaseRepository.delete(purchase);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай ", true, null));
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
+        }
+    }
+
+    public ResponseEntity<ResponseModel<Purchase>> purchasePay(Long id) {
+        try {
+
+            var purchase = purchaseRepository.findById(id).orElse(null);
+            if (purchase == null)
+                return ResponseEntity
+                        .ok(new ResponseModel<>("500", "Purchase is null", false, null));
+
+            purchase.setIsPaid(true);
+            var saved = purchaseRepository.save(purchase);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай ", true, saved));
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
+        }
+    }
+
+    public ResponseEntity<ResponseModel<Purchase>> updatePurchase(PurchaseModel body) {
+        try {
+
+            var purchase = purchaseRepository.findById(body.getId()).orElse(null);
+            if (purchase == null)
+                return ResponseEntity
+                        .ok(new ResponseModel<>("500", "Purchase is null", false, null));
+
+            for (var _itemModel : body.getPurchaseItems()) {
+                var item = itemCodeRepository.getItemByBarcode(_itemModel.getBarcode()).orElse(null);
+
+                if (item == null) {
+                    return ResponseEntity
+                            .ok(new ResponseModel<>("500", "Item is null", false, null));
+                }
+                item.setSellPrice(_itemModel.getSellPrice());
+                item.setPurchasePrice(_itemModel.getCostPrice());
+                itemCodeRepository.save(item);
+
+            }
+            purchase.setTotalDiscount(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getDiscount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            purchase.setDate(body.getDate());
+            purchase.setTotalAmount(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getSellPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            purchase.setTotalCost(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getCostPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            purchase.setTotalQty(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getQty)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            purchase.setVat(body.getVat());
+            purchase.setIsPaid(body.getIsPaid());
+            purchase.setCityTax(body.getCityTax());
+            purchase.setSupplierId(body.getSupplierId());
+
+            var purchaseItems = purchaseItemsRepository.findByPurchaseId(purchase.getId());
+
+            purchaseItemsRepository.deleteAll(purchaseItems);
+
+            var savedPurchase = purchaseRepository.save(purchase);
+
+            List<PurchaseItems> updatedPurchaseItems = body.getPurchaseItems().stream()
+                    .map(item -> {
+                        item.setPurchaseId(savedPurchase.getId());
+                        return item;
+                    })
+                    .collect(Collectors.toList());
+
+            purchaseItemsRepository.saveAll(updatedPurchaseItems);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, savedPurchase));
+        } catch (Exception e) {
+            // Handle exceptions, e.g., database-related errors
+            return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
+        }
+    }
+
     private PurchaseModel convertToModel(Purchase purchase) {
         var model = new PurchaseModel();
         model.setTotalDiscount(purchase.getTotalDiscount());
@@ -143,6 +241,24 @@ public class PurchaseService {
             return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
         }
     }
+
+    // public ResponseEntity<ResponseModel<PurchaseModel>> PurchasePay(Long id) {
+    // try {
+    // var purchase = purchaseRepository.findById(id).orElse(null);
+
+    // if (purchase == null)
+    // return ResponseEntity.ok(new ResponseModel<>("500", "Service error: ",
+    // false, null));
+    // var model = convertToModel(purchase);
+
+    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+    // model));
+    // } catch (Exception e) {
+    // // Handle exceptions, e.g., database-related errors
+    // return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " +
+    // e.getMessage(), false, null));
+    // }
+    // }
 
     public ResponseEntity<ResponseModel<PurchaseModel>> getPurchase(Long id) {
         try {

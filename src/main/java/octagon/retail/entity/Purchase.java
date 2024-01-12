@@ -17,7 +17,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-// @AllArgsConstructor
 @Entity
 @Table(name = "purchase")
 public class Purchase extends BaseEntity {

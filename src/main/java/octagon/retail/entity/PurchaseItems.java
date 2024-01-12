@@ -18,7 +18,6 @@ public class PurchaseItems extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "barcode is null")
     private String barcode;
 
     private String itemName;
