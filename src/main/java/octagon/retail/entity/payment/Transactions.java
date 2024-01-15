@@ -32,5 +32,4 @@ public class Transactions extends BaseEntity {
     private Long bankId;
     private Long bankTransactionId;
     private Long branchId;
-
 }

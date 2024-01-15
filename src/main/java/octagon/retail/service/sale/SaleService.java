@@ -7,8 +7,6 @@ import octagon.retail.repository.sale.SaleItemRepository;
 import octagon.retail.repository.sale.SaleRepository;
 import octagon.retail.response.ResponseModel;
 import octagon.retail.utils.SaleType;
-
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,31 +22,19 @@ public class SaleService {
     private SaleRepository saleRepository;
 
     @Autowired
-    private SaleItemService saleItemService;
-
-    @Autowired
     SaleItemRepository saleItemRepository;
 
-    public ResponseEntity<ResponseModel<Sales>> saveSale(Sales sale) {
+    public ResponseEntity<ResponseModel<Sales>> saveSale(SaleModel model) {
+        var sale = SaleModel.convert(null, model);
         saleRepository.save(sale);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
     }
 
-    // public ResponseEntity<ResponseModel<Sales>> addSaleItem(SaleItems saleItem) {
-    // var sale = saleRepository.findById(saleItem.getSaleId()).orElse(null);
-    // if (sale == null) {
-    // sale = new Sales();
-    // sale.setType(SaleType.INIT);
-
-    // var savedSale = saleRepository.save(sale);
-    // var modifiedSaleItem = saleItem;
-    // modifiedSaleItem.setSaleId(savedSale.getId());
-    // saleItemRepository.save(modifiedSaleItem);
-    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
-    // savedSale));
-    // }
-
-    // }
+    public ResponseEntity<ResponseModel<Sales>> saveTemporary(SaleModel model) {
+        var sale = SaleModel.convert(null, model);
+        saleRepository.save(sale);
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
+    }
 
     public ResponseEntity<ResponseModel<SaleModel>> initSale() {
         SaleModel resp = null;
@@ -77,6 +63,7 @@ public class SaleService {
                     resp.setStock(respSaleItems);
                     resp.setTotalAmount(sale.getTotalAmount());
                     resp.setTotalQty(resp.getTotalQty());
+                    resp.setId(sale.getId());
                     return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
                             resp));
                 }
@@ -94,13 +81,12 @@ public class SaleService {
                 null));
     }
 
-    public ResponseEntity<ResponseModel<Sales>> updateSale(Long id, Sales update) {
-        Sales sales = saleRepository.findById(id).orElse(null);
+    public ResponseEntity<ResponseModel<Sales>> updateSale(SaleModel model) {
+        Sales sales = saleRepository.findById(model.getId()).orElse(null);
+
         if (sales != null) {
-            sales.setTotalQty(update.getTotalQty());
-            sales.setTotalAmount(update.getTotalAmount());
-            saleRepository.save(sales);
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
+            var updatedSale = SaleModel.convert(sales, model);
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, updatedSale));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
