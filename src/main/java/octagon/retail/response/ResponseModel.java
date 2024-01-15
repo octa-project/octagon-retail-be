@@ -1,4 +1,4 @@
-package octagon.retail.reponse;
+package octagon.retail.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

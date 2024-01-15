@@ -3,8 +3,9 @@ package octagon.retail.contoller;
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.Items;
 import octagon.retail.entity.Measures;
-import octagon.retail.reponse.ResponseModel;
-import octagon.retail.service.MeasureService;
+import octagon.retail.response.ResponseModel;
+import octagon.retail.service.Items.MeasureService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +39,9 @@ public class MeasureController {
     public ResponseEntity<ResponseModel<List<Measures>>> getMeasures() {
         return measureService.getMeasures();
     }
+
     @PostMapping("delete-measure-by-id")
-    public ResponseEntity<ResponseModel<Measures>> deleteMeasureById(@RequestParam("id") Long id){
+    public ResponseEntity<ResponseModel<Measures>> deleteMeasureById(@RequestParam("id") Long id) {
         return measureService.deleteMeasureById(id);
     }
 }

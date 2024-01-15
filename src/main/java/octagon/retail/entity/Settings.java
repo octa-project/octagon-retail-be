@@ -24,17 +24,8 @@ public class Settings extends BaseEntity {
 
     private String address;
 
-    private Long createdUserId;
-
     private Boolean isActive;
 
-    private Boolean isDeleted;
-
     private Long branchId;
-
-    private LocalDateTime createdDate ;
-
-    private LocalDateTime modifiedDate ;
-
 
 }

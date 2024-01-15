@@ -10,46 +10,47 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "item_codes")
+@Table(name = "item_code")
 public class ItemCodes extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @NotNull
+    @Column(name = "branch_id")
+    private Long branchId;
+
     @Column(name = "item_id")
     private Long itemId;
 
-    @NotNull
     @Column(name = "barcode")
     private String barcode;
 
-    @NotNull
     @Column(name = "name")
     private String name;
 
-    @NotNull
+    @Column(name = "expiration_id")
+    private Long expirationId;
+
     @Column(name = "sell_price")
     private BigDecimal sellPrice;
 
-    @NotNull
-    @Column(name = "purchase_price")
-    private BigDecimal purchasePrice;
+    @Column(name = "cost_price")
+    private BigDecimal costPrice;
 
-    @NotNull
     @Column(name = "measure_id")
     private Long measureId;
+
+    @Column(name = "item_group_id")
+    private Long itemGroupId;
 
     @Column(name = "qty")
     private BigDecimal qty;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    @Column(name = "proper_qty")
+    private BigDecimal properQty;
 
-    @NotNull
-    @Column(name = "branch_id")
-    private Long branchId;
+    @Column(name = "pack_size")
+    private BigDecimal packSize;
 }

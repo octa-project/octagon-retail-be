@@ -1,10 +1,9 @@
-package octagon.retail.service;
+package octagon.retail.service.Items;
 
-import octagon.retail.entity.ItemGroups;
-import octagon.retail.entity.Items;
 import octagon.retail.entity.Measures;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IMeasureRepository;
+import octagon.retail.response.ResponseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,6 @@ public class MeasureService {
         if (existingMeasure != null) {
             existingMeasure.setName(measure.getName());
             existingMeasure.setCode(measure.getCode());
-            existingMeasure.setIsDeleted(measure.getIsDeleted());
             existingMeasure.setBranchId(measure.getBranchId());
             measureRepository.save(existingMeasure);
 
@@ -42,6 +40,7 @@ public class MeasureService {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, measure));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
+
     public ResponseEntity<ResponseModel<List<Measures>>> getMeasures() {
         List<Measures> measures = measureRepository.findAll();
         if (measures != null)
@@ -54,6 +53,7 @@ public class MeasureService {
         Measures measure = measureRepository.findById(measureId).orElse(null);
         if (measure == null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, measure));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, measure));
     }
 }

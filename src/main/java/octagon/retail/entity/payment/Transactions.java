@@ -25,19 +25,12 @@ public class Transactions extends BaseEntity {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
-    @NotNull
     private Long saleId;
-    @NotNull
     private String transactionName;
-    @NotNull
     private BigDecimal amount;
-    private BigDecimal refund;
-    private BigDecimal balance;
-    @NotNull
     private Integer transactionTypeId;
     private Long bankId;
     private Long bankTransactionId;
-    private Boolean isDeleted = false;
     private Long branchId;
 
 }

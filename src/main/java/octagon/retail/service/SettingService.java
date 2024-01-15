@@ -5,10 +5,11 @@ import octagon.retail.entity.DeviceSetting;
 import octagon.retail.entity.PaymentSetting;
 import octagon.retail.entity.Settings;
 import octagon.retail.model.PrinterList;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IDeviceSettingRepository;
 import octagon.retail.repository.IPaymentSettingRepository;
 import octagon.retail.repository.ISettingRepository;
+import octagon.retail.response.ResponseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpHeaders;
@@ -19,8 +20,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +48,6 @@ public class SettingService {
             existingSetting.setName(updatedSetting.getName());
             existingSetting.setTaxNumber(updatedSetting.getTaxNumber());
             existingSetting.setBranchId(updatedSetting.getBranchId());
-            existingSetting.setIsDeleted(updatedSetting.getIsDeleted());
             settingRepository.save(existingSetting);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSetting));
@@ -76,11 +74,11 @@ public class SettingService {
         Settings setting = settingRepository.findById(settingId).orElse(null);
         if (setting == null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
     }
 
     public ResponseEntity<ResponseModel<PrinterList>> getPrinterList() {
-
 
         WebClient webClient = WebClient.create();
 
@@ -90,7 +88,6 @@ public class SettingService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-
         try {
 
             String responseBody = webClient.get()
@@ -99,7 +96,6 @@ public class SettingService {
                     .retrieve()
                     .bodyToMono(String.class)
                     .block(); // Blocking for simplicity, use subscribe() in a real application
-
 
             JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
 
@@ -137,15 +133,15 @@ public class SettingService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
     }
 
-    public ResponseEntity<ResponseModel<Boolean>> deleteDeviceSettings(Long id) {
-        Boolean result = deleteDevice(id);
+    // public ResponseEntity<ResponseModel<Boolean>> deleteDeviceSettings(Long id) {
+    // Boolean result = deleteDevice(id);
 
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", result, null));
-    }
-
+    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", result,
+    // null));
+    // }
 
     public void insertDeviceSetting(DeviceSetting entity) {
-        entity.setCreatedDate(LocalDateTime.now());
+
         deviceSettingRepository.save(entity);
     }
 
@@ -161,22 +157,23 @@ public class SettingService {
         return deviceSettingRepository.findAll();
     }
 
-    public boolean deleteDevice(Long id) {
-        Optional<DeviceSetting> optionalEntity = deviceSettingRepository.findById(id);
+    // public boolean deleteDevice(Long id) {
+    // Optional<DeviceSetting> optionalEntity =
+    // deviceSettingRepository.findById(id);
 
-        if (optionalEntity.isPresent()) {
-            DeviceSetting entity = optionalEntity.get();
+    // if (optionalEntity.isPresent()) {
+    // DeviceSetting entity = optionalEntity.get();
 
-            entity.setDeleted(true);
-            entity.setModifiedDate(LocalDateTime.now());
+    // entity.setDeleted(true);
 
-            deviceSettingRepository.save(entity);
-            return true;
-        } else return false;
-    }
+    // deviceSettingRepository.save(entity);
+    // return true;
+    // } else
+    // return false;
+    // }
 
     public DeviceSetting updateDevice(DeviceSetting entity) {
-        entity.setModifiedDate(LocalDateTime.now());
+
         return deviceSettingRepository.save(entity);
     }
 
@@ -199,6 +196,5 @@ public class SettingService {
     public PaymentSetting updatePaymentMethod(PaymentSetting entity) {
         return paymentSettingRepository.save(entity);
     }
-
 
 }

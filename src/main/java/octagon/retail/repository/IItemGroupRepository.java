@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IItemGroupRepository extends MainRepository<ItemGroups, Long>{
+public interface IItemGroupRepository extends MainRepository<ItemGroups, Long> {
     @Query("select a from ItemGroups a where a.name = :name")
-    ItemGroups getItemGroupsByName(@Param("name")String name);
+    ItemGroups getItemGroupsByName(@Param("name") String name);
 }
