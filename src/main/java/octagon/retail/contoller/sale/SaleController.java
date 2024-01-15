@@ -29,13 +29,23 @@ public class SaleController {
     }
 
     @PostMapping("save")
-    public ResponseEntity<ResponseModel<Sales>> save(@Valid @RequestBody Sales sale) {
+    public ResponseEntity<ResponseModel<Sales>> save(@Valid @RequestBody SaleModel sale) {
         return saleService.saveSale(sale);
     }
 
     @PutMapping("update")
-    public ResponseEntity<ResponseModel<Sales>> update(@Valid @RequestBody Sales sale, Long id) {
-        return saleService.updateSale(id, sale);
+    public ResponseEntity<ResponseModel<Sales>> update(@Valid @RequestBody SaleModel sale) {
+        return saleService.updateSale(sale);
+    }
+
+    @PostMapping("temp")
+    public ResponseEntity<ResponseModel<Sales>> temp(@Valid @RequestBody SaleModel sale) {
+        return saleService.saveTemporary(sale);
+    }
+
+    @GetMapping("get-temps")
+    public ResponseEntity<ResponseModel<List<SaleModel>>> getTemps() {
+        return saleService.getTempSales();
     }
 
     @PutMapping("updateQtyAmount")

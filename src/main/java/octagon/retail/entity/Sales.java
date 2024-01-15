@@ -29,7 +29,7 @@ public class Sales extends BaseEntity {
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date date;
+    private LocalDateTime date;
 
     private BigDecimal totalQty;
 
