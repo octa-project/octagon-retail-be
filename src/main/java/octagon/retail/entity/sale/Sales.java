@@ -29,11 +29,15 @@ public class Sales extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
-    @NotNull(message = "Total quality should not be null")
+
     private BigDecimal totalQty;
 
-    @NotNull(message = "Total amount not be null")
+
+    private String user;
+
+
     private BigDecimal totalAmount;
+
 
     private BigDecimal paidTotalAmount;
 
