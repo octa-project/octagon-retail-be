@@ -5,10 +5,11 @@ import octagon.retail.entity.DeviceSetting;
 import octagon.retail.entity.PaymentSetting;
 import octagon.retail.entity.Settings;
 import octagon.retail.model.PrinterList;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IDeviceSettingRepository;
 import octagon.retail.repository.IPaymentSettingRepository;
 import octagon.retail.repository.ISettingRepository;
+import octagon.retail.response.ResponseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpHeaders;
@@ -47,7 +48,6 @@ public class SettingService {
             existingSetting.setName(updatedSetting.getName());
             existingSetting.setTaxNumber(updatedSetting.getTaxNumber());
             existingSetting.setBranchId(updatedSetting.getBranchId());
-            existingSetting.setIsDeleted(updatedSetting.getIsDeleted());
             settingRepository.save(existingSetting);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSetting));
@@ -133,11 +133,12 @@ public class SettingService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
     }
 
-    public ResponseEntity<ResponseModel<Boolean>> deleteDeviceSettings(Long id) {
-        Boolean result = deleteDevice(id);
+    // public ResponseEntity<ResponseModel<Boolean>> deleteDeviceSettings(Long id) {
+    // Boolean result = deleteDevice(id);
 
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", result, null));
-    }
+    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", result,
+    // null));
+    // }
 
     public void insertDeviceSetting(DeviceSetting entity) {
 
@@ -156,19 +157,20 @@ public class SettingService {
         return deviceSettingRepository.findAll();
     }
 
-    public boolean deleteDevice(Long id) {
-        Optional<DeviceSetting> optionalEntity = deviceSettingRepository.findById(id);
+    // public boolean deleteDevice(Long id) {
+    // Optional<DeviceSetting> optionalEntity =
+    // deviceSettingRepository.findById(id);
 
-        if (optionalEntity.isPresent()) {
-            DeviceSetting entity = optionalEntity.get();
+    // if (optionalEntity.isPresent()) {
+    // DeviceSetting entity = optionalEntity.get();
 
-            entity.setDeleted(true);
+    // entity.setDeleted(true);
 
-            deviceSettingRepository.save(entity);
-            return true;
-        } else
-            return false;
-    }
+    // deviceSettingRepository.save(entity);
+    // return true;
+    // } else
+    // return false;
+    // }
 
     public DeviceSetting updateDevice(DeviceSetting entity) {
 

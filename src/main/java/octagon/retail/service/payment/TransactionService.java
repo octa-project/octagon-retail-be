@@ -4,8 +4,9 @@ import octagon.retail.entity.Sales;
 import octagon.retail.entity.payment.Banks;
 import octagon.retail.entity.payment.TransactionType;
 import octagon.retail.entity.payment.Transactions;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.payment.TransactionRepository;
+import octagon.retail.response.ResponseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

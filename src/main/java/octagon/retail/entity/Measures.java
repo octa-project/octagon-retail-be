@@ -9,12 +9,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "measures")
-public class Measures extends BaseEntity{
+@Table(name = "measure")
+public class Measures extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "branch_id")
+    private Long branchId;
 
     @Column(name = "name")
     private String name;
@@ -22,9 +25,6 @@ public class Measures extends BaseEntity{
     @Column(name = "code")
     private String code;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
-
-    @Column(name = "branch_id")
-    private Long branchId;
+    @Column(name = "is_primary")
+    private Boolean isPrimary;
 }

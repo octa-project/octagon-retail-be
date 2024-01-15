@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,11 +32,5 @@ public class PaymentSetting extends BaseEntity {
 
     @Column(name = "is_active")
     private Boolean isActive;
-
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
-
-    @Column(name = "branch_id")
-    private Long branchId;
 
 }

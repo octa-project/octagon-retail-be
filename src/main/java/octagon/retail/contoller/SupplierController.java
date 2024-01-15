@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import octagon.retail.entity.Supplier;
 import octagon.retail.model.SupplierModel;
-import octagon.retail.reponse.ResponseModel;
+import octagon.retail.response.ResponseModel;
 
 @RestController
 @RequestMapping("/supplier")
