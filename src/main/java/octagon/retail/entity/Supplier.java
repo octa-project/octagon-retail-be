@@ -35,4 +35,7 @@ public class Supplier {
 
     @Column(name = "tax_number")
     private String taxNumber;
+
+    @Column(name = "branch_id")
+    private Long branchId;
 }

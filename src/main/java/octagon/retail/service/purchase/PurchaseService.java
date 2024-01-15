@@ -18,10 +18,10 @@ import octagon.retail.entity.Purchase;
 import octagon.retail.entity.PurchaseItems;
 import octagon.retail.entity.Sales;
 import octagon.retail.model.PurchaseModel;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.IPurchaseItemsRepository;
 import octagon.retail.repository.IPurchaseRepository;
+import octagon.retail.response.ResponseModel;
 
 @Service
 public class PurchaseService {
@@ -69,10 +69,9 @@ public class PurchaseService {
                             .ok(new ResponseModel<>("500", "Item is null", false, null));
                 }
                 item.setSellPrice(_itemModel.getSellPrice());
-                item.setPurchasePrice(_itemModel.getCostPrice());
+                item.setCostPrice(_itemModel.getCostPrice());
                 itemCodeRepository.save(item);
-                // totalAmount.add(_itemModel.getSellPrice());
-                // totalCost.add(_itemModel.getCostPrice());
+
             }
             purchase.setTotalDiscount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getDiscount)
@@ -91,6 +90,7 @@ public class PurchaseService {
             purchase.setIsPaid(body.getIsPaid());
             purchase.setCityTax(body.getCityTax());
             purchase.setSupplierId(body.getSupplierId());
+            purchase.setBranchId(body.getBranchId());
 
             var savedPurchase = purchaseRepository.save(purchase);
 
@@ -164,7 +164,7 @@ public class PurchaseService {
                             .ok(new ResponseModel<>("500", "Item is null", false, null));
                 }
                 item.setSellPrice(_itemModel.getSellPrice());
-                item.setPurchasePrice(_itemModel.getCostPrice());
+                item.setCostPrice(_itemModel.getCostPrice());
                 itemCodeRepository.save(item);
 
             }
@@ -185,6 +185,7 @@ public class PurchaseService {
             purchase.setIsPaid(body.getIsPaid());
             purchase.setCityTax(body.getCityTax());
             purchase.setSupplierId(body.getSupplierId());
+            purchase.setBranchId(body.getBranchId());
 
             var purchaseItems = purchaseItemsRepository.findByPurchaseId(purchase.getId());
 

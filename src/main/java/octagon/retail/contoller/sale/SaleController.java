@@ -3,7 +3,7 @@ package octagon.retail.contoller.sale;
 import jakarta.validation.Valid;
 import octagon.retail.entity.Sales;
 import octagon.retail.model.sale.SaleModel;
-import octagon.retail.reponse.ResponseModel;
+import octagon.retail.response.ResponseModel;
 import octagon.retail.service.sale.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -58,10 +58,10 @@ public class SaleController {
         return saleService.getOne(id);
     }
 
-    @DeleteMapping("delete")
-    public ResponseEntity<ResponseModel<Sales>> getSaleItemById(Long id) {
-        return saleService.deleteSale(id);
-    }
+    // @DeleteMapping("delete")
+    // public ResponseEntity<ResponseModel<Sales>> getSaleItemById(Long id) {
+    // return saleService.deleteSale(id);
+    // }
 
     @GetMapping("get-dashboard-data")
     public ResponseEntity<ResponseModel<Object>> getDashboardData(

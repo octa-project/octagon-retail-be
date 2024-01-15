@@ -3,8 +3,9 @@ package octagon.retail.contoller;
 import jakarta.validation.Valid;
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemGroups;
-import octagon.retail.reponse.ResponseModel;
-import octagon.retail.service.ItemCodeService;
+import octagon.retail.response.ResponseModel;
+import octagon.retail.service.Items.ItemCodeService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,10 +46,10 @@ public class ItemCodeController {
     }
 
     @GetMapping("get-itemCode-by-barcode-like")
-    public ResponseEntity<ResponseModel<List<ItemCodes>>> GetItemCodeByBarcodeLike(@RequestParam("barcode") String barcode) {
+    public ResponseEntity<ResponseModel<List<ItemCodes>>> GetItemCodeByBarcodeLike(
+            @RequestParam("barcode") String barcode) {
         return itemCodeService.getItemCodeByBarcodeLike(barcode);
     }
-
 
     @PostMapping("delete-itemCode-by-id")
     public ResponseEntity<ResponseModel<ItemCodes>> deleteItemCodeById(@RequestParam("id") Long itemCodeId) {

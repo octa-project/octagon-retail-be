@@ -11,8 +11,8 @@ import lombok.extern.log4j.Log4j2;
 import octagon.retail.entity.Sales;
 import octagon.retail.entity.Supplier;
 import octagon.retail.model.SupplierModel;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.ICustomerSuppliersRepository;
+import octagon.retail.response.ResponseModel;
 
 @Log4j2
 @Service

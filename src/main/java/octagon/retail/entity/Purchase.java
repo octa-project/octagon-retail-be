@@ -43,6 +43,8 @@ public class Purchase extends BaseEntity {
 
     public Long supplierId;
 
+    public Long branchId;
+
     public String description;
 
     // @Column(columnDefinition = "jsonb")

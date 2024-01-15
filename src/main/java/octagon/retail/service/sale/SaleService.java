@@ -3,11 +3,12 @@ package octagon.retail.service.sale;
 import octagon.retail.entity.SaleItems;
 import octagon.retail.entity.Sales;
 import octagon.retail.model.sale.SaleModel;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.sale.SaleItemRepository;
 import octagon.retail.repository.sale.SaleRepository;
+import octagon.retail.response.ResponseModel;
 import octagon.retail.utils.SaleType;
 
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,22 +34,35 @@ public class SaleService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
     }
 
+    // public ResponseEntity<ResponseModel<Sales>> addSaleItem(SaleItems saleItem) {
+    // var sale = saleRepository.findById(saleItem.getSaleId()).orElse(null);
+    // if (sale == null) {
+    // sale = new Sales();
+    // sale.setType(SaleType.INIT);
+
+    // var savedSale = saleRepository.save(sale);
+    // var modifiedSaleItem = saleItem;
+    // modifiedSaleItem.setSaleId(savedSale.getId());
+    // saleItemRepository.save(modifiedSaleItem);
+    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+    // savedSale));
+    // }
+
+    // }
+
     public ResponseEntity<ResponseModel<SaleModel>> initSale() {
         SaleModel resp = null;
         List<SaleItems> respSaleItems = new ArrayList<>();
         var sales = saleRepository.findByType(SaleType.INIT);
         if (!sales.isEmpty()) {
             for (var sale : sales) {
-                respSaleItems = saleItemRepository.getSaleById(sale.getId());
+                respSaleItems = saleItemRepository.findAllById(sale.getId());
                 if (respSaleItems.isEmpty()) {
-                    // var newSale = new Sales();
-                    // newSale.setType(SaleType.INIT);
-                    // var saved = saleRepository.save(newSale);
                     resp = new SaleModel();
                     resp.setBranchId(sale.getBranchId());
                     resp.setDate(sale.getDate());
                     resp.setIsPaid(sale.getIsPaid());
-                    resp.setPaidTotalAmount(sale.getPaidTotalAmount());
+                    resp.setPaidTotalAmount(sale.getTotalPaidAmount());
                     resp.setTotalAmount(sale.getTotalAmount());
                     resp.setTotalQty(sale.getTotalQty());
                     resp.setId(sale.getId());
@@ -58,9 +72,8 @@ public class SaleService {
                     resp = new SaleModel();
                     resp.setBranchId(sale.getBranchId());
                     resp.setDate(sale.getDate());
-                    resp.setIsDeleted(sale.getIsDeleted());
                     resp.setIsPaid(sale.getIsPaid());
-                    resp.setPaidTotalAmount(sale.getPaidTotalAmount());
+                    resp.setPaidTotalAmount(sale.getTotalPaidAmount());
                     resp.setStock(respSaleItems);
                     resp.setTotalAmount(sale.getTotalAmount());
                     resp.setTotalQty(resp.getTotalQty());
@@ -68,8 +81,7 @@ public class SaleService {
                             resp));
                 }
             }
-        }
-        {
+        } else {
             var newSale = new Sales();
             newSale.setType(SaleType.INIT);
             var saved = saleRepository.save(newSale);
@@ -78,7 +90,8 @@ public class SaleService {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
                     resp));
         }
-
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", true,
+                null));
     }
 
     public ResponseEntity<ResponseModel<Sales>> updateSale(Long id, Sales update) {
@@ -108,7 +121,7 @@ public class SaleService {
         try {
             Date formatStartDate = dateFormat.parse(startDate);
             Date formatEndDate = dateFormat.parse(endDate);
-            List<Sales> sales = saleRepository.getMany(formatStartDate, formatEndDate);
+            List<Sales> sales = saleRepository.getManyByDate(formatStartDate, formatEndDate);
             if (!sales.isEmpty()) {
                 return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
             } else {
@@ -135,30 +148,32 @@ public class SaleService {
 
         if (isPaid != null) {
             isPaid.setIsPaid(true);
-            isPaid.setPaidTotalAmount(sales.getPaidTotalAmount());
+            isPaid.setTotalPaidAmount(sales.getTotalPaidAmount());
             saleRepository.save(isPaid);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, isPaid));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
     }
 
-    public ResponseEntity<ResponseModel<Sales>> deleteSale(Long saleId) {
+    // public ResponseEntity<ResponseModel<Sales>> deleteSale(Long saleId) {
 
-        Sales deleteSale = saleRepository.findById(saleId).orElse(null);
+    // Sales deleteSale = saleRepository.findById(saleId).orElse(null);
 
-        if (deleteSale != null) {
+    // if (deleteSale != null) {
 
-            var result = saleItemService.deleteAllBySaleId(saleId);
-            if (result == null) {
-                return ResponseEntity
-                        .ok(new ResponseModel<>("500", "Устгахад алдаа гарлаа ахин оролдоно уу", false, null));
-            }
-            deleteSale.setIsDeleted(true);
-            saleRepository.save(deleteSale);
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deleteSale));
-        }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
-    }
+    // var result = saleItemService.deleteAllBySaleId(saleId);
+    // if (result == null) {
+    // return ResponseEntity
+    // .ok(new ResponseModel<>("500", "Устгахад алдаа гарлаа ахин оролдоно уу",
+    // false, null));
+    // }
+    // saleRepository.save(deleteSale);
+    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+    // deleteSale));
+    // }
+    // return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл
+    // олдсонгүй", false, null));
+    // }
 
     public ResponseEntity<ResponseModel<Object>> getDashboardData(Date date) {
 
@@ -168,10 +183,10 @@ public class SaleService {
         data.put("profit", saleRepository.getProfitByDate(date));
         data.put("quantity", saleRepository.getTotalQuantityByDate(date));
 
-        if (data != null) {
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
+        if (data.isEmpty()) {
+            return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
         }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалтын мэдээлэл олдсонгүй", false, null));
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
     }
 
     public ResponseEntity<ResponseModel<Object>> getDailyIncome (Date date) {

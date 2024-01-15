@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 import octagon.retail.entity.Purchase;
 import octagon.retail.entity.Sales;
 import octagon.retail.model.PurchaseModel;
-import octagon.retail.reponse.ResponseModel;
+import octagon.retail.response.ResponseModel;
 import octagon.retail.service.purchase.PurchaseService;
 
 @RestController

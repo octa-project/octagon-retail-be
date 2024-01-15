@@ -1,11 +1,12 @@
-package octagon.retail.service;
+package octagon.retail.service.Items;
 
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemGroups;
 import octagon.retail.entity.ItemPrices;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.ItemPriceRepository;
+import octagon.retail.response.ResponseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class ItemCodeService {
         itemPrices.setItemId(itemCodes.getItemId());
         itemPrices.setQty(itemCodes.getQty());
         itemPrices.setUnitSalePrice(itemCodes.getSellPrice());
-        itemPrices.setUnitCostPrice(itemCodes.getPurchasePrice());
+        itemPrices.setUnitCostPrice(itemCodes.getCostPrice());
         itemPrices.setBranchId(itemCodes.getBranchId());
         return itemPrices;
     }
@@ -58,8 +59,7 @@ public class ItemCodeService {
             existingItemCodes.setBranchId(updateItemCodes.getBranchId());
             existingItemCodes.setMeasureId(updateItemCodes.getMeasureId());
             existingItemCodes.setSellPrice(updateItemCodes.getSellPrice());
-            existingItemCodes.setPurchasePrice(updateItemCodes.getPurchasePrice());
-            existingItemCodes.setIsDeleted(updateItemCodes.getIsDeleted());
+            existingItemCodes.setCostPrice(updateItemCodes.getCostPrice());
             itemCodeRepository.save(existingItemCodes);
 
             ItemPrices itemPrices = itemPriceRepository.exist(existingItemCodes.getId());

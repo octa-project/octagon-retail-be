@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IItemRepository extends MainRepository<Items, Long> {
     @Query("select a from Items a where a.code = :code")
-    Items getItemByCode(@Param("code")String code);
+    Items getItemByCode(@Param("code") String code);
 }

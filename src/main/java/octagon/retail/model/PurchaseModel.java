@@ -21,6 +21,9 @@ public class PurchaseModel {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
+    @NotNull(message = "branchId is null")
+    private Long branchId;
+
     private BigDecimal totalAmount;
 
     private BigDecimal totalQty;

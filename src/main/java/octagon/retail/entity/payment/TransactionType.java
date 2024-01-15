@@ -38,6 +38,4 @@ public class TransactionType extends BaseEntity {
 
     private Boolean isActive = true;
 
-    private Boolean isDeleted = false;
-
 }

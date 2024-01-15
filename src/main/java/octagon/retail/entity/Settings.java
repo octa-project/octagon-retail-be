@@ -26,8 +26,6 @@ public class Settings extends BaseEntity {
 
     private Boolean isActive;
 
-    private Boolean isDeleted;
-
     private Long branchId;
 
 }

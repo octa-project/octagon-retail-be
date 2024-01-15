@@ -26,7 +26,5 @@ public class DeviceSetting extends BaseEntity {
     private String ipAddress;
     private Integer leftMargin;
     private boolean isActive;
-    private boolean isDeleted;
-    private Long branchId;
 
 }
