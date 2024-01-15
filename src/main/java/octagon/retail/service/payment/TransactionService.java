@@ -1,12 +1,11 @@
 package octagon.retail.service.payment;
 
-import octagon.retail.entity.Sales;
 import octagon.retail.entity.payment.Banks;
 import octagon.retail.entity.payment.TransactionType;
 import octagon.retail.entity.payment.Transactions;
+import octagon.retail.entity.sale.Sales;
+import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.payment.TransactionRepository;
-import octagon.retail.response.ResponseModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ import java.util.List;
 public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
-
     public ResponseEntity<ResponseModel<Transactions>> saveTransaction(Transactions transaction) {
         Transactions transactions = transactionRepository.save(transaction);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ", true, transactions));
@@ -26,11 +24,10 @@ public class TransactionService {
 
     public ResponseEntity<ResponseModel<Transactions>> getOne(Long id) {
         Transactions transactions = transactionRepository.findById(id).orElse(null);
-        if (transactions != null) {
+        if(transactions != null) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ", true, transactions));
         }
-        return ResponseEntity.ok(new ResponseModel<>("500",
-                "Амжилтгүй. %s кодтой гүйлгээний мэдээлэл олдсонгүй.".formatted(id), false, null));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. %s кодтой гүйлгээний мэдээлэл олдсонгүй.".formatted(id), false, null));
     }
 
     public ResponseEntity<ResponseModel<Transactions>> delete(Long id) {
@@ -39,12 +36,11 @@ public class TransactionService {
         if (transaction == null) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
         }
-        return ResponseEntity
-                .ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа ахин оролдон уу", false, transaction));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа ахин оролдон уу", false, transaction));
     }
 
     public ResponseEntity<ResponseModel<List<Transactions>>> getMany(Date startDate, Date endDate) {
-        List<Transactions> transactions = transactionRepository.getMany(startDate, endDate);
+        List<Transactions> transactions = transactionRepository.getMany(startDate,endDate);
         if (!transactions.isEmpty()) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, transactions));
         } else {

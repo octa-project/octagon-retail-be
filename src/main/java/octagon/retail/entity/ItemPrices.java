@@ -33,6 +33,12 @@ public class ItemPrices extends BaseEntity {
     private Long itemCodeId;
 
     @NotNull
+    private String itemName;
+
+    @NotNull
+    private String itemBarCode;
+
+    @NotNull
     private BigDecimal qty;
 
     @NotNull
@@ -41,7 +47,7 @@ public class ItemPrices extends BaseEntity {
     @NotNull
     private BigDecimal unitCostPrice;
 
-    private Boolean isDeleted = false;
+    private Boolean isDeleted=false;
 
     private Long branchId;
 

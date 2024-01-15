@@ -1,5 +1,4 @@
 package octagon.retail.entity.payment;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -23,5 +22,6 @@ public class Banks extends BaseEntity {
     @NotNull
     private Boolean isActive = false;
     private Integer bankType;
+    private Boolean isDeleted = false;
     private Long branchId;
 }

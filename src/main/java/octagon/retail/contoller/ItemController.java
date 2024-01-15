@@ -3,9 +3,9 @@ package octagon.retail.contoller;
 import jakarta.validation.*;
 import octagon.retail.entity.Items;
 import octagon.retail.model.item.ItemModel;
-import octagon.retail.response.ResponseModel;
-import octagon.retail.service.Items.ItemService;
-
+import octagon.retail.model.item.ItemSaveModel;
+import octagon.retail.reponse.ResponseModel;
+import octagon.retail.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +21,12 @@ public class ItemController {
     private ItemService itemService;
 
     @PostMapping("save-item")
-    public ResponseEntity<ResponseModel<ItemModel>> saveItemPrice(@RequestBody @Valid ItemModel item) {
+    public ResponseEntity<ResponseModel<ItemSaveModel>> saveItemPrice(@RequestBody @Valid ItemSaveModel item) {
         return itemService.saveItem(item);
     }
 
     @PostMapping("update-item")
-    public ResponseEntity<ResponseModel<ItemModel>> getAllItemPrice(@RequestBody @Valid ItemModel item) {
+    public ResponseEntity<ResponseModel<ItemSaveModel>> getAllItemPrice(@RequestBody @Valid ItemSaveModel item) {
         return itemService.updateItem(item);
     }
 

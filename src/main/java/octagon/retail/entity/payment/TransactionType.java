@@ -25,9 +25,6 @@ public class TransactionType extends BaseEntity {
     @NotNull
     private String name;
 
-    @NotNull
-    private String icon;
-
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private TransactionType parent;
@@ -37,5 +34,7 @@ public class TransactionType extends BaseEntity {
     private List<TransactionType> children = new ArrayList<>();
 
     private Boolean isActive = true;
+
+    private Boolean isDeleted = false;
 
 }

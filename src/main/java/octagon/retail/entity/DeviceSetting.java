@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "device_settings")
-public class DeviceSetting extends BaseEntity {
+public class DeviceSetting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +26,9 @@ public class DeviceSetting extends BaseEntity {
     private String ipAddress;
     private Integer leftMargin;
     private boolean isActive;
+    private boolean isDeleted;
+    private Long branchId;
+    private LocalDateTime createdDate;
+    private LocalDateTime ModifiedDate;
 
 }

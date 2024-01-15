@@ -1,9 +1,8 @@
 package octagon.retail.repository;
 
+import octagon.retail.entity.sale.Sales;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-
-import octagon.retail.entity.Sales;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,7 +22,7 @@ public interface MainRepository<T, ID extends Serializable> extends CrudReposito
 
     List<T> findAll();
 
-    List<T> findAllById(ID var1);
+    Iterable<T> findAllById(Iterable<ID> var1);
 
     long count();
 

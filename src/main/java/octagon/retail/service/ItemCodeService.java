@@ -1,12 +1,11 @@
-package octagon.retail.service.Items;
+package octagon.retail.service;
 
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemGroups;
 import octagon.retail.entity.ItemPrices;
+import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.ItemPriceRepository;
-import octagon.retail.response.ResponseModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class ItemCodeService {
         try {
             itemCodeRepository.save(itemCodes);
 
-            ItemCodes savedItemcodes = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode()).orElse(null);
+            ItemCodes savedItemcodes = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode());
             if (savedItemcodes != null) {
                 ItemPrices itemPrices = createItemPricesFromItemCodes(savedItemcodes);
                 itemPriceRepository.save(itemPrices);
@@ -42,9 +41,11 @@ public class ItemCodeService {
         ItemPrices itemPrices = new ItemPrices();
         itemPrices.setItemCodeId(itemCodes.getId());
         itemPrices.setItemId(itemCodes.getItemId());
+        itemPrices.setItemName(itemCodes.getName());
+        itemPrices.setItemBarCode(itemCodes.getBarcode());
         itemPrices.setQty(itemCodes.getQty());
         itemPrices.setUnitSalePrice(itemCodes.getSellPrice());
-        itemPrices.setUnitCostPrice(itemCodes.getCostPrice());
+        itemPrices.setUnitCostPrice(itemCodes.getPurchasePrice());
         itemPrices.setBranchId(itemCodes.getBranchId());
         return itemPrices;
     }
@@ -59,10 +60,12 @@ public class ItemCodeService {
             existingItemCodes.setBranchId(updateItemCodes.getBranchId());
             existingItemCodes.setMeasureId(updateItemCodes.getMeasureId());
             existingItemCodes.setSellPrice(updateItemCodes.getSellPrice());
-            existingItemCodes.setCostPrice(updateItemCodes.getCostPrice());
+            existingItemCodes.setPurchasePrice(updateItemCodes.getPurchasePrice());
+            existingItemCodes.setIsDeleted(updateItemCodes.getIsDeleted());
             itemCodeRepository.save(existingItemCodes);
 
-            ItemPrices itemPrices = itemPriceRepository.exist(existingItemCodes.getId());
+
+            ItemPrices itemPrices = itemPriceRepository.getByItemBarcode(existingItemCodes.getBarcode());
             if (itemPrices != null) {
                 ItemPrices convertedItemPrices = createItemPricesFromItemCodes(updateItemCodes);
                 convertedItemPrices.setId(itemPrices.getId());
@@ -89,7 +92,7 @@ public class ItemCodeService {
     }
 
     public ResponseEntity<ResponseModel<ItemCodes>> getItemCodeByBarcode(String barcode) {
-        ItemCodes itemCodes = itemCodeRepository.getItemByBarcode(barcode).orElse(null);
+        ItemCodes itemCodes = itemCodeRepository.getItemByBarcode(barcode);
         if (itemCodes != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemCodes));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
@@ -107,7 +110,6 @@ public class ItemCodeService {
         ItemCodes itemCode = itemCodeRepository.findById(itemCodeId).orElse(null);
         if (itemCode == null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        return ResponseEntity
-                .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдно уу", false, itemCode));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдно уу", false, itemCode));
     }
 }
