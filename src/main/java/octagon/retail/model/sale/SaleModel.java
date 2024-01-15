@@ -5,6 +5,7 @@ import octagon.retail.entity.SaleItems;
 import octagon.retail.entity.Sales;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class SaleModel {
     private Long id;
     private BigDecimal totalQty;
     private BigDecimal totalAmount;
-    private Date date;
+    private LocalDateTime date;
     private BigDecimal paidTotalAmount;
     private Boolean isPaid;
     private Long branchId;

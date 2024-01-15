@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 @Service
 public class SaleService {
@@ -26,14 +28,48 @@ public class SaleService {
 
     public ResponseEntity<ResponseModel<Sales>> saveSale(SaleModel model) {
         var sale = SaleModel.convert(null, model);
-        saleRepository.save(sale);
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
+        var saved = saleRepository.save(sale);
+        var items = model.getStock().stream()
+                .peek(i -> i.setSaleId(saved.getId()))
+                .collect(Collectors.toList());
+        saleItemRepository.saveAll(items);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, saved));
     }
 
     public ResponseEntity<ResponseModel<Sales>> saveTemporary(SaleModel model) {
         var sale = SaleModel.convert(null, model);
-        saleRepository.save(sale);
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sale));
+        sale.setType(SaleType.TEMP);
+        var saved = saleRepository.save(sale);
+        var items = model.getStock().stream()
+                .peek(i -> i.setSaleId(saved.getId()))
+                .collect(Collectors.toList());
+        saleItemRepository.saveAll(items);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, saved));
+    }
+
+    public ResponseEntity<ResponseModel<List<SaleModel>>> getTempSales() {
+        List<SaleModel> models = new ArrayList<>();
+        var sales = saleRepository.findByType(SaleType.TEMP);
+        if (sales.isEmpty()) {
+            return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+        }
+        for (var sale : sales) {
+            var model = new SaleModel();
+            model.setBranchId(sale.getBranchId());
+            model.setDate(LocalDateTime.now());
+            model.setId(sale.getId());
+            model.setIsPaid(sale.getIsPaid());
+            model.setPaidTotalAmount(sale.getTotalPaidAmount());
+            model.setTotalAmount(sale.getTotalAmount());
+            model.setTotalQty(sale.getTotalQty());
+            var saleItems = saleItemRepository.findAllBySaleId(sale.getId());
+            model.setStock(saleItems);
+            models.add(model);
+        }
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, models));
     }
 
     public ResponseEntity<ResponseModel<SaleModel>> initSale() {
