@@ -25,8 +25,8 @@ public interface IItemCodeRepository extends MainRepository<ItemCodes, Long> {
 
     @Query("select new octagon.retail.model.item.CustomItemCodeModel(a.id, a.itemId, a.barcode, a.name, a.sellPrice, a.costPrice, measure.name, measure.id, group.name,group.id,a.properQty,a.createdDate) "
             +
-            "from ItemCode a " +
-            "left join ItemGroup group on a.itemGroupId = group.id " +
-            "left join Measure measure on a.measureId = measure.id")
+            "from ItemCodes a " +
+            "left join ItemGroups group on a.itemGroupId = group.id " +
+            "left join Measures measure on a.measureId = measure.id")
     List<CustomItemCodeModel> getCustomItemCodes();
 }
