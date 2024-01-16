@@ -31,6 +31,12 @@ public class ItemCodeController {
         return itemCodeService.getCustomItemCodes();
     }
 
+    @GetMapping("/custom-all-by-like")
+    public ResponseEntity<ResponseModel<List<CustomItemCodeModel>>> getCustomItemCodesByLike(
+            @RequestParam String barcode, @RequestParam String name) {
+        return itemCodeService.getCustomItemCodesByLike(barcode, name);
+    }
+
     @PostMapping("update-itemCode")
     public ResponseEntity<ResponseModel<ItemCodes>> updateItemCode(@RequestBody @Valid ItemCodes itemCode) {
         return itemCodeService.updateItemCode(itemCode);

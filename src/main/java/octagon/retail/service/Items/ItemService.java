@@ -2,6 +2,7 @@ package octagon.retail.service.Items;
 
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.Items;
+import octagon.retail.model.item.CompleteItemModel;
 import octagon.retail.model.item.ItemCodeModel;
 import octagon.retail.model.item.ItemModel;
 import octagon.retail.repository.IItemCodeRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,6 +72,31 @@ public class ItemService {
 
     }
 
+    public ResponseEntity<ResponseModel<List<CompleteItemModel>>> getCompleteItemDatas() {
+        try {
+            var items = itemRepository.getCompleteItemList();
+            if (items.isEmpty())
+                return ResponseEntity.ok(new ResponseModel<>("500", "No Items", false,
+                        null));
+            List<CompleteItemModel> completeList = new ArrayList<>();
+            for (CompleteItemModel completeItemModel : items) {
+                var itemCode = itemCodeRepository.getItemCustomCodesByItemId(completeItemModel.getId());
+                if (!itemCode.isEmpty()) {
+                    completeItemModel.setChildren(itemCode);
+                }
+                completeList.add(completeItemModel);
+            }
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                    completeList));
+
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false,
+                    null));
+        }
+    }
+
     private ItemModel convertItemToModel(Items item) {
         var model = new ItemModel();
         model.setId(item.getId());
@@ -95,25 +122,25 @@ public class ItemService {
         return model;
     }
 
-    private ItemCodeModel convertItemCodeToModel(ItemCodes itemCodes) {
-        var model = new ItemCodeModel();
-        model.setItemId(itemCodes.getItemId());
-        model.setBarcode(itemCodes.getBarcode());
-        model.setId(itemCodes.getId());
-        model.setBranchId(itemCodes.getBranchId());
-        model.setName(itemCodes.getName());
-        model.setMeasureId(itemCodes.getMeasureId());
-        // var measure =
-        // measureRepository.findById(itemCodes.getMeasureId()).orElse(null);
-        // if (measure != null) {
-        // model.setMeasureId(measure.getId());
-        // model.setMeasureName(measure.getName());
-        // }
-        model.setQty(itemCodes.getQty());
-        model.setSellPrice(itemCodes.getSellPrice());
-        model.setCostPrice(itemCodes.getCostPrice());
-        return model;
-    }
+    // private ItemCodeModel convertItemCodeToModel(ItemCodes itemCodes) {
+    // var model = new ItemCodeModel();
+    // model.setItemId(itemCodes.getItemId());
+    // model.setBarcode(itemCodes.getBarcode());
+    // model.setId(itemCodes.getId());
+    // model.setBranchId(itemCodes.getBranchId());
+    // model.setName(itemCodes.getName());
+    // model.setMeasureId(itemCodes.getMeasureId());
+    // // var measure =
+    // // measureRepository.findById(itemCodes.getMeasureId()).orElse(null);
+    // // if (measure != null) {
+    // // model.setMeasureId(measure.getId());
+    // // model.setMeasureName(measure.getName());
+    // // }
+    // model.setQty(itemCodes.getQty());
+    // model.setSellPrice(itemCodes.getSellPrice());
+    // model.setCostPrice(itemCodes.getCostPrice());
+    // return model;
+    // }
 
     public ResponseEntity<ResponseModel<ItemModel>> getItemById(Long itemId) {
         Items item = itemRepository.findById(itemId).orElse(null);
