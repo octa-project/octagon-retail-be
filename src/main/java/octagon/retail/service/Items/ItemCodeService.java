@@ -3,6 +3,7 @@ package octagon.retail.service.Items;
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemGroups;
 import octagon.retail.entity.ItemPrices;
+import octagon.retail.model.item.CustomItemCodeModel;
 import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.ItemPriceRepository;
 import octagon.retail.response.ResponseModel;
@@ -110,4 +111,21 @@ public class ItemCodeService {
         return ResponseEntity
                 .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдно уу", false, itemCode));
     }
+
+    public ResponseEntity<ResponseModel<List<CustomItemCodeModel>>> getCustomItemCodes() {
+        try {
+            var itemCodes = itemCodeRepository.getCustomItemCodes();
+            if (itemCodes.isEmpty())
+                return ResponseEntity.ok(new ResponseModel<>("500", "No items", false,
+                        itemCodes));
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                    itemCodes));
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false,
+                    null));
+        }
+    }
+
 }

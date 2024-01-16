@@ -1,6 +1,8 @@
 package octagon.retail.repository;
 
 import octagon.retail.entity.ItemCodes;
+import octagon.retail.model.item.CustomItemCodeModel;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -20,4 +22,11 @@ public interface IItemCodeRepository extends MainRepository<ItemCodes, Long> {
     List<ItemCodes> getItemCodesByItemId(@Param("id") Long id);
 
     List<ItemCodes> findByIdIn(List<Long> ids);
+
+    @Query("select new octagon.retail.model.item.CustomItemCodeModel(a.id, a.itemId, a.barcode, a.name, a.sellPrice, a.costPrice, measure.name, measure.id, group.name,group.id,a.properQty,a.createdDate) "
+            +
+            "from ItemCode a " +
+            "left join ItemGroup group on a.itemGroupId = group.id " +
+            "left join Measure measure on a.measureId = measure.id")
+    List<CustomItemCodeModel> getCustomItemCodes();
 }
