@@ -41,6 +41,14 @@ public interface IItemCodeRepository extends MainRepository<ItemCodes, Long> {
                         "from ItemCodes a " +
                         "left join ItemGroups group on a.itemGroupId = group.id " +
                         "left join Measures measure on a.measureId = measure.id " +
-                        "where lower(a.barcode) like lower(concat('%', :barcode, '%')) or lower(a.name) like lower(concat('%', :name, '%'))")
-        List<CustomItemCodeModel> findByBarcodeAndName(@Param("barcode") String barcode, @Param("name") String name);
+                        "where lower(a.barcode) like lower(concat('%', :barcode, '%'))")
+        List<CustomItemCodeModel> findByBarcodeLike(@Param("barcode") String barcode);
+
+        @Query("select new octagon.retail.model.item.CustomItemCodeModel(a.id, a.itemId, a.barcode, a.name, a.sellPrice, a.costPrice, measure.name, measure.id, group.name, group.id, a.properQty, a.qty, a.createdDate) "
+                        +
+                        "from ItemCodes a " +
+                        "left join ItemGroups group on a.itemGroupId = group.id " +
+                        "left join Measures measure on a.measureId = measure.id " +
+                        "where lower(a.name) like lower(concat('%', :name, '%'))")
+        List<CustomItemCodeModel> findByNameLike(@Param("name") String name);
 }

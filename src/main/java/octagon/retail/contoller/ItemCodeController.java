@@ -33,7 +33,7 @@ public class ItemCodeController {
 
     @GetMapping("/custom-all-by-like")
     public ResponseEntity<ResponseModel<List<CustomItemCodeModel>>> getCustomItemCodesByLike(
-            @RequestParam String barcode, @RequestParam String name) {
+            @RequestParam(required = false) String barcode, @RequestParam(required = false) String name) {
         return itemCodeService.getCustomItemCodesByLike(barcode, name);
     }
 

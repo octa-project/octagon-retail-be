@@ -8,6 +8,7 @@ import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.ItemPriceRepository;
 import octagon.retail.response.ResponseModel;
 
+import org.apache.tomcat.util.digester.ArrayStack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -115,13 +116,26 @@ public class ItemCodeService {
     public ResponseEntity<ResponseModel<List<CustomItemCodeModel>>> getCustomItemCodesByLike(String Barcode,
             String Name) {
         try {
-            var itemCodes = itemCodeRepository.findByBarcodeAndName(Barcode, Name);
-            if (itemCodes.isEmpty())
+            List<CustomItemCodeModel> list = new ArrayStack<>();
+            if ((!Barcode.isEmpty() && !Name.isEmpty()) || (Barcode.isEmpty() && Name.isEmpty())) {
+
+                return ResponseEntity.ok(new ResponseModel<>("500", "Invalid input", false,
+                        null));
+            } else if (!Barcode.isEmpty() && Name.isEmpty()) {
+                var itemCodes = itemCodeRepository.findByBarcodeLike(Barcode);
+
+                list = itemCodes;
+            } else {
+                var itemCodes = itemCodeRepository.findByNameLike(Name);
+
+                list = itemCodes;
+            }
+            if (list.isEmpty())
                 return ResponseEntity.ok(new ResponseModel<>("500", "No items", false,
-                        itemCodes));
+                        null));
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
-                    itemCodes));
+                    list));
         } catch (Exception e) {
 
             return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false,
