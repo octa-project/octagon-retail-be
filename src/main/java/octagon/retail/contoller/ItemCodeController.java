@@ -3,6 +3,7 @@ package octagon.retail.contoller;
 import jakarta.validation.Valid;
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemGroups;
+import octagon.retail.model.item.CustomItemCodeModel;
 import octagon.retail.response.ResponseModel;
 import octagon.retail.service.Items.ItemCodeService;
 
@@ -23,6 +24,11 @@ public class ItemCodeController {
     @PostMapping("save-itemCode")
     public ResponseEntity<ResponseModel<ItemCodes>> saveItemCode(@RequestBody @Valid ItemCodes itemCode) {
         return itemCodeService.saveItemCode(itemCode);
+    }
+
+    @GetMapping("/custom-all")
+    public ResponseEntity<ResponseModel<List<CustomItemCodeModel>>> getCustomItemCodes() {
+        return itemCodeService.getCustomItemCodes();
     }
 
     @PostMapping("update-itemCode")
