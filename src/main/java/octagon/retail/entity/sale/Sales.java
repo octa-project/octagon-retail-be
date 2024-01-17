@@ -31,28 +31,11 @@ public class Sales extends BaseEntity {
 
 
     private BigDecimal totalQty;
-
-
-    private String user;
-
-
     private BigDecimal totalAmount;
-
-
     private BigDecimal paidTotalAmount;
-
     private Boolean isPaid = false;
-
     private Boolean isDeleted = false;
-
     private Long branchId;
-
     private Long createdUserId;
-
-    //
-    //    @OneToMany(fetch = FetchType.LAZY)
-    //    @Fetch(FetchMode.JOIN)
-    //    @JoinColumn(name = "transaction_id", referencedColumnName = "id",  insertable = false, updatable = false)
-    //    private List<Transactions> transactions;
 
 }

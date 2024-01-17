@@ -25,6 +25,11 @@ public class SaleReportModel {
     private String user;
     private Long createdUserId;
     private Long branchId;
+    private String branchName;
+
+    public SaleReportModel() {
+
+    }
 
     public SaleReportModel(
             Long id,
