@@ -49,7 +49,11 @@ public class SettingService {
             existingSetting.setName(updatedSetting.getName());
             existingSetting.setTaxNumber(updatedSetting.getTaxNumber());
             existingSetting.setBranchId(updatedSetting.getBranchId());
-            existingSetting.setIsDeleted(updatedSetting.getIsDeleted());
+            existingSetting.setAddress(updatedSetting.getAddress());
+            existingSetting.setMotto(updatedSetting.getMotto());
+            existingSetting.setPhone(updatedSetting.getPhone());
+            existingSetting.setContractNumber(updatedSetting.getContractNumber());
+
             settingRepository.save(existingSetting);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSetting));
@@ -126,6 +130,16 @@ public class SettingService {
     }
 
     public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettings(DeviceSetting deviceSetting) {
+
+        deviceSetting.setCashierPrinter(true);
+        insertDeviceSetting(deviceSetting);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
+    }
+
+    public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettingsForOrder(DeviceSetting deviceSetting) {
+
+        deviceSetting.setCashierPrinter(false);
         insertDeviceSetting(deviceSetting);
 
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
@@ -169,6 +183,7 @@ public class SettingService {
         if (optionalEntity.isPresent()) {
             DeviceSetting entity = optionalEntity.get();
 
+            entity.setActive(false);
             entity.setDeleted(true);
             entity.setModifiedDate(LocalDateTime.now());
 
@@ -202,10 +217,35 @@ public class SettingService {
         return paymentSettingRepository.save(entity);
     }
 
-    public List<DeviceSetting> getAllByBranchId(Long branchId){
-        return deviceSettingRepository.getDeviceSettingByBranch(branchId);
+    public ResponseEntity<ResponseModel<List<DeviceSetting>>> getAllByBranchId(Long branchId){
+
+        List<DeviceSetting> setting = deviceSettingRepository.getDeviceSettingByBranch(branchId);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
     }
 
+    public ResponseEntity<ResponseModel<DeviceSetting>> getDeviceSettingForDeviceName(Long branchId, String deviceName){
+
+       DeviceSetting setting = deviceSettingRepository.getDeviceSettingForPrinter(branchId, deviceName);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
+    }
+
+    public ResponseEntity<ResponseModel<List<DeviceSetting>>> getAllByBranchIdForOrder(Long branchId){
+
+        List<DeviceSetting> setting = deviceSettingRepository.getDeviceSettingByBranchForOrder(branchId);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
+    }
 
 
 

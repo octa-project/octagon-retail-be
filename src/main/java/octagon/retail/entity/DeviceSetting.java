@@ -59,4 +59,7 @@ public class DeviceSetting {
     @Column(name ="modified_date")
     private LocalDateTime ModifiedDate;
 
+    @Column(name = "is_cashier_printer")
+    private boolean isCashierPrinter;
+
 }
