@@ -25,10 +25,11 @@ public class SaleService {
     SaleItemRepository saleItemRepository;
 
     public ResponseEntity<ResponseModel<Sales>> saveSale(SaleModel model) {
-        var sale = SaleModel.convert(null, model, SaleType.DEFAULT);
-        var saved = saleRepository.save(sale);
+        var sale = saleRepository.findById(model.getId()).orElse(null);
+        var convertedSale = SaleModel.convert(sale, model, SaleType.COMPLETE);
+        var saved = saleRepository.save(convertedSale);
         var items = model.getStock().stream()
-                .peek(i -> i.setSaleId(saved.getId()))
+                .peek(i -> i.setSaleId(convertedSale.getId()))
                 .collect(Collectors.toList());
         saleItemRepository.saveAll(items);
 
@@ -118,7 +119,7 @@ public class SaleService {
         Sales sales = saleRepository.findById(model.getId()).orElse(null);
 
         if (sales != null) {
-            var updatedSale = SaleModel.convert(sales, model, SaleType.DEFAULT);
+            var updatedSale = SaleModel.convert(sales, model, SaleType.COMPLETE);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, updatedSale));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
