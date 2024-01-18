@@ -144,7 +144,7 @@ public class SaleService {
             LocalDateTime end = LocalDateTime.parse(endDate, formatter);
             List<Sales> sales = saleRepository.getManyByDate(start, end);
             if (sales.isEmpty()) {
-                return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалт олдсонгуй", false,
+                return ResponseEntity.ok(new ResponseModel<>("500", "Борлуулалт олдсонгүй", false,
                         null));
 
             }
