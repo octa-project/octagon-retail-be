@@ -2,11 +2,7 @@ package octagon.retail.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-
-import octagon.retail.entity.Sales;
-
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
