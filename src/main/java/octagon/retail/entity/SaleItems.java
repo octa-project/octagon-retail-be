@@ -26,7 +26,7 @@ public class SaleItems extends BaseEntity {
 
     private String itemName;
 
-    private String itemBarCode;
+    private String itemBarcode;
 
     private BigDecimal qty;
 
