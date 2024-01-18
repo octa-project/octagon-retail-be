@@ -4,6 +4,7 @@ import octagon.retail.entity.Sales;
 import octagon.retail.entity.payment.Banks;
 import octagon.retail.entity.payment.Transactions;
 import octagon.retail.repository.payment.TransactionRepository;
+import octagon.retail.repository.sale.SaleRepository;
 import octagon.retail.response.ResponseModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,15 @@ import java.util.List;
 public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    SaleRepository saleRepository;
 
     public ResponseEntity<ResponseModel<Transactions>> saveTransaction(Transactions transaction) {
+        var sale = saleRepository.findById(transaction.getSaleId()).orElse(null);
+        if (sale == null) {
+            return ResponseEntity
+                    .ok(new ResponseModel<>("500", "Амжилтгүй. Sale doesnt exist", false, null));
+        }
         Transactions transactions = transactionRepository.save(transaction);
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ", true, transactions));
     }
