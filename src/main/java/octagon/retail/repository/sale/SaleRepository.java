@@ -1,6 +1,7 @@
 package octagon.retail.repository.sale;
 
 import octagon.retail.entity.Sales;
+import octagon.retail.model.SaleReportModel;
 import octagon.retail.repository.MainRepository;
 import octagon.retail.utils.SaleType;
 
@@ -35,5 +36,11 @@ public interface SaleRepository extends MainRepository<Sales, Long> {
 
         @Query("select sum(s.totalQty)from Sales s where s.isPaid = true and  DATE(s.createdDate) = :date")
         Object getTotalQuantityByDate(Date date);
+
+        @Query("select new octagon.retail.model.SaleReportModel(a.id, date(a.createdDate), b.itemBarcode, b.itemName, " +
+                "b.qty, b.unitSalePrice, b.totalSalePrice, b.totalSalePrice) "  +
+                "FROM Sales a " +
+                "INNER JOIN SaleItems b ON a.id = b.saleId")
+        List<SaleReportModel> getSaleReport();
 
 }
