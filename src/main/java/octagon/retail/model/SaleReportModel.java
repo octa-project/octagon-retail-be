@@ -20,8 +20,7 @@ public class SaleReportModel {
     public SaleReportModel() {
     }
     public SaleReportModel(
-            Long id,
-            Date date,
+            Object date,
             String barcode,
             String name,
             BigDecimal qty,
@@ -29,8 +28,7 @@ public class SaleReportModel {
             BigDecimal totalAmount,
             BigDecimal totalPaidAmount
     ) {
-        this.id = id;
-        this.date = date;
+        this.date = (Date) date;
         this.barcode = barcode;
         this.name = name;
         this.qty = qty;

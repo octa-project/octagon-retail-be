@@ -37,10 +37,11 @@ public interface SaleRepository extends MainRepository<Sales, Long> {
         @Query("select sum(s.totalQty)from Sales s where s.isPaid = true and  DATE(s.createdDate) = :date")
         Object getTotalQuantityByDate(Date date);
 
-        @Query("select new octagon.retail.model.SaleReportModel(a.id, date(a.createdDate), b.itemBarcode, b.itemName, " +
-                "b.qty, b.unitSalePrice, b.totalSalePrice, b.totalSalePrice) "  +
+        @Query("select new octagon.retail.model.SaleReportModel(date(a.createdDate), b.itemBarcode, b.itemName, " +
+                "SUM(b.qty), b.unitSalePrice, SUM(b.totalSalePrice), SUM(b.totalSalePrice)) "  +
                 "FROM Sales a " +
-                "INNER JOIN SaleItems b ON a.id = b.saleId")
+                "INNER JOIN SaleItems b ON a.id = b.saleId " +
+                "group by date(a.createdDate), b.itemBarcode, b.itemName, b.unitSalePrice")
         List<SaleReportModel> getSaleReport();
 
 }

@@ -32,7 +32,7 @@ public class ReportController {
         return reportService.getSaleReport(parameter);
     }
 
-    @GetMapping("/getfile")
+    @GetMapping("/getReportFile")
     public ResponseEntity<Resource> getFileTest() throws MalformedURLException {
         File file = new File("D:\\Jasper" + "\\saleReport.html");
         Path filePath = Paths.get(file.getAbsolutePath());;
