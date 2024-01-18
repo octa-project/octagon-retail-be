@@ -4,7 +4,7 @@ import jakarta.websocket.server.PathParam;
 import octagon.retail.entity.DeviceSetting;
 import octagon.retail.entity.Settings;
 import octagon.retail.model.PrinterList;
-import octagon.retail.reponse.ResponseModel;
+import octagon.retail.response.ResponseModel;
 import octagon.retail.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +55,11 @@ public class SettingController {
         return settingService.insertDeviceSettings(deviceSetting);
     }
 
+    @PostMapping("device-settings-order")
+    public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettingsForOrder(@RequestBody DeviceSetting deviceSetting){
+        return settingService.insertDeviceSettingsForOrder(deviceSetting);
+    }
+
     @PutMapping("device-settings")
     public ResponseEntity<ResponseModel<DeviceSetting>> updateDeviceSettings(@RequestBody DeviceSetting deviceSetting){
         return settingService.updateDeviceSettings(deviceSetting);
@@ -66,7 +71,17 @@ public class SettingController {
     }
 
     @GetMapping("device-settings")
-    public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettings(@PathParam("id") Long id){
-        return settingService.getDeviceSettingById(id);
+    public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettings(@RequestParam("id") Long id, @RequestParam("deviceName") String deviceName){
+        return settingService.getDeviceSettingForDeviceName(id, deviceName);
+    }
+
+    @GetMapping("device-settings-list")
+    public ResponseEntity<ResponseModel<List<DeviceSetting>>> insertDeviceSettings(@RequestParam("id") Long id){
+        return settingService.getAllByBranchId(id);
+    }
+
+    @GetMapping("device-settings-list-order")
+    public ResponseEntity<ResponseModel<List<DeviceSetting>>> insertDeviceSettingsForOrder(@RequestParam("id") Long id){
+        return settingService.getAllByBranchIdForOrder(id);
     }
 }

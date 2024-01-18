@@ -5,10 +5,11 @@ import octagon.retail.entity.DeviceSetting;
 import octagon.retail.entity.PaymentSetting;
 import octagon.retail.entity.Settings;
 import octagon.retail.model.PrinterList;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IDeviceSettingRepository;
 import octagon.retail.repository.IPaymentSettingRepository;
 import octagon.retail.repository.ISettingRepository;
+import octagon.retail.response.ResponseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpHeaders;
@@ -49,7 +50,11 @@ public class SettingService {
             existingSetting.setName(updatedSetting.getName());
             existingSetting.setTaxNumber(updatedSetting.getTaxNumber());
             existingSetting.setBranchId(updatedSetting.getBranchId());
-            existingSetting.setIsDeleted(updatedSetting.getIsDeleted());
+            existingSetting.setAddress(updatedSetting.getAddress());
+            existingSetting.setMotto(updatedSetting.getMotto());
+            existingSetting.setPhone(updatedSetting.getPhone());
+            existingSetting.setContractNumber(updatedSetting.getContractNumber());
+
             settingRepository.save(existingSetting);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSetting));
@@ -76,7 +81,8 @@ public class SettingService {
         Settings setting = settingRepository.findById(settingId).orElse(null);
         if (setting == null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
     }
 
     public ResponseEntity<ResponseModel<PrinterList>> getPrinterList() {
@@ -126,6 +132,16 @@ public class SettingService {
     }
 
     public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettings(DeviceSetting deviceSetting) {
+
+        deviceSetting.setCashierPrinter(true);
+        insertDeviceSetting(deviceSetting);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
+    }
+
+    public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettingsForOrder(DeviceSetting deviceSetting) {
+
+        deviceSetting.setCashierPrinter(false);
         insertDeviceSetting(deviceSetting);
 
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
@@ -151,6 +167,8 @@ public class SettingService {
 
     public ResponseEntity<ResponseModel<DeviceSetting>> getDeviceSettingById(Long id) {
         DeviceSetting setting = deviceSettingRepository.findById(id).orElse(null);
+        assert setting != null;
+        System.out.println(setting.getId());
         if (setting != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
@@ -176,7 +194,7 @@ public class SettingService {
     }
 
     public DeviceSetting updateDevice(DeviceSetting entity) {
-        entity.setModifiedDate(LocalDateTime.now());
+
         return deviceSettingRepository.save(entity);
     }
 
@@ -199,6 +217,37 @@ public class SettingService {
     public PaymentSetting updatePaymentMethod(PaymentSetting entity) {
         return paymentSettingRepository.save(entity);
     }
+
+    public ResponseEntity<ResponseModel<List<DeviceSetting>>> getAllByBranchId(Long branchId){
+
+        List<DeviceSetting> setting = deviceSettingRepository.getDeviceSettingByBranch(branchId);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
+    }
+
+    public ResponseEntity<ResponseModel<DeviceSetting>> getDeviceSettingForDeviceName(Long branchId, String deviceName){
+
+       DeviceSetting setting = deviceSettingRepository.getDeviceSettingForPrinter(branchId, deviceName);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
+    }
+
+    public ResponseEntity<ResponseModel<List<DeviceSetting>>> getAllByBranchIdForOrder(Long branchId){
+
+        List<DeviceSetting> setting = deviceSettingRepository.getDeviceSettingByBranchForOrder(branchId);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
+    }
+
 
 
 }

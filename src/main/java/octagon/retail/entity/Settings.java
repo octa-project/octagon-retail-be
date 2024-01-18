@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,17 +22,16 @@ public class Settings extends BaseEntity {
 
     private String address;
 
-    private Long createdUserId;
+    private String city;
 
     private Boolean isActive;
 
-    private Boolean isDeleted;
-
     private Long branchId;
 
-    private LocalDateTime createdDate ;
+    private String contractNumber;
 
-    private LocalDateTime modifiedDate ;
+    private String phone;
 
+    private String motto;
 
 }
