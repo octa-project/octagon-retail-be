@@ -1,53 +1,63 @@
-package octagon.retail.service.payment;
+// package octagon.retail.service.payment;
 
-import octagon.retail.entity.payment.TransactionType;
-import octagon.retail.repository.payment.TransactionTypeRepository;
-import octagon.retail.response.ResponseModel;
+// import octagon.retail.entity.payment.TransactionType;
+// import octagon.retail.repository.payment.TransactionTypeRepository;
+// import octagon.retail.response.ResponseModel;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.stereotype.Service;
 
-import java.util.List;
+// import java.util.List;
 
-@Service
-public class TransactionTypeService {
+// @Service
+// public class TransactionTypeService {
 
-    @Autowired
-    private TransactionTypeRepository transactionTypeRepository;
+// @Autowired
+// private TransactionTypeRepository transactionTypeRepository;
 
-    public ResponseEntity<ResponseModel<TransactionType>> saveType(TransactionType type) {
-        TransactionType checkName = transactionTypeRepository.exist(type.getName());
-        if (checkName == null) {
-            TransactionType types = transactionTypeRepository.save(type);
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ", true, types));
-        }
-        return ResponseEntity.ok(new ResponseModel<>("500",
-                "Амжилтгүй. %s нэртэй төлбөрийн төрөл бүртгэгдсэн байна.".formatted(type.getName()), false, null));
-    }
+// public ResponseEntity<ResponseModel<TransactionType>>
+// saveType(TransactionType type) {
+// TransactionType checkName = transactionTypeRepository.exist(type.getName());
+// if (checkName == null) {
+// TransactionType types = transactionTypeRepository.save(type);
+// return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ",
+// true, types));
+// }
+// return ResponseEntity.ok(new ResponseModel<>("500",
+// "Амжилтгүй. %s нэртэй төлбөрийн төрөл бүртгэгдсэн
+// байна.".formatted(type.getName()), false, null));
+// }
 
-    public ResponseEntity<ResponseModel<TransactionType>> updateType(TransactionType update, Long id) {
-        TransactionType type = transactionTypeRepository.findById(id).orElse(null);
-        if (type != null) {
-            type.setName(update.getName());
-            type.setParent(update.getParent());
-            transactionTypeRepository.save(type);
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, type));
-        }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
-    }
+// // public ResponseEntity<ResponseModel<TransactionType>>
+// // updateType(TransactionType update, Long id) {
+// // TransactionType type =
+// transactionTypeRepository.findById(id).orElse(null);
+// // if (type != null) {
+// // type.setName(update.getName());
+// // type.setParent(update.getParent());
+// // transactionTypeRepository.save(type);
+// // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+// // type));
+// // }
+// // return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false,
+// // null));
+// // }
 
-    public ResponseEntity<ResponseModel<List<TransactionType>>> getMany() {
-        List<TransactionType> types = transactionTypeRepository.getZero();
-        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, types));
-    }
+// public ResponseEntity<ResponseModel<List<TransactionType>>> getMany() {
+// List<TransactionType> types = transactionTypeRepository.getZero();
+// return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+// types));
+// }
 
-    public ResponseEntity<ResponseModel<TransactionType>> delete(Long id) {
-        transactionTypeRepository.deleteById(id);
-        TransactionType type = transactionTypeRepository.findById(id).orElse(null);
-        if (type == null) {
-            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа ахин оролдон уу", false, type));
-    }
-}
+// public ResponseEntity<ResponseModel<TransactionType>> delete(Long id) {
+// transactionTypeRepository.deleteById(id);
+// TransactionType type = transactionTypeRepository.findById(id).orElse(null);
+// if (type == null) {
+// return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+// null));
+// }
+// return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. Алдаа гарлаа
+// ахин оролдон уу", false, type));
+// }
+// }

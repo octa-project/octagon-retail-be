@@ -42,11 +42,11 @@ public class ItemModel {
     @JsonProperty(value = "itemGroupId")
     private Long itemGroupId;
 
-    @NotNull(message = "isVat is null")
+    // @NotNull(message = "isVat is null")
     @JsonProperty(value = "isVat")
     private Boolean isVat;
 
-    @NotNull(message = "isCityTax is null")
+    // @NotNull(message = "isCityTax is null")
     @JsonProperty(value = "isCityTax")
     private Boolean isCityTax;
 

@@ -10,12 +10,10 @@ import octagon.retail.utils.SaleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.stream.Collectors;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class SaleService {
@@ -27,7 +25,7 @@ public class SaleService {
     SaleItemRepository saleItemRepository;
 
     public ResponseEntity<ResponseModel<Sales>> saveSale(SaleModel model) {
-        var sale = SaleModel.convert(null, model);
+        var sale = SaleModel.convert(null, model, SaleType.DEFAULT);
         var saved = saleRepository.save(sale);
         var items = model.getStock().stream()
                 .peek(i -> i.setSaleId(saved.getId()))
@@ -38,8 +36,7 @@ public class SaleService {
     }
 
     public ResponseEntity<ResponseModel<Sales>> saveTemporary(SaleModel model) {
-        var sale = SaleModel.convert(null, model);
-        sale.setType(SaleType.TEMP);
+        var sale = SaleModel.convert(null, model, SaleType.TEMP);
         var saved = saleRepository.save(sale);
         var items = model.getStock().stream()
                 .peek(i -> i.setSaleId(saved.getId()))
@@ -58,7 +55,7 @@ public class SaleService {
         for (var sale : sales) {
             var model = new SaleModel();
             model.setBranchId(sale.getBranchId());
-            model.setDate(LocalDateTime.now());
+
             model.setId(sale.getId());
             model.setIsPaid(sale.getIsPaid());
             model.setPaidTotalAmount(sale.getTotalPaidAmount());
@@ -82,7 +79,7 @@ public class SaleService {
                 if (respSaleItems.isEmpty()) {
                     resp = new SaleModel();
                     resp.setBranchId(sale.getBranchId());
-                    resp.setDate(sale.getDate());
+
                     resp.setIsPaid(sale.getIsPaid());
                     resp.setPaidTotalAmount(sale.getTotalPaidAmount());
                     resp.setTotalAmount(sale.getTotalAmount());
@@ -93,7 +90,7 @@ public class SaleService {
                 } else {
                     resp = new SaleModel();
                     resp.setBranchId(sale.getBranchId());
-                    resp.setDate(sale.getDate());
+
                     resp.setIsPaid(sale.getIsPaid());
                     resp.setPaidTotalAmount(sale.getTotalPaidAmount());
                     resp.setStock(respSaleItems);
@@ -121,7 +118,7 @@ public class SaleService {
         Sales sales = saleRepository.findById(model.getId()).orElse(null);
 
         if (sales != null) {
-            var updatedSale = SaleModel.convert(sales, model);
+            var updatedSale = SaleModel.convert(sales, model, SaleType.DEFAULT);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, updatedSale));
         }
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
@@ -139,17 +136,21 @@ public class SaleService {
     }
 
     public ResponseEntity<ResponseModel<List<Sales>>> getMany(String startDate, String endDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         try {
-            Date formatStartDate = dateFormat.parse(startDate);
-            Date formatEndDate = dateFormat.parse(endDate);
-            List<Sales> sales = saleRepository.getManyByDate(formatStartDate, formatEndDate);
-            if (!sales.isEmpty()) {
-                return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, sales));
-            } else {
-                return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime start = LocalDateTime.parse(startDate, formatter);
+            LocalDateTime end = LocalDateTime.parse(endDate, formatter);
+            List<Sales> sales = saleRepository.getManyByDate(start, end);
+            if (sales.isEmpty()) {
+                return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false,
+                        null));
+
             }
-        } catch (ParseException e) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                    sales));
+
+        } catch (Exception e) {
             return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false, null));
         }
 
