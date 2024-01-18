@@ -25,10 +25,11 @@ public class SaleService {
     SaleItemRepository saleItemRepository;
 
     public ResponseEntity<ResponseModel<Sales>> saveSale(SaleModel model) {
-        var sale = SaleModel.convert(null, model, SaleType.DEFAULT);
-        var saved = saleRepository.save(sale);
+        var sale = saleRepository.findById(model.getId()).orElse(null);
+        var convertedSale = SaleModel.convert(sale, model, SaleType.DEFAULT);
+        var saved = saleRepository.save(convertedSale);
         var items = model.getStock().stream()
-                .peek(i -> i.setSaleId(saved.getId()))
+                .peek(i -> i.setSaleId(convertedSale.getId()))
                 .collect(Collectors.toList());
         saleItemRepository.saveAll(items);
 
