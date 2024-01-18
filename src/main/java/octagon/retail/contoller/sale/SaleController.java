@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,7 +60,8 @@ public class SaleController {
     }
 
     @GetMapping("get-many")
-    public ResponseEntity<ResponseModel<List<Sales>>> getMany(String startDate, String endDate) {
+    public ResponseEntity<ResponseModel<List<Sales>>> getMany(@RequestParam String startDate,
+            @RequestParam String endDate) {
         return saleService.getMany(startDate, endDate);
     }
 

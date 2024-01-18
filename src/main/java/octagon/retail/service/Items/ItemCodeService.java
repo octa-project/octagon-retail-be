@@ -26,13 +26,12 @@ public class ItemCodeService {
 
     public ResponseEntity<ResponseModel<ItemCodes>> saveItemCode(ItemCodes itemCodes) {
         try {
-            itemCodeRepository.save(itemCodes);
 
-            ItemCodes savedItemcodes = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode()).orElse(null);
-            if (savedItemcodes != null) {
-                ItemPrices itemPrices = createItemPricesFromItemCodes(savedItemcodes);
-                itemPriceRepository.save(itemPrices);
+            ItemCodes itemcode = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode()).orElse(null);
+            if (itemcode != null) {
+                return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + "Barcode exist", false, null));
             }
+            itemCodeRepository.save(itemCodes);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, itemCodes));
         } catch (Exception e) {
             // Handle exceptions, e.g., database-related errors
