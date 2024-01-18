@@ -186,6 +186,7 @@ public class SettingService {
             DeviceSetting entity = optionalEntity.get();
 
             entity.setDeleted(true);
+            entity.setActive(false);
             entity.setModifiedDate(LocalDateTime.now());
 
             deviceSettingRepository.save(entity);
