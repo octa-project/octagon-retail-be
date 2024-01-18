@@ -3,7 +3,7 @@ package octagon.retail.contoller.sale;
 import jakarta.validation.Valid;
 import octagon.retail.entity.Sales;
 import octagon.retail.model.sale.SaleModel;
-import octagon.retail.reponse.ResponseModel;
+import octagon.retail.response.ResponseModel;
 import octagon.retail.service.sale.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,13 +29,23 @@ public class SaleController {
     }
 
     @PostMapping("save")
-    public ResponseEntity<ResponseModel<Sales>> save(@Valid @RequestBody Sales sale) {
+    public ResponseEntity<ResponseModel<Sales>> save(@Valid @RequestBody SaleModel sale) {
         return saleService.saveSale(sale);
     }
 
     @PutMapping("update")
-    public ResponseEntity<ResponseModel<Sales>> update(@Valid @RequestBody Sales sale, Long id) {
-        return saleService.updateSale(id, sale);
+    public ResponseEntity<ResponseModel<Sales>> update(@Valid @RequestBody SaleModel sale) {
+        return saleService.updateSale(sale);
+    }
+
+    @PostMapping("temp")
+    public ResponseEntity<ResponseModel<Sales>> temp(@Valid @RequestBody SaleModel sale) {
+        return saleService.saveTemporary(sale);
+    }
+
+    @GetMapping("get-temps")
+    public ResponseEntity<ResponseModel<List<SaleModel>>> getTemps() {
+        return saleService.getTempSales();
     }
 
     @PutMapping("updateQtyAmount")
@@ -58,10 +68,10 @@ public class SaleController {
         return saleService.getOne(id);
     }
 
-    @DeleteMapping("delete")
-    public ResponseEntity<ResponseModel<Sales>> getSaleItemById(Long id) {
-        return saleService.deleteSale(id);
-    }
+    // @DeleteMapping("delete")
+    // public ResponseEntity<ResponseModel<Sales>> getSaleItemById(Long id) {
+    // return saleService.deleteSale(id);
+    // }
 
     @GetMapping("get-dashboard-data")
     public ResponseEntity<ResponseModel<Object>> getDashboardData(

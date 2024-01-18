@@ -1,7 +1,10 @@
 package octagon.retail.service.purchase;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,11 +16,12 @@ import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemPrices;
 import octagon.retail.entity.Purchase;
 import octagon.retail.entity.PurchaseItems;
+import octagon.retail.entity.Sales;
 import octagon.retail.model.PurchaseModel;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.IPurchaseItemsRepository;
 import octagon.retail.repository.IPurchaseRepository;
+import octagon.retail.response.ResponseModel;
 
 @Service
 public class PurchaseService {
@@ -31,39 +35,22 @@ public class PurchaseService {
     @Autowired
     IPurchaseItemsRepository purchaseItemsRepository;
 
-    // private Purchase buildPurchase(PurchaseModel model) {
-    // var purchase = new Purchase();
-    // BigDecimal totalAmount = BigDecimal.ZERO;
-    // BigDecimal totalCost = BigDecimal.ZERO;
+    public ResponseEntity<ResponseModel<List<PurchaseModel>>> getAllByDate(String startDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date formatStartDate = dateFormat.parse(startDate);
 
-    // List<Long> itemIdList = new ArrayList<>();
-    // for (var _itemModel : model.getPurchaseItems()) {
-    // var item =
-    // itemCodeRepository.getItemByBarcode(_itemModel.getBarcode()).orElse(null);
+            var purchases = purchaseRepository.getAllByStartDate(formatStartDate);
+            if (purchases.isEmpty())
+                return ResponseEntity.ok(new ResponseModel<>("500", "Service error: No Purchase",
+                        false, null));
+            var converted = purchases.stream().map(i -> convertToModel(i)).collect(Collectors.toList());
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, converted));
+        } catch (ParseException e) {
+            return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false, null));
+        }
 
-    // if (item == null)
-    // return null;
-    // item.setSellPrice(_itemModel.getSellPrice());
-    // item.setPurchasePrice(_itemModel.getCostPrice());
-    // itemCodeRepository.save(item);
-
-    // totalAmount.add(item.getSellPrice());
-    // totalCost.add(item.getPurchasePrice());
-
-    // }
-
-    // purchase.setId(model.getId());
-    // purchase.setDate(model.getDate());
-    // purchase.setTotalAmount(totalAmount);
-    // purchase.setTotalCost(totalCost);
-    // purchase.setTotalQty(itemIdList.size());
-    // purchase.setVat(model.getVat());
-    // purchase.setIsPaid(model.getIsPaid());
-    // purchase.setCityTax(model.getCityTax());
-
-    // purchase.setSupplierId(model.getSupplierId());
-    // return purchase;
-    // }
+    }
 
     public ResponseEntity<ResponseModel<Purchase>> savePurchase(PurchaseModel body) {
         try {
@@ -73,8 +60,6 @@ public class PurchaseService {
             // false, null));
 
             var purchase = new Purchase();
-            BigDecimal totalAmount = BigDecimal.ZERO;
-            BigDecimal totalCost = BigDecimal.ZERO;
 
             for (var _itemModel : body.getPurchaseItems()) {
                 var item = itemCodeRepository.getItemByBarcode(_itemModel.getBarcode()).orElse(null);
@@ -84,11 +69,13 @@ public class PurchaseService {
                             .ok(new ResponseModel<>("500", "Item is null", false, null));
                 }
                 item.setSellPrice(_itemModel.getSellPrice());
-                item.setPurchasePrice(_itemModel.getCostPrice());
+                item.setCostPrice(_itemModel.getCostPrice());
                 itemCodeRepository.save(item);
-                totalAmount.add(_itemModel.getSellPrice());
-                totalCost.add(_itemModel.getCostPrice());
+
             }
+            purchase.setTotalDiscount(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getDiscount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
             purchase.setDate(body.getDate());
             purchase.setTotalAmount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getSellPrice)
@@ -103,6 +90,7 @@ public class PurchaseService {
             purchase.setIsPaid(body.getIsPaid());
             purchase.setCityTax(body.getCityTax());
             purchase.setSupplierId(body.getSupplierId());
+            purchase.setBranchId(body.getBranchId());
 
             var savedPurchase = purchaseRepository.save(purchase);
 
@@ -122,8 +110,108 @@ public class PurchaseService {
         }
     }
 
+    public ResponseEntity<ResponseModel<Purchase>> deletePurchase(Long id) {
+        try {
+
+            var purchase = purchaseRepository.findById(id).orElse(null);
+            if (purchase == null)
+                return ResponseEntity
+                        .ok(new ResponseModel<>("500", "Purchase is null", false, null));
+
+            var items = purchaseItemsRepository.findByPurchaseId(purchase.getId());
+
+            purchaseItemsRepository.deleteAll(items);
+            purchaseRepository.delete(purchase);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай ", true, null));
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
+        }
+    }
+
+    public ResponseEntity<ResponseModel<Purchase>> purchasePay(Long id) {
+        try {
+
+            var purchase = purchaseRepository.findById(id).orElse(null);
+            if (purchase == null)
+                return ResponseEntity
+                        .ok(new ResponseModel<>("500", "Purchase is null", false, null));
+
+            purchase.setIsPaid(true);
+            var saved = purchaseRepository.save(purchase);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай ", true, saved));
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
+        }
+    }
+
+    public ResponseEntity<ResponseModel<Purchase>> updatePurchase(PurchaseModel body) {
+        try {
+
+            var purchase = purchaseRepository.findById(body.getId()).orElse(null);
+            if (purchase == null)
+                return ResponseEntity
+                        .ok(new ResponseModel<>("500", "Purchase is null", false, null));
+
+            for (var _itemModel : body.getPurchaseItems()) {
+                var item = itemCodeRepository.getItemByBarcode(_itemModel.getBarcode()).orElse(null);
+
+                if (item == null) {
+                    return ResponseEntity
+                            .ok(new ResponseModel<>("500", "Item is null", false, null));
+                }
+                item.setSellPrice(_itemModel.getSellPrice());
+                item.setCostPrice(_itemModel.getCostPrice());
+                itemCodeRepository.save(item);
+
+            }
+            purchase.setTotalDiscount(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getDiscount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            purchase.setDate(body.getDate());
+            purchase.setTotalAmount(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getSellPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            purchase.setTotalCost(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getCostPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            purchase.setTotalQty(body.getPurchaseItems().stream()
+                    .map(PurchaseItems::getQty)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            purchase.setVat(body.getVat());
+            purchase.setIsPaid(body.getIsPaid());
+            purchase.setCityTax(body.getCityTax());
+            purchase.setSupplierId(body.getSupplierId());
+            purchase.setBranchId(body.getBranchId());
+
+            var purchaseItems = purchaseItemsRepository.findByPurchaseId(purchase.getId());
+
+            purchaseItemsRepository.deleteAll(purchaseItems);
+
+            var savedPurchase = purchaseRepository.save(purchase);
+
+            List<PurchaseItems> updatedPurchaseItems = body.getPurchaseItems().stream()
+                    .map(item -> {
+                        item.setPurchaseId(savedPurchase.getId());
+                        return item;
+                    })
+                    .collect(Collectors.toList());
+
+            purchaseItemsRepository.saveAll(updatedPurchaseItems);
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, savedPurchase));
+        } catch (Exception e) {
+            // Handle exceptions, e.g., database-related errors
+            return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
+        }
+    }
+
     private PurchaseModel convertToModel(Purchase purchase) {
         var model = new PurchaseModel();
+        model.setTotalDiscount(purchase.getTotalDiscount());
         model.setCityTax(purchase.getCityTax());
         model.setDate(purchase.getDate());
         model.setId(purchase.getId());
@@ -154,6 +242,24 @@ public class PurchaseService {
             return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
         }
     }
+
+    // public ResponseEntity<ResponseModel<PurchaseModel>> PurchasePay(Long id) {
+    // try {
+    // var purchase = purchaseRepository.findById(id).orElse(null);
+
+    // if (purchase == null)
+    // return ResponseEntity.ok(new ResponseModel<>("500", "Service error: ",
+    // false, null));
+    // var model = convertToModel(purchase);
+
+    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+    // model));
+    // } catch (Exception e) {
+    // // Handle exceptions, e.g., database-related errors
+    // return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " +
+    // e.getMessage(), false, null));
+    // }
+    // }
 
     public ResponseEntity<ResponseModel<PurchaseModel>> getPurchase(Long id) {
         try {

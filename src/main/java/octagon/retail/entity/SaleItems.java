@@ -18,31 +18,20 @@ public class SaleItems extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private Long saleId;
 
-    @NotNull
     private Long itemId;
 
-    @NotNull
     private Long itemCodeId;
 
-    @NotNull
     private String itemName;
 
-    @NotNull
     private String itemBarCode;
 
-    @NotNull
     private BigDecimal qty;
 
-    @NotNull
     private BigDecimal unitSalePrice;
 
     private BigDecimal totalSalePrice;
-
-    private Boolean isDeleted = false;
-
-    private Long branchId;
 
 }

@@ -5,6 +5,7 @@ import octagon.retail.repository.MainRepository;
 import octagon.retail.utils.SaleType;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -16,13 +17,13 @@ public interface SaleRepository extends MainRepository<Sales, Long> {
         @Query("SELECT s FROM Sales s WHERE s.type = :type")
         List<Sales> findByType(SaleType type);
 
-        @Query("select a from Sales a where a.isDeleted=false and a.date between :startDate and :endDate")
-        List<Sales> getMany(Date startDate, Date endDate);
+        @Query("SELECT a FROM Sales a WHERE a.date BETWEEN :startDate AND :endDate")
+        List<Sales> getManyByDate(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
         @Query("select sum(s.totalAmount) as total_amount from Sales s where s.isPaid= true and  DATE(s.date) = :date")
         Object getTotalAmountByDate(Date date);
 
-        @Query("select sum(si.qty*(ic.sellPrice-ic.purchasePrice)) AS profit\n" +
+        @Query("select sum(si.qty*(ic.sellPrice-ic.costPrice)) AS profit\n" +
                         "from SaleItems si\n" +
                         "    left join Sales s\n" +
                         "        on si.saleId = s.id\n" +

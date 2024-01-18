@@ -23,7 +23,7 @@ public interface MainRepository<T, ID extends Serializable> extends CrudReposito
 
     List<T> findAll();
 
-    Iterable<T> findAllById(Iterable<ID> var1);
+    List<T> findAllById(ID var1);
 
     long count();
 

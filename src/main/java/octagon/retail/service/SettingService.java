@@ -5,10 +5,11 @@ import octagon.retail.entity.DeviceSetting;
 import octagon.retail.entity.PaymentSetting;
 import octagon.retail.entity.Settings;
 import octagon.retail.model.PrinterList;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.IDeviceSettingRepository;
 import octagon.retail.repository.IPaymentSettingRepository;
 import octagon.retail.repository.ISettingRepository;
+import octagon.retail.response.ResponseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpHeaders;
@@ -19,8 +20,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +79,8 @@ public class SettingService {
         Settings setting = settingRepository.findById(settingId).orElse(null);
         if (setting == null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдон уу", false, setting));
     }
 
     public ResponseEntity<ResponseModel<PrinterList>> getPrinterList() {
@@ -183,7 +183,6 @@ public class SettingService {
         if (optionalEntity.isPresent()) {
             DeviceSetting entity = optionalEntity.get();
 
-            entity.setActive(false);
             entity.setDeleted(true);
             entity.setModifiedDate(LocalDateTime.now());
 
@@ -193,7 +192,7 @@ public class SettingService {
     }
 
     public DeviceSetting updateDevice(DeviceSetting entity) {
-        entity.setModifiedDate(LocalDateTime.now());
+
         return deviceSettingRepository.save(entity);
     }
 

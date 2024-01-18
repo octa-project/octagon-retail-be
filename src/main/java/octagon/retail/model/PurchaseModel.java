@@ -1,25 +1,28 @@
 package octagon.retail.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import octagon.retail.entity.Items;
-import octagon.retail.entity.Purchase;
 import octagon.retail.entity.PurchaseItems;
-import octagon.retail.model.item.ItemCodeModel;
 
 @Data
+@AllArgsConstructor
 public class PurchaseModel {
+    public PurchaseModel() {
+    }
+
     private Long id;
 
     @NotNull(message = "date is null")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime date;
+    private Date date;
+
+    @NotNull(message = "branchId is null")
+    private Long branchId;
 
     private BigDecimal totalAmount;
 
@@ -28,6 +31,8 @@ public class PurchaseModel {
     private BigDecimal totalCost;
 
     private BigDecimal vat;
+
+    private BigDecimal totalDiscount;
 
     private BigDecimal cityTax;
 

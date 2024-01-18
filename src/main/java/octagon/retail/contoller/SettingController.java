@@ -4,7 +4,7 @@ import jakarta.websocket.server.PathParam;
 import octagon.retail.entity.DeviceSetting;
 import octagon.retail.entity.Settings;
 import octagon.retail.model.PrinterList;
-import octagon.retail.reponse.ResponseModel;
+import octagon.retail.response.ResponseModel;
 import octagon.retail.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

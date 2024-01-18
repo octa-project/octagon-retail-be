@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class SaleItemModel {
-    
+
     private Long id;
     private Long saleId;
     private Long itemId;
@@ -14,10 +14,9 @@ public class SaleItemModel {
     private BigDecimal qty;
     private BigDecimal unitSalePrice;
     private BigDecimal totalSalePrice;
-    private Boolean isDeleted;
-    private Long branchId;
 
-    public SaleItemModel(Long id, Long saleId, Long itemId, String itemCodeId, BigDecimal qty, BigDecimal unitSalePrice, BigDecimal totalSalePrice, Boolean isDeleted, Long branchId) {
+    public SaleItemModel(Long id, Long saleId, Long itemId, String itemCodeId, BigDecimal qty, BigDecimal unitSalePrice,
+            BigDecimal totalSalePrice) {
         this.id = id;
         this.saleId = saleId;
         this.itemId = itemId;
@@ -25,8 +24,6 @@ public class SaleItemModel {
         this.qty = qty;
         this.unitSalePrice = unitSalePrice;
         this.totalSalePrice = totalSalePrice;
-        this.isDeleted = isDeleted;
-        this.branchId = branchId;
+
     }
 }
-

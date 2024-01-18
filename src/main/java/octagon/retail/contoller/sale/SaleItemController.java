@@ -2,7 +2,7 @@ package octagon.retail.contoller.sale;
 
 import jakarta.validation.Valid;
 import octagon.retail.entity.SaleItems;
-import octagon.retail.reponse.ResponseModel;
+import octagon.retail.response.ResponseModel;
 import octagon.retail.service.sale.SaleItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,10 @@ public class SaleItemController {
 
     @Autowired
     private SaleItemService saleItemService;
+
+    public @ResponseBody void ads() {
+
+    }
 
     @PostMapping("save")
     public ResponseEntity<ResponseModel<SaleItems>> save(@Valid @RequestBody SaleItems item) {
@@ -38,8 +42,8 @@ public class SaleItemController {
         return saleItemService.manySaleId(saleId);
     }
 
-    @GetMapping("/get-top-ten-item")
-    public ResponseEntity<ResponseModel<Object>> getTopTenItems() {
-        return saleItemService.getTopTenItems();
-    }
+    // @GetMapping("/get-top-ten-item")
+    // public ResponseEntity<ResponseModel<Object>> getTopTenItems() {
+    // return saleItemService.getTopTenItems();
+    // }
 }

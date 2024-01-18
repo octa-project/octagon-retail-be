@@ -3,8 +3,9 @@ package octagon.retail.contoller;
 import jakarta.validation.Valid;
 import octagon.retail.entity.ItemPrices;
 import octagon.retail.entity.SaleItems;
-import octagon.retail.reponse.ResponseModel;
-import octagon.retail.service.ItemPriceService;
+import octagon.retail.response.ResponseModel;
+import octagon.retail.service.Items.ItemPriceService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

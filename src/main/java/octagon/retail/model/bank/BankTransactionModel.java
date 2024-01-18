@@ -1,11 +1,6 @@
 package octagon.retail.model.bank;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -28,10 +23,12 @@ public class BankTransactionModel {
     private BigDecimal amount;
     private String traceNo;
     private String data;
-    private Boolean  isDeleted;
+    private Boolean isDeleted;
     private Long branchId;
 
-    public BankTransactionModel(Long id, Long saleId, String name, String pan, String operationCode, String entryMode, Date date, String rrn, String bankId, String dbRefNo, String terminalId, String approvalCode, BigDecimal amount, String traceNo, String data, Boolean isDeleted, Long branchId) {
+    public BankTransactionModel(Long id, Long saleId, String name, String pan, String operationCode, String entryMode,
+            Date date, String rrn, String bankId, String dbRefNo, String terminalId, String approvalCode,
+            BigDecimal amount, String traceNo, String data, Boolean isDeleted, Long branchId) {
         this.id = id;
         this.saleId = saleId;
         this.name = name;
@@ -51,4 +48,3 @@ public class BankTransactionModel {
         this.branchId = branchId;
     }
 }
-
