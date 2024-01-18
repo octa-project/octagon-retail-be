@@ -1,69 +1,46 @@
 package octagon.retail.model;
-
 import lombok.Data;
-
 import java.math.BigDecimal;
 import java.util.Date;
-
 @Data
 public class SaleReportModel {
     private Long id;
     private Date date;
     private String barcode;
     private String name;
-    private String itemGroup;
     private BigDecimal qty;
     private BigDecimal itemPrice;
-    private BigDecimal profit;
-    private BigDecimal itemDiscount;
-    private BigDecimal cardDiscount;
+    private BigDecimal discountPercent;
+    private BigDecimal discountAmount;
     private BigDecimal totalAmount;
-    private Integer vat;
-    private Integer cityTax;
-    private Integer payment;
-    private Integer total;
-    private String user;
-    private Long createdUserId;
-    private Long branchId;
-    private String branchName;
-
+    private BigDecimal totalVatAmount;
+    private BigDecimal totalPaidAmount;
+    private BigDecimal bonusAmount;
+    private BigDecimal bonusUsedAmount;
     public SaleReportModel() {
-
     }
-
     public SaleReportModel(
             Long id,
             Date date,
             String barcode,
             String name,
-            String itemGroup,
             BigDecimal qty,
             BigDecimal itemPrice,
-            BigDecimal profit,
-            BigDecimal itemDiscount,
-            BigDecimal cardDiscount,
             BigDecimal totalAmount,
-            Integer vat,
-            Integer cityTax,
-            Integer payment,
-            Integer total,
-            String user
+            BigDecimal totalPaidAmount
     ) {
         this.id = id;
         this.date = date;
         this.barcode = barcode;
         this.name = name;
-        this.itemGroup = itemGroup;
         this.qty = qty;
         this.itemPrice = itemPrice;
-        this.profit = profit;
-        this.itemDiscount = itemDiscount;
-        this.cardDiscount = cardDiscount;
         this.totalAmount = totalAmount;
-        this.vat = vat;
-        this.cityTax = cityTax;
-        this.payment = payment;
-        this.total = total;
-        this.user = user;
+        this.totalVatAmount = BigDecimal.ZERO;
+        this.discountPercent = BigDecimal.ZERO;
+        this.discountAmount = BigDecimal.ZERO;
+        this.totalPaidAmount = totalPaidAmount;
+        this.bonusAmount = BigDecimal.ZERO;
+        this.bonusUsedAmount = BigDecimal.ZERO;
     }
 }
