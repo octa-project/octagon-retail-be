@@ -134,6 +134,7 @@ public class SettingService {
     public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettings(DeviceSetting deviceSetting) {
 
         deviceSetting.setCashierPrinter(true);
+        deviceSetting.setActive(true);
         insertDeviceSetting(deviceSetting);
 
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
