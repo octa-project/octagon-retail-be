@@ -33,6 +33,9 @@ public class ReportService {
             sale3.setBarcode(String.valueOf(i));
             sale3.setQty(new BigDecimal(10+i));
             sale3.setItemPrice(new BigDecimal(1000+i));
+            sale3.setVat(Integer.valueOf(3333+i));
+            sale3.setName("Coca cola");
+            sale3.setProfit(new BigDecimal(0));
             listSaleItems.add(sale3);
         }
 

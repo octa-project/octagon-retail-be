@@ -1,247 +1,431 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NewSaleReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e115bc59-fd0f-446b-a585-04725e27d7f0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FinalReport" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7298bbfa-ec6b-43a4-83b1-11b06dd82731">
+	<property name="template.engine" value="tabular_template"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
-	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
-	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<field name="id" class="java.lang.Long"/>
-	<field name="date" class="java.util.Date"/>
-	<field name="barcode" class="java.lang.String"/>
-	<field name="name" class="java.lang.String"/>
-	<field name="itemGroup" class="java.lang.String"/>
-	<field name="qty" class="java.math.BigDecimal"/>
-	<field name="itemPrice" class="java.math.BigDecimal"/>
-	<field name="profit" class="java.math.BigDecimal"/>
-	<field name="totalAmount" class="java.math.BigDecimal"/>
-	<field name="vat" class="java.lang.Integer"/>
-	<field name="cityTax" class="java.lang.Integer"/>
-	<field name="total" class="java.lang.Integer"/>
-	<field name="branchId" class="java.lang.Long"/>
-	<background>
-		<band height="575" splitType="Stretch"/>
-	</background>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#EFEFEF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="tableDataset" uuid="fa76782d-9ab9-4943-adbe-56e7e2791712">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<subDataset name="Dataset1" uuid="c2002fe9-29d0-4fd6-8146-7fff1aa83202">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+		<field name="id" class="java.lang.Long"/>
+		<field name="date" class="java.util.Date"/>
+		<field name="barcode" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="itemGroup" class="java.lang.String"/>
+		<field name="qty" class="java.math.BigDecimal"/>
+		<field name="itemPrice" class="java.math.BigDecimal"/>
+		<field name="profit" class="java.math.BigDecimal"/>
+		<field name="totalAmount" class="java.math.BigDecimal"/>
+		<field name="vat" class="java.lang.Integer"/>
+		<field name="cityTax" class="java.lang.Integer"/>
+		<field name="total" class="java.lang.Integer"/>
+		<field name="branchId" class="java.lang.Long"/>
+	</subDataset>
+	<parameter name="id" class="java.lang.Long"/>
+	<parameter name="barcode" class="java.lang.String"/>
+	<parameter name="name" class="java.lang.String"/>
+	<parameter name="qty" class="java.math.BigDecimal"/>
+	<parameter name="itemPrice" class="java.math.BigDecimal"/>
+	<parameter name="totalAmount" class="java.math.BigDecimal"/>
+	<parameter name="vat" class="java.lang.Integer"/>
+	<parameter name="unitSalePrice" class="java.math.BigDecimal"/>
+	<parameter name="totalSalePrice" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
 	<title>
-		<band height="161" splitType="Stretch">
-			<staticText>
-				<reportElement style="SubTitle" x="232" y="67" width="568" height="37" uuid="862cb50c-5a5e-4906-a495-226e25115fb6"/>
-				<textElement textAlignment="Right">
-					<font size="26"/>
+		<band height="84" splitType="Stretch">
+			<textField>
+				<reportElement x="200" y="5" width="351" height="41" backcolor="#D4CEF0" uuid="525c77e2-3065-4c7a-9d74-a31faea6e049"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Register : 1234567]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="18" width="801" height="71" uuid="07f2d76e-6ad6-46bc-ac66-b649874e3736"/>
-				<textElement textAlignment="Center">
-					<font size="50"/>
-				</textElement>
-				<text><![CDATA[Борлуулалтын тайлан]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[Борлуулалтын тайлан]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="605" y="4" width="141" height="21" uuid="6fbb37e4-91a0-4927-b1a7-8124a2c6ae9e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Баялаг Ундраа ХХК]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="551" y="55" width="200" height="21" uuid="09955d96-fbb6-4be1-8d60-260fad041bb2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Тайлант үе: 2024/01/01 - 2024/01/10]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
-	<pageHeader>
-		<band splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="25" splitType="Stretch">
-			<frame>
-				<reportElement mode="Opaque" x="97" y="5" width="705" height="20" backcolor="#666666" uuid="35d90a9b-bb7e-4ec4-bfa2-68be1967d6b2"/>
-				<staticText>
-					<reportElement style="Column header" x="0" y="0" width="54" height="15" uuid="dd753b5e-3986-4dc7-b7aa-d8c7dc0905e9">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fa10967c-0370-4e86-bd8f-3854a2e3fc8e"/>
-					</reportElement>
-					<text><![CDATA[Number]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="54" y="0" width="54" height="15" uuid="1e293560-d27d-4766-9581-af2f519b698c">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5861c022-ac19-4150-aa7b-56f9b5403e69"/>
-					</reportElement>
-					<text><![CDATA[Date]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="108" y="0" width="54" height="15" uuid="f862ab37-daaa-44bb-9f2f-8150c6efe02e">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="420bf759-6170-4964-8b9f-83cde0c0e8ea"/>
-					</reportElement>
-					<text><![CDATA[Barcode]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="162" y="0" width="54" height="15" uuid="55ffb861-6e25-4254-8af6-24aefad8c1e3">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c00a7019-1895-4a98-ae13-d3953a7884e4"/>
-					</reportElement>
-					<text><![CDATA[Name]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="216" y="0" width="54" height="15" uuid="d67625e7-fcb7-4b8d-8a3b-b41e6244b7c1">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1cc5fbab-e2a9-4801-bbb4-7fdb1f0dee0f"/>
-					</reportElement>
-					<text><![CDATA[Group]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="270" y="0" width="54" height="15" uuid="2afb6682-1c20-4296-8600-f6c7daafd8be">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5b9496fc-1bde-4489-bdce-3b5d29e29541"/>
-					</reportElement>
-					<text><![CDATA[Qty]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="324" y="0" width="54" height="15" uuid="1272037e-a496-43b3-b8d3-d13c25c2cdef">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee52a405-5f8c-4214-a6d4-82cfabd400fc"/>
-					</reportElement>
-					<text><![CDATA[Vatless price]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="378" y="0" width="54" height="15" uuid="b0889579-9b5b-44d9-b82d-50c7b548e33e">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="aeb497af-1ea0-45f1-abc2-bcd1b6444c2f"/>
-					</reportElement>
-					<text><![CDATA[Profit]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="432" y="0" width="54" height="15" uuid="ccb62307-3a60-422b-aeda-c81a42561092">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af763665-2650-4856-8752-d0a74526a14c"/>
-					</reportElement>
-					<text><![CDATA[Total amount]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="486" y="0" width="54" height="15" uuid="d7351b91-cf2c-4f74-8241-f043f41e0b87">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c9ef7092-8caa-4ad8-ae8c-35670be4275e"/>
-					</reportElement>
-					<text><![CDATA[Vat]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="540" y="0" width="54" height="15" uuid="28da0c75-8c8c-4d6a-8b66-0bfaebbe159a">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c0439d2-464d-447e-b726-6baac51c7785"/>
-					</reportElement>
-					<text><![CDATA[City tax]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="594" y="0" width="54" height="15" uuid="5f625dc1-c09f-4742-8817-cb6d57c2960c">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee4a223d-b28f-4e04-b92f-b0905e8eef44"/>
-					</reportElement>
-					<text><![CDATA[Total]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="648" y="0" width="54" height="15" uuid="45a95d16-2b62-4ac2-9a2d-c253b141b8c4">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="61c7335f-6fe7-4c5b-b666-7899d449337c"/>
-					</reportElement>
-					<text><![CDATA[Branch id]]></text>
-				</staticText>
-			</frame>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="21" splitType="Stretch">
-			<frame>
-				<reportElement x="97" y="1" width="705" height="15" uuid="89a3da05-fdde-4ffe-965f-cc476f72e3ab"/>
-				<textField>
-					<reportElement style="Detail" x="0" y="0" width="54" height="15" uuid="d3465707-0d14-46e8-8a65-abb78528cbc3">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fa10967c-0370-4e86-bd8f-3854a2e3fc8e"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="54" y="0" width="54" height="15" uuid="4dd5da03-cf5b-4753-98f8-a1ca9a9fc49b">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5861c022-ac19-4150-aa7b-56f9b5403e69"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="108" y="0" width="54" height="15" uuid="3305e0ad-09e5-4e1f-a65c-4be5145aac4e">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="420bf759-6170-4964-8b9f-83cde0c0e8ea"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{barcode}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="162" y="0" width="54" height="15" uuid="03ed6d27-3a6e-466c-9a12-809e0e230343">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c00a7019-1895-4a98-ae13-d3953a7884e4"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="216" y="0" width="54" height="15" uuid="e0c1feab-fe29-4661-a2ff-61949143b120">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1cc5fbab-e2a9-4801-bbb4-7fdb1f0dee0f"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{itemGroup}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="270" y="0" width="54" height="15" uuid="1a0fd933-37f1-46b7-b632-5f66ee49ad56">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5b9496fc-1bde-4489-bdce-3b5d29e29541"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="324" y="0" width="54" height="15" uuid="f0242b4a-8ad6-48d5-8935-9d91f754e07e">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee52a405-5f8c-4214-a6d4-82cfabd400fc"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{itemPrice}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="378" y="0" width="54" height="15" uuid="bf4705fa-b503-4103-8334-e3f2877e1415">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="aeb497af-1ea0-45f1-abc2-bcd1b6444c2f"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{profit}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="432" y="0" width="54" height="15" uuid="2f7b1067-9cd4-44da-8a70-e9289ca187c7">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af763665-2650-4856-8752-d0a74526a14c"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="486" y="0" width="54" height="15" uuid="72d9a729-3945-4547-b5be-be9814dfb499">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c9ef7092-8caa-4ad8-ae8c-35670be4275e"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{vat}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="540" y="0" width="54" height="15" uuid="1d11ed05-801f-413e-aebc-403916e34968">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c0439d2-464d-447e-b726-6baac51c7785"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{cityTax}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="594" y="0" width="54" height="15" uuid="931a310c-4642-4f78-8337-b5a0ace50742">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee4a223d-b28f-4e04-b92f-b0905e8eef44"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" x="648" y="0" width="54" height="15" uuid="ba48fbed-4c22-4906-835b-e1c64b321d39">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="61c7335f-6fe7-4c5b-b666-7899d449337c"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{branchId}]]></textFieldExpression>
-				</textField>
-			</frame>
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="97" y="16" width="705" height="1" uuid="e5f21b91-7f24-498e-97a1-0e93db9225a4"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-		</band>
-	</detail>
-	<columnFooter>
-		<band splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band height="39" splitType="Stretch">
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" x="671" y="0" width="131" height="20" forecolor="#000000" uuid="95484ca0-40b4-4752-95d8-1afbc33c820b"/>
-				<textElement textAlignment="Right">
-					<font size="12" isBold="false"/>
+		<band height="170" splitType="Stretch">
+			<staticText>
+				<reportElement x="-12" y="0" width="93" height="53" forecolor="#000000" backcolor="#D4CEF0" uuid="956beb94-de64-454e-a340-449620a69a28">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d0f6d09f-3a25-4f34-9789-a83afa56ddd9"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<text><![CDATA[БАРКОД]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="0" width="82" height="30" forecolor="#000000" backcolor="#D4CEF0" uuid="7031f026-2b13-4b61-8341-10b087cd0130">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3fc1efba-d51f-4603-987a-55765f831771"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[ХЯМДРАЛ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="560" y="0" width="120" height="30" forecolor="#000000" backcolor="#D4CEF0" uuid="dd7b47be-68cd-45a3-8c62-bbf0855bddd5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b8bfadf4-7a84-447b-9aa8-1dd99c99ebc7"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[БОНУС КАРТ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="680" y="0" width="79" height="53" forecolor="#000000" backcolor="#D4CEF0" uuid="f011622d-5042-4e9e-ba6a-bbab38bed467">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="48e4caf9-8889-405d-a656-1fc6becf92b0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[ЦЭВЭР БОРЛУУЛАЛТ]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="759" height="3" uuid="8afb5fc5-2b96-48f8-9e4b-b5319b945904"/>
+				<staticText>
+					<reportElement x="81" y="0" width="94" height="53" forecolor="#000000" backcolor="#D4CEF0" uuid="75fe1edd-a5e8-4a4d-99fc-e98c1647838e">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e3c93dab-a48e-4c87-9db6-86f2cc9f098c"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[БАРААНЫ НЭР]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="175" y="0" width="303" height="30" forecolor="#000000" backcolor="#D4CEF0" uuid="9befee5d-1e15-4ae7-8024-d5bae0302493">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b7b3d2c5-0528-4cb2-8956-7c02140d49fc"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[БОРЛУУЛАЛТ]]></text>
+				</staticText>
+			</frame>
+			<textField>
+				<reportElement x="175" y="30" width="73" height="23" backcolor="#D4CEF0" uuid="163ef77c-dc25-4948-9234-0c72e30e5589"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Тоо ширхэг]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="30" width="84" height="23" backcolor="#D4CEF0" uuid="892c5324-3d73-4499-899d-36d2e6f5b224"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Нэгж үнэ]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="30" width="71" height="23" backcolor="#D4CEF0" uuid="3c78a452-7537-4517-85c2-839a5eb2fb67"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Дүн]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="403" y="30" width="75" height="23" backcolor="#D4CEF0" uuid="176bca89-ddb0-4afd-82c9-91931c26e862"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Дүн /НӨАТ/]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="30" width="42" height="23" backcolor="#D4CEF0" uuid="ada95043-8c8e-428a-8a50-719e5661a0ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Хувь]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="30" width="40" height="23" backcolor="#D4CEF0" uuid="93f916c4-cf2c-46e6-bcf3-3d70eb65f0e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Дүн]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="560" y="31" width="60" height="21" backcolor="#D4CEF0" uuid="8197cd0c-7cd9-4216-9c75-2892ae2f5639"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Нэмэгдсэн]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="620" y="30" width="60" height="22" backcolor="#D4CEF0" uuid="33af1f78-90d9-4c4c-b897-c8a2ee0a1e07"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[Ашигласан]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-11" y="52" width="211" height="18" uuid="3df20fcd-cd72-40ea-b02f-8b2143db6839"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Салбар : Хүннү 2222 салбар]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="70" width="188" height="21" uuid="2302e5b2-ffe6-429d-8ba0-d23bbd60fc23"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Борлуулагч: Дэлгэрцэцэг]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="91" width="159" height="21" uuid="edb02964-7b72-44c2-b944-45d1b24097fd"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Огноо: 2024/01/01]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-10" y="114" width="91" height="20" uuid="fc6898c8-caaa-4b0d-ab30-79385afb7440"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{barcode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="114" width="100" height="20" uuid="695f627f-eb50-4174-bb52-14854a5f981b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="114" width="68" height="21" uuid="1b2e109d-c288-4fee-bae1-52f5fbad2705"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="113" width="84" height="21" uuid="30b26b83-4907-4966-b361-625e1949e19c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{unitSalePrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="113" width="71" height="22" uuid="3c7b8dc4-431d-4b3c-9d06-be16739f917e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalSalePrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="403" y="114" width="75" height="21" uuid="d704b41a-1d67-4b43-96eb-49669591f938"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{vat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="114" width="40" height="21" uuid="569a62e4-5ee0-4478-93e6-460d512133a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="113" width="40" height="24" uuid="b0608e1b-522e-4a32-9a83-92b86445c720"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="560" y="114" width="60" height="21" uuid="49a6322d-7a12-4f25-b18f-52eecb5b608c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="621" y="114" width="59" height="23" uuid="20a361f9-201a-4308-b034-52c1f295c959"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="680" y="114" width="79" height="23" uuid="db15e7db-82e7-4806-a10a-84c0801b26c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="96" y="0" width="267" height="20" uuid="0ec52099-dcd7-42f4-8baa-f3874f05208a"/>
+				<reportElement x="30" y="140" width="145" height="21" uuid="e02f2178-598e-47b9-a2b9-d07554912e01"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Arial" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Oktagon тайлан]]></text>
+				<text><![CDATA[Огнооны нийт дүн]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="190" y="140" width="58" height="21" uuid="50946f2e-d8ea-4671-b2cf-817e6af3e422"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="140" width="71" height="21" uuid="6fc0cd13-9a2a-4f92-946e-7afdc0e1b50d"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="403" y="140" width="75" height="21" uuid="0fca243d-63b1-4427-b1df-ce87e1a7ac60"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="137" width="40" height="24" uuid="c581dba7-cd57-4759-ab86-148e592b14ec"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="560" y="137" width="60" height="24" uuid="ba25f7fa-b01c-4dfc-98ec-f2a5338a03e6"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="621" y="140" width="59" height="21" uuid="3c77ce3c-c5e3-4de5-a906-8bba16c18b9f"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="248" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<staticText>
+				<reportElement x="238" y="220" width="200" height="21" uuid="f49be8c3-33cb-4385-96e2-39b8c0388454"/>
+				<text><![CDATA[Дэлгүүрийн менежер:................................]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="439" y="220" width="150" height="21" uuid="c8e221e7-1768-4b47-ad37-0eaa7bb544e8"/>
+				<textFieldExpression><![CDATA[/П.Доржготов /]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="11" width="159" height="21" uuid="336ba9b4-18a9-498d-b330-45318c6fd797"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Огноо: 2024/01/02]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-11" y="34" width="91" height="20" uuid="7ed9d866-3e91-414b-8a6a-83cf2e36b13a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{barcode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="34" width="100" height="20" uuid="95401adc-db62-416c-8f99-92df4654fb82"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="34" width="68" height="21" uuid="0be2a643-e94d-48f2-a4dd-5b4a7940a951"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="247" y="33" width="84" height="21" uuid="84a4796f-2676-489b-b891-069beaf0beab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{unitSalePrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="331" y="33" width="71" height="22" uuid="511c6c52-2140-4b3e-bcdf-49a7bc7796f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalSalePrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="402" y="34" width="75" height="21" uuid="5d968fce-44e4-46c3-89fa-bc2e8eec06c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{vat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="479" y="34" width="40" height="21" uuid="596c8e7c-bd77-4471-a716-9cda1e8cb957"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="519" y="33" width="40" height="24" uuid="9a7bce16-5cb2-4378-a4cd-e4e66b907132"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="559" y="34" width="60" height="21" uuid="f7bd7aad-c102-4c82-93db-0442ddd8f59f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="620" y="34" width="59" height="23" uuid="f4995ec1-3071-4be0-ab42-5251da795a82"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="679" y="34" width="79" height="23" uuid="518f937c-3e10-446f-850e-167a3607df1e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="60" width="145" height="21" uuid="bbc11862-14a3-4e66-9e48-c86ebf53dc55"/>
+				<textElement>
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Огнооны нийт дүн]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="189" y="60" width="58" height="21" uuid="28f9ae22-e784-4eca-8218-3e3e30b65b13"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="331" y="60" width="71" height="21" uuid="4471a5b9-7a55-49a8-a501-0ea4a4818d1c"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="402" y="60" width="75" height="21" uuid="d06711ff-6962-4bce-ab63-a30a7b387f85"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="519" y="57" width="40" height="24" uuid="61432323-95d8-4f32-9027-7b74612a6664"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="559" y="57" width="60" height="24" uuid="0768c5e0-81d3-4391-b635-efb27bb90127"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="620" y="60" width="59" height="21" uuid="03b4c3be-bb51-4d36-9d6c-1eeb96ce94f2"/>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>

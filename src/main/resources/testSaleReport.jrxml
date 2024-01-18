@@ -24,6 +24,15 @@
 	<field name="itemPrice" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[itemPrice]]></fieldDescription>
 	</field>
+	<field name="vat" class="java.lang.Integer">
+		<fieldDescription><![CDATA[vat]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[name]]></fieldDescription>
+	</field>
+	<field name="profit" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[profit]]></fieldDescription>
+	</field>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{date}]]></groupExpression>
 		<groupHeader>
@@ -42,7 +51,7 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="33"/>
+			<band height="31"/>
 		</groupFooter>
 	</group>
 	<background>
@@ -293,10 +302,11 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="18" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="-1" width="90" height="19" uuid="0a7cf702-c41a-43f5-b43d-fe8f99a72f9a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="51f4f952-40ef-4a5b-a3ee-e7ce64ddaba7"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<box>
 					<pen lineColor="#8EA9DB"/>
@@ -309,7 +319,7 @@
 				<textFieldExpression><![CDATA[$F{barcode}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="90" y="-1" width="150" height="19" uuid="bd428ccb-b69b-48a5-bceb-3e452359c837">
+				<reportElement x="690" y="0" width="110" height="19" uuid="bd428ccb-b69b-48a5-bceb-3e452359c837">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6c07a29a-4e6f-4c51-93c5-2112924af134"/>
 				</reportElement>
 				<box>
@@ -318,7 +328,7 @@
 					<leftPen lineWidth="0.0"/>
 					<bottomPen lineColor="#8EA9DB"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
@@ -326,6 +336,7 @@
 			<textField>
 				<reportElement x="240" y="-1" width="50" height="19" uuid="d22862bf-3843-4254-b362-a43e7f69891e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7c3aaa-c8d2-4ed7-ab98-1973944fe2cc"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<box>
 					<pen lineColor="#8EA9DB"/>
@@ -340,6 +351,7 @@
 			<textField>
 				<reportElement x="290" y="-1" width="60" height="19" uuid="cb42b317-1078-46a2-94d9-54f74a8b004e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7c3aaa-c8d2-4ed7-ab98-1973944fe2cc"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<box>
 					<pen lineColor="#8EA9DB"/>
@@ -350,6 +362,80 @@
 					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{itemPrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="-1" width="71" height="19" uuid="fa5e10d7-4366-4c71-9c93-e05863100b27">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7c3aaa-c8d2-4ed7-ab98-1973944fe2cc"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#8EA9DB"/>
+					<bottomPen lineWidth="0.25" lineColor="#8EA9DB"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemPrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="-1" width="79" height="20" uuid="2aef7ed9-9628-4f44-9a73-46ea20f6ad62">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7c3aaa-c8d2-4ed7-ab98-1973944fe2cc"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#8EA9DB"/>
+					<bottomPen lineWidth="0.25" lineColor="#8EA9DB"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="-1" width="150" height="20" uuid="10bdc771-e226-4532-b116-61fbebfad660">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7c3aaa-c8d2-4ed7-ab98-1973944fe2cc"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#8EA9DB"/>
+					<bottomPen lineWidth="0.25" lineColor="#8EA9DB"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="-1" width="80" height="20" uuid="0507bf63-7589-4e99-9bd1-a3ac493d45c7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7c3aaa-c8d2-4ed7-ab98-1973944fe2cc"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#8EA9DB"/>
+					<bottomPen lineWidth="0.25" lineColor="#8EA9DB"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{profit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="580" y="0" width="109" height="18" uuid="79a12df7-a9e3-407d-a8a9-9bb122e70fd6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a7c3aaa-c8d2-4ed7-ab98-1973944fe2cc"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#8EA9DB"/>
+					<bottomPen lineWidth="0.25" lineColor="#8EA9DB"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vat}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
