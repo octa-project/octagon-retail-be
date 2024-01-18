@@ -2,13 +2,11 @@ package octagon.retail.entity.payment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import octagon.retail.entity.BaseEntity;
+import octagon.retail.utils.TransactionType;
 import org.springframework.data.annotation.CreatedDate;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -25,19 +23,9 @@ public class Transactions extends BaseEntity {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
-    @NotNull
     private Long saleId;
-    @NotNull
     private String transactionName;
-    @NotNull
     private BigDecimal amount;
-    private BigDecimal refund;
-    private BigDecimal balance;
-    @NotNull
-    private Integer transactionTypeId;
-    private Long bankId;
+    private TransactionType type;
     private Long bankTransactionId;
-    private Boolean isDeleted = false;
-    private Long branchId;
-
 }

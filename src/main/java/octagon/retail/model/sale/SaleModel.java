@@ -1,27 +1,37 @@
 package octagon.retail.model.sale;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import octagon.retail.entity.SaleItems;
+import octagon.retail.entity.Sales;
+import octagon.retail.utils.SaleType;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class SaleModel {
-
-    @NotNull(message = "Total quality should not be null")
+    private Long id;
     private BigDecimal totalQty;
-
-    @NotNull(message = "Total amount not be null")
     private BigDecimal totalAmount;
-
     private Date date;
     private BigDecimal paidTotalAmount;
     private Boolean isPaid;
-    private Boolean isDeleted;
     private Long branchId;
-    private Long createdUserId;
+    private List<SaleItems> stock;
 
+    public static Sales convert(Sales sale, SaleModel model, SaleType type) {
+        if (sale == null) {
+            sale = new Sales();
+        }
+        sale.setBranchId(model.getBranchId());
+        sale.setId(model.getId());
+        sale.setIsPaid(model.getIsPaid());
+        sale.setTotalAmount(model.getTotalAmount());
+        sale.setTotalPaidAmount(model.getPaidTotalAmount());
+        sale.setTotalQty(model.getTotalQty());
+        sale.setType(type);
+        return sale;
+    }
 }

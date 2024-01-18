@@ -1,9 +1,9 @@
 package octagon.retail.service.payment;
 
 import octagon.retail.entity.payment.Banks;
-import octagon.retail.entity.payment.TransactionType;
-import octagon.retail.reponse.ResponseModel;
 import octagon.retail.repository.payment.BankRepository;
+import octagon.retail.response.ResponseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,21 +15,24 @@ public class BankService {
 
     @Autowired
     private BankRepository bankRepository;
+
     public ResponseEntity<ResponseModel<Banks>> saveBank(Banks bank) {
         Banks checkBank = bankRepository.exist(bank.getCode());
-        if(checkBank == null) {
+        if (checkBank == null) {
             Banks banks = bankRepository.save(bank);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ", true, banks));
         }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. %s кодтой банкны мэдээлэл бүртгэгдсэн байна.".formatted(bank.getCode()), false, null));
+        return ResponseEntity.ok(new ResponseModel<>("500",
+                "Амжилтгүй. %s кодтой банкны мэдээлэл бүртгэгдсэн байна.".formatted(bank.getCode()), false, null));
     }
 
     public ResponseEntity<ResponseModel<Banks>> getOne(Long id) {
         Banks banks = bankRepository.findById(id).orElse(null);
-        if(banks != null) {
+        if (banks != null) {
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай бүргэгдлээ", true, banks));
         }
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй. %s кодтой банкны мэдээлэл олдсонгүй.".formatted(id), false, null));
+        return ResponseEntity.ok(new ResponseModel<>("500",
+                "Амжилтгүй. %s кодтой банкны мэдээлэл олдсонгүй.".formatted(id), false, null));
     }
 
     public ResponseEntity<ResponseModel<List<Banks>>> getMany() {

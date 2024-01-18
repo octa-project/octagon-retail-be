@@ -1,11 +1,14 @@
-package octagon.retail.service;
+package octagon.retail.service.Items;
 
 import octagon.retail.entity.ItemCodes;
 import octagon.retail.entity.ItemGroups;
 import octagon.retail.entity.ItemPrices;
-import octagon.retail.reponse.ResponseModel;
+import octagon.retail.model.item.CustomItemCodeModel;
 import octagon.retail.repository.IItemCodeRepository;
 import octagon.retail.repository.ItemPriceRepository;
+import octagon.retail.response.ResponseModel;
+
+import org.apache.tomcat.util.digester.ArrayStack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,13 +26,12 @@ public class ItemCodeService {
 
     public ResponseEntity<ResponseModel<ItemCodes>> saveItemCode(ItemCodes itemCodes) {
         try {
-            itemCodeRepository.save(itemCodes);
 
-            ItemCodes savedItemcodes = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode());
-            if (savedItemcodes != null) {
-                ItemPrices itemPrices = createItemPricesFromItemCodes(savedItemcodes);
-                itemPriceRepository.save(itemPrices);
+            ItemCodes itemcode = itemCodeRepository.getItemByBarcode(itemCodes.getBarcode()).orElse(null);
+            if (itemcode != null) {
+                return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + "Barcode exist", false, null));
             }
+            itemCodeRepository.save(itemCodes);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, itemCodes));
         } catch (Exception e) {
             // Handle exceptions, e.g., database-related errors
@@ -41,11 +43,9 @@ public class ItemCodeService {
         ItemPrices itemPrices = new ItemPrices();
         itemPrices.setItemCodeId(itemCodes.getId());
         itemPrices.setItemId(itemCodes.getItemId());
-        itemPrices.setItemName(itemCodes.getName());
-        itemPrices.setItemBarCode(itemCodes.getBarcode());
         itemPrices.setQty(itemCodes.getQty());
         itemPrices.setUnitSalePrice(itemCodes.getSellPrice());
-        itemPrices.setUnitCostPrice(itemCodes.getPurchasePrice());
+        itemPrices.setUnitCostPrice(itemCodes.getCostPrice());
         itemPrices.setBranchId(itemCodes.getBranchId());
         return itemPrices;
     }
@@ -60,12 +60,10 @@ public class ItemCodeService {
             existingItemCodes.setBranchId(updateItemCodes.getBranchId());
             existingItemCodes.setMeasureId(updateItemCodes.getMeasureId());
             existingItemCodes.setSellPrice(updateItemCodes.getSellPrice());
-            existingItemCodes.setPurchasePrice(updateItemCodes.getPurchasePrice());
-            existingItemCodes.setIsDeleted(updateItemCodes.getIsDeleted());
+            existingItemCodes.setCostPrice(updateItemCodes.getCostPrice());
             itemCodeRepository.save(existingItemCodes);
 
-
-            ItemPrices itemPrices = itemPriceRepository.getByItemBarcode(existingItemCodes.getBarcode());
+            ItemPrices itemPrices = itemPriceRepository.exist(existingItemCodes.getId());
             if (itemPrices != null) {
                 ItemPrices convertedItemPrices = createItemPricesFromItemCodes(updateItemCodes);
                 convertedItemPrices.setId(itemPrices.getId());
@@ -92,7 +90,7 @@ public class ItemCodeService {
     }
 
     public ResponseEntity<ResponseModel<ItemCodes>> getItemCodeByBarcode(String barcode) {
-        ItemCodes itemCodes = itemCodeRepository.getItemByBarcode(barcode);
+        ItemCodes itemCodes = itemCodeRepository.getItemByBarcode(barcode).orElse(null);
         if (itemCodes != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, itemCodes));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
@@ -110,6 +108,54 @@ public class ItemCodeService {
         ItemCodes itemCode = itemCodeRepository.findById(itemCodeId).orElse(null);
         if (itemCode == null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, null));
-        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдно уу", false, itemCode));
+        return ResponseEntity
+                .ok(new ResponseModel<>("500", "Амжилтгүй - алдаа гарлаа ахин оролдно уу", false, itemCode));
     }
+
+    public ResponseEntity<ResponseModel<List<CustomItemCodeModel>>> getCustomItemCodesByLike(String Barcode,
+            String Name) {
+        try {
+            List<CustomItemCodeModel> list = new ArrayStack<>();
+            if ((!Barcode.isEmpty() && !Name.isEmpty()) || (Barcode.isEmpty() && Name.isEmpty())) {
+
+                return ResponseEntity.ok(new ResponseModel<>("500", "Invalid input", false,
+                        null));
+            } else if (!Barcode.isEmpty() && Name.isEmpty()) {
+                var itemCodes = itemCodeRepository.findByBarcodeLike(Barcode);
+
+                list = itemCodes;
+            } else {
+                var itemCodes = itemCodeRepository.findByNameLike(Name);
+
+                list = itemCodes;
+            }
+            if (list.isEmpty())
+                return ResponseEntity.ok(new ResponseModel<>("500", "No items", false,
+                        null));
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                    list));
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false,
+                    null));
+        }
+    }
+
+    public ResponseEntity<ResponseModel<List<CustomItemCodeModel>>> getCustomItemCodes() {
+        try {
+            var itemCodes = itemCodeRepository.getCustomItemCodes();
+            if (itemCodes.isEmpty())
+                return ResponseEntity.ok(new ResponseModel<>("500", "No items", false,
+                        itemCodes));
+
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true,
+                    itemCodes));
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseModel<>("500", e.getMessage(), false,
+                    null));
+        }
+    }
+
 }

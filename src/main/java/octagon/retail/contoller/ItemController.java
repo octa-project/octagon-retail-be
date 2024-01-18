@@ -2,6 +2,7 @@ package octagon.retail.contoller;
 
 import jakarta.validation.*;
 import octagon.retail.entity.Items;
+import octagon.retail.model.item.CompleteItemModel;
 import octagon.retail.model.item.ItemModel;
 import octagon.retail.model.item.ItemSaveModel;
 import octagon.retail.reponse.ResponseModel;
@@ -28,6 +29,11 @@ public class ItemController {
     @PostMapping("update-item")
     public ResponseEntity<ResponseModel<ItemSaveModel>> getAllItemPrice(@RequestBody @Valid ItemSaveModel item) {
         return itemService.updateItem(item);
+    }
+
+    @GetMapping("/complete")
+    public ResponseEntity<ResponseModel<List<CompleteItemModel>>> getAllItemDatas() {
+        return itemService.getCompleteItemDatas();
     }
 
     @GetMapping("get-all-items")
