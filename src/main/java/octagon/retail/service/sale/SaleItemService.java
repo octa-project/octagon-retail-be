@@ -1,19 +1,13 @@
 package octagon.retail.service.sale;
 
-import octagon.retail.entity.ItemPrices;
 import octagon.retail.entity.SaleItems;
-import octagon.retail.model.sale.TopTenItems;
-import octagon.retail.repository.ItemPriceRepository;
 import octagon.retail.repository.sale.SaleItemRepository;
 import octagon.retail.repository.sale.SaleRepository;
 import octagon.retail.response.ResponseModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
-import java.security.PublicKey;
 import java.util.List;
 
 @Service

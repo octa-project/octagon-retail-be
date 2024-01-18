@@ -27,10 +27,6 @@ public class Sales extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedDate
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime date;
-
     private BigDecimal totalQty;
 
     private BigDecimal totalAmount;
@@ -41,6 +37,6 @@ public class Sales extends BaseEntity {
 
     private Long branchId;
 
-    private SaleType type = SaleType.INIT;
+    private SaleType type;
 
 }

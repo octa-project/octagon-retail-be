@@ -24,6 +24,5 @@ public class SaleItemModel {
         this.qty = qty;
         this.unitSalePrice = unitSalePrice;
         this.totalSalePrice = totalSalePrice;
-
     }
 }

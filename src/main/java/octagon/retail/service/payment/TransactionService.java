@@ -2,7 +2,6 @@ package octagon.retail.service.payment;
 
 import octagon.retail.entity.Sales;
 import octagon.retail.entity.payment.Banks;
-import octagon.retail.entity.payment.TransactionType;
 import octagon.retail.entity.payment.Transactions;
 import octagon.retail.repository.payment.TransactionRepository;
 import octagon.retail.response.ResponseModel;
@@ -59,7 +58,6 @@ public class TransactionService {
             transaction.setTransactionName(update.getTransactionName());
             transaction.setAmount(update.getAmount());
             transaction.setBankTransactionId(update.getBankTransactionId());
-            transaction.setBankId(update.getBankId());
             transaction.setBankTransactionId(update.getBankTransactionId());
             transactionRepository.save(transaction);
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, transaction));

@@ -1,7 +1,6 @@
 package octagon.retail.service.payment;
 
 import octagon.retail.entity.payment.Banks;
-import octagon.retail.entity.payment.TransactionType;
 import octagon.retail.repository.payment.BankRepository;
 import octagon.retail.response.ResponseModel;
 

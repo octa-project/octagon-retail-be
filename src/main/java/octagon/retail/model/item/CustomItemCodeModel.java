@@ -1,7 +1,9 @@
 package octagon.retail.model.item;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -25,11 +27,11 @@ public class CustomItemCodeModel {
 
     @NotNull(message = "sellPrice is null")
     @JsonProperty(value = "sellPrice")
-    private Double sellPrice;
+    private BigDecimal sellPrice;
 
     @NotNull(message = "costPrice is null")
     @JsonProperty(value = "costPrice")
-    private Double costPrice;
+    private BigDecimal costPrice;
 
     @NotNull(message = "measureName is null")
     @JsonProperty(value = "measureName")
@@ -49,13 +51,21 @@ public class CustomItemCodeModel {
 
     @NotNull(message = "properQty is null")
     @JsonProperty(value = "properQty")
-    private Double properQty;
+    private BigDecimal properQty;
+
+    @NotNull(message = "qty is null")
+    @JsonProperty(value = "qty")
+    private BigDecimal qty;
 
     @JsonProperty(value = "createdDate")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
 
-    public CustomItemCodeModel(Long id, Long itemId, String barcode, String name, Double sellPrice, Double costPrice,
-            String measureName, Long measureId, String groupName, Long groupId, Double properQty,
+    public CustomItemCodeModel(Long id, Long itemId, String barcode, String name,
+            BigDecimal sellPrice,
+            BigDecimal costPrice,
+            String measureName, Long measureId, String groupName, Long groupId,
+            BigDecimal properQty, BigDecimal qty,
             LocalDateTime createdDate) {
         this.id = id;
         this.itemId = itemId;
@@ -64,6 +74,7 @@ public class CustomItemCodeModel {
         this.sellPrice = sellPrice;
         this.costPrice = costPrice;
         this.properQty = properQty;
+        this.qty = qty;
         this.measureId = measureId;
         this.measureName = measureName;
         this.groupId = groupId;

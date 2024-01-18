@@ -23,8 +23,6 @@ public class ItemCodeModel {
     @JsonProperty(value = "itemId")
     private Long itemId;
 
-    private Long branchId;
-
     @NotNull(message = "barcode is null")
     @JsonProperty(value = "barcode")
     private String barcode;
@@ -54,20 +52,20 @@ public class ItemCodeModel {
     @JsonProperty(value = "properQty")
     private BigDecimal properQty;
 
-    // public ItemCodeModel(String barcode, String name,
-    // BigDecimal sellPrice,
-    // BigDecimal costPrice,
-    // BigDecimal qty,
-    // BigDecimal properQty) {
+    public ItemCodeModel(String barcode, String name,
+            BigDecimal sellPrice,
+            BigDecimal costPrice,
+            BigDecimal qty,
+            BigDecimal properQty) {
 
-    // this.barcode = barcode;
-    // this.costPrice = costPrice;
-    // this.name = name;
-    // this.qty = qty;
-    // this.sellPrice = sellPrice;
-    // this.properQty = properQty;
+        this.barcode = barcode;
+        this.costPrice = costPrice;
+        this.name = name;
+        this.qty = qty;
+        this.sellPrice = sellPrice;
+        this.properQty = properQty;
 
-    // }
+    }
 
     public static ItemCodes convert(ItemCodes itemCode, ItemCodeModel model) {
         if (itemCode == null)
@@ -85,11 +83,10 @@ public class ItemCodeModel {
         return itemCode;
     }
 
-    // public static ItemCodeModel convertToModel(ItemCodes itemCode) {
-    // var model = new ItemCodeModel(itemCode.getBarcode(), itemCode.getName(),
-    // itemCode.getSellPrice(),
-    // itemCode.getCostPrice(), itemCode.getQty(), itemCode.getProperQty());
+    public static ItemCodeModel convertToModel(ItemCodes itemCode) {
+        var model = new ItemCodeModel(itemCode.getBarcode(), itemCode.getName(), itemCode.getSellPrice(),
+                itemCode.getCostPrice(), itemCode.getQty(), itemCode.getProperQty());
 
-    // return model;
-    // }
+        return model;
+    }
 }
