@@ -71,7 +71,6 @@ public class PurchaseService {
                 item.setSellPrice(_itemModel.getSellPrice());
                 item.setCostPrice(_itemModel.getCostPrice());
                 itemCodeRepository.save(item);
-
             }
             purchase.setTotalDiscount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getDiscount)
@@ -95,16 +94,15 @@ public class PurchaseService {
             var savedPurchase = purchaseRepository.save(purchase);
 
             List<PurchaseItems> purchaseItems = body.getPurchaseItems().stream()
-                    .map(item -> {
-                        item.setPurchaseId(savedPurchase.getId());
-                        return item;
-                    })
+                    .peek(i -> i.setPurchaseId(savedPurchase.getId()))
                     .collect(Collectors.toList());
 
             purchaseItemsRepository.saveAll(purchaseItems);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, savedPurchase));
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             // Handle exceptions, e.g., database-related errors
             return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
         }
