@@ -1,6 +1,7 @@
 package octagon.retail.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,9 +15,8 @@ public class PurchaseModel {
 
     private Long id;
 
-    @NotNull(message = "date is null")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date date;
+    private LocalDateTime createdDate;
 
     private Long branchId;
 

@@ -75,12 +75,11 @@ public class PurchaseService {
             purchase.setTotalDiscount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getDiscount)
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
-            purchase.setDate(body.getDate());
-            purchase.setTotalAmount(body.getPurchaseItems().stream()
-                    .map(PurchaseItems::getSellPrice)
+            purchase.setTotalCost(body.getPurchaseItems().stream()
+                    .map(item -> item.getSellPrice().multiply(item.getQty()))
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
             purchase.setTotalCost(body.getPurchaseItems().stream()
-                    .map(PurchaseItems::getCostPrice)
+                    .map(item -> item.getCostPrice().multiply(item.getQty()))
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
             purchase.setTotalQty(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getQty)
@@ -169,7 +168,7 @@ public class PurchaseService {
             purchase.setTotalDiscount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getDiscount)
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
-            purchase.setDate(body.getDate());
+
             purchase.setTotalAmount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getSellPrice)
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
@@ -211,7 +210,7 @@ public class PurchaseService {
         var model = new PurchaseModel();
         model.setTotalDiscount(purchase.getTotalDiscount());
         model.setCityTax(purchase.getCityTax());
-        model.setDate(purchase.getDate());
+        model.setCreatedDate(purchase.getCreatedDate());
         model.setId(purchase.getId());
         model.setIsPaid(purchase.getIsPaid());
         model.setSupplierId(purchase.getSupplierId());
