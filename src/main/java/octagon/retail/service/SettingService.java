@@ -20,6 +20,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +50,11 @@ public class SettingService {
             existingSetting.setName(updatedSetting.getName());
             existingSetting.setTaxNumber(updatedSetting.getTaxNumber());
             existingSetting.setBranchId(updatedSetting.getBranchId());
+            existingSetting.setAddress(updatedSetting.getAddress());
+            existingSetting.setMotto(updatedSetting.getMotto());
+            existingSetting.setPhone(updatedSetting.getPhone());
+            existingSetting.setContractNumber(updatedSetting.getContractNumber());
+
             settingRepository.save(existingSetting);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, existingSetting));
@@ -80,6 +87,7 @@ public class SettingService {
 
     public ResponseEntity<ResponseModel<PrinterList>> getPrinterList() {
 
+
         WebClient webClient = WebClient.create();
 
         String apiUrl = "http://localhost:7000/printerConfig";
@@ -87,6 +95,7 @@ public class SettingService {
         // Create request headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
 
         try {
 
@@ -96,6 +105,7 @@ public class SettingService {
                     .retrieve()
                     .bodyToMono(String.class)
                     .block(); // Blocking for simplicity, use subscribe() in a real application
+
 
             JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
 
@@ -122,6 +132,17 @@ public class SettingService {
     }
 
     public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettings(DeviceSetting deviceSetting) {
+
+        deviceSetting.setCashierPrinter(true);
+        deviceSetting.setActive(true);
+        insertDeviceSetting(deviceSetting);
+
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
+    }
+
+    public ResponseEntity<ResponseModel<DeviceSetting>> insertDeviceSettingsForOrder(DeviceSetting deviceSetting) {
+
+        deviceSetting.setCashierPrinter(false);
         insertDeviceSetting(deviceSetting);
 
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
@@ -133,20 +154,22 @@ public class SettingService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, deviceSetting));
     }
 
-    // public ResponseEntity<ResponseModel<Boolean>> deleteDeviceSettings(Long id) {
-    // Boolean result = deleteDevice(id);
+    public ResponseEntity<ResponseModel<Boolean>> deleteDeviceSettings(Long id) {
+        Boolean result = deleteDevice(id);
 
-    // return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", result,
-    // null));
-    // }
+        return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", result, null));
+    }
+
 
     public void insertDeviceSetting(DeviceSetting entity) {
-
+        entity.setCreatedDate(LocalDateTime.now());
         deviceSettingRepository.save(entity);
     }
 
     public ResponseEntity<ResponseModel<DeviceSetting>> getDeviceSettingById(Long id) {
         DeviceSetting setting = deviceSettingRepository.findById(id).orElse(null);
+        assert setting != null;
+        System.out.println(setting.getId());
         if (setting != null)
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
         return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
@@ -157,20 +180,20 @@ public class SettingService {
         return deviceSettingRepository.findAll();
     }
 
-    // public boolean deleteDevice(Long id) {
-    // Optional<DeviceSetting> optionalEntity =
-    // deviceSettingRepository.findById(id);
+    public boolean deleteDevice(Long id) {
+        Optional<DeviceSetting> optionalEntity = deviceSettingRepository.findById(id);
 
-    // if (optionalEntity.isPresent()) {
-    // DeviceSetting entity = optionalEntity.get();
+        if (optionalEntity.isPresent()) {
+            DeviceSetting entity = optionalEntity.get();
 
-    // entity.setDeleted(true);
+            entity.setDeleted(true);
+            entity.setActive(false);
+            entity.setModifiedDate(LocalDateTime.now());
 
-    // deviceSettingRepository.save(entity);
-    // return true;
-    // } else
-    // return false;
-    // }
+            deviceSettingRepository.save(entity);
+            return true;
+        } else return false;
+    }
 
     public DeviceSetting updateDevice(DeviceSetting entity) {
 
@@ -196,5 +219,37 @@ public class SettingService {
     public PaymentSetting updatePaymentMethod(PaymentSetting entity) {
         return paymentSettingRepository.save(entity);
     }
+
+    public ResponseEntity<ResponseModel<List<DeviceSetting>>> getAllByBranchId(Long branchId){
+
+        List<DeviceSetting> setting = deviceSettingRepository.getDeviceSettingByBranch(branchId);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
+    }
+
+    public ResponseEntity<ResponseModel<DeviceSetting>> getDeviceSettingForDeviceName(Long branchId, String deviceName){
+
+       DeviceSetting setting = deviceSettingRepository.getDeviceSettingForPrinter(branchId, deviceName);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
+    }
+
+    public ResponseEntity<ResponseModel<List<DeviceSetting>>> getAllByBranchIdForOrder(Long branchId){
+
+        List<DeviceSetting> setting = deviceSettingRepository.getDeviceSettingByBranchForOrder(branchId);
+
+        if (setting != null)
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, setting));
+        return ResponseEntity.ok(new ResponseModel<>("500", "Амжилтгүй", false, null));
+
+    }
+
+
 
 }

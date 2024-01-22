@@ -81,6 +81,11 @@ public class SaleController {
         return saleService.getDashboardData(date);
     }
 
+    @GetMapping("get-daily-income")
+    public ResponseEntity<ResponseModel<Object>> getDailyIncome(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return saleService.getDailyIncome(date);
+    }
+
     @GetMapping("get-all-sales")
     public ResponseEntity<ResponseModel<Object>> getAllSales() {
         return saleService.getAllSales();

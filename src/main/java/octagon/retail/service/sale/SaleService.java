@@ -213,7 +213,22 @@ public class SaleService {
         return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
     }
 
-    public ResponseEntity<ResponseModel<Object>> getAllSales() {
+    public ResponseEntity<ResponseModel<Object>> getDailyIncome (Date date) {
+
+        Map <String, Object> data = new HashMap<String, Object>();
+
+        Object obj = saleRepository.getTotalAmountByDate(date);
+
+        data.put("daily_income" , saleRepository.getTotalAmountByDate(date));
+
+        if(obj != null) {
+            return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай", true, data));
+        }
+        return ResponseEntity.ok(new ResponseModel<>("500", "Өдрийн борлуулалтын мэдээлэл олдсонгүй", false, null));
+    }
+
+
+    public ResponseEntity<ResponseModel<Object>> getAllSales () {
 
         List<Sales> data = saleRepository.findAll();
 
