@@ -29,7 +29,7 @@ public class SaleService {
         var convertedSale = SaleModel.convert(sale, model, SaleType.COMPLETE);
         var saved = saleRepository.save(convertedSale);
         var items = model.getStock().stream()
-                .peek(i -> i.setSaleId(convertedSale.getId()))
+                .peek(i -> i.setSaleId(saved.getId()))
                 .collect(Collectors.toList());
         saleItemRepository.saveAll(items);
 

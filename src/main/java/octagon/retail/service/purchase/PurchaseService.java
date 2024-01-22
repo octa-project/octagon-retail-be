@@ -71,17 +71,15 @@ public class PurchaseService {
                 item.setSellPrice(_itemModel.getSellPrice());
                 item.setCostPrice(_itemModel.getCostPrice());
                 itemCodeRepository.save(item);
-
             }
             purchase.setTotalDiscount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getDiscount)
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
-            purchase.setDate(body.getDate());
-            purchase.setTotalAmount(body.getPurchaseItems().stream()
-                    .map(PurchaseItems::getSellPrice)
+            purchase.setTotalCost(body.getPurchaseItems().stream()
+                    .map(item -> item.getSellPrice().multiply(item.getQty()))
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
             purchase.setTotalCost(body.getPurchaseItems().stream()
-                    .map(PurchaseItems::getCostPrice)
+                    .map(item -> item.getCostPrice().multiply(item.getQty()))
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
             purchase.setTotalQty(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getQty)
@@ -95,16 +93,15 @@ public class PurchaseService {
             var savedPurchase = purchaseRepository.save(purchase);
 
             List<PurchaseItems> purchaseItems = body.getPurchaseItems().stream()
-                    .map(item -> {
-                        item.setPurchaseId(savedPurchase.getId());
-                        return item;
-                    })
+                    .peek(i -> i.setPurchaseId(savedPurchase.getId()))
                     .collect(Collectors.toList());
 
             purchaseItemsRepository.saveAll(purchaseItems);
 
             return ResponseEntity.ok(new ResponseModel<>("200", "Амжилттай хадгаллаа", true, savedPurchase));
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             // Handle exceptions, e.g., database-related errors
             return ResponseEntity.ok(new ResponseModel<>("500", "Database error: " + e.getMessage(), false, null));
         }
@@ -171,7 +168,7 @@ public class PurchaseService {
             purchase.setTotalDiscount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getDiscount)
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
-            purchase.setDate(body.getDate());
+
             purchase.setTotalAmount(body.getPurchaseItems().stream()
                     .map(PurchaseItems::getSellPrice)
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
@@ -213,7 +210,7 @@ public class PurchaseService {
         var model = new PurchaseModel();
         model.setTotalDiscount(purchase.getTotalDiscount());
         model.setCityTax(purchase.getCityTax());
-        model.setDate(purchase.getDate());
+        model.setCreatedDate(purchase.getCreatedDate());
         model.setId(purchase.getId());
         model.setIsPaid(purchase.getIsPaid());
         model.setSupplierId(purchase.getSupplierId());
